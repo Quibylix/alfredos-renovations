@@ -1,0 +1,6 @@
+export const ERROR_CODES = {
+  SUCCESS: 0,
+  USERNAME_TAKEN: 1,
+  INVALID_CREDENTIALS: 2,
+  UNKNOWN: 3,
+} as const;

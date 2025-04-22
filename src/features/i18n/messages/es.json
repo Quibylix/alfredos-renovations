@@ -29,5 +29,14 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  "registerEmployee": {
+    "api": {
+      "message": {
+        "success": "Registro exitoso",
+        "invalidCredentials": "Credenciales inválidas. Por favor, verifica tu nombre de usuario y contraseña.",
+        "usernameTaken": "El nombre de usuario ya está en uso. Por favor, elige otro.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
   }
 }
