@@ -11,13 +11,13 @@ export type Database = {
     Tables: {
       boss: {
         Row: {
-          id: number
+          id: string
         }
         Insert: {
-          id: number
+          id: string
         }
         Update: {
-          id?: number
+          id?: string
         }
         Relationships: [
           {
@@ -31,13 +31,13 @@ export type Database = {
       }
       employee: {
         Row: {
-          id: number
+          id: string
         }
         Insert: {
-          id: number
+          id: string
         }
         Update: {
-          id?: number
+          id?: string
         }
         Relationships: [
           {
@@ -53,21 +53,21 @@ export type Database = {
         Row: {
           description: string
           id: number
-          profile_id: number | null
+          profile_id: string | null
           redirection_link: string
           title: string
         }
         Insert: {
           description: string
           id?: never
-          profile_id?: number | null
+          profile_id?: string | null
           redirection_link: string
           title: string
         }
         Update: {
           description?: string
           id?: never
-          profile_id?: number | null
+          profile_id?: string | null
           redirection_link?: string
           title?: string
         }
@@ -84,17 +84,17 @@ export type Database = {
       profile: {
         Row: {
           full_name: string
-          id: number
+          id: string
           registration_date: string | null
         }
         Insert: {
           full_name: string
-          id?: never
+          id: string
           registration_date?: string | null
         }
         Update: {
           full_name?: string
-          id?: never
+          id?: string
           registration_date?: string | null
         }
         Relationships: []
@@ -102,7 +102,7 @@ export type Database = {
       progress: {
         Row: {
           description: string
-          employee_id: number | null
+          employee_id: string | null
           id: number
           image_url: string | null
           parent_id: number | null
@@ -112,7 +112,7 @@ export type Database = {
         }
         Insert: {
           description: string
-          employee_id?: number | null
+          employee_id?: string | null
           id?: never
           image_url?: string | null
           parent_id?: number | null
@@ -122,7 +122,7 @@ export type Database = {
         }
         Update: {
           description?: string
-          employee_id?: number | null
+          employee_id?: string | null
           id?: never
           image_url?: string | null
           parent_id?: number | null
@@ -156,17 +156,17 @@ export type Database = {
       }
       project: {
         Row: {
-          boss_id: number | null
+          boss_id: string | null
           id: number
           title: string
         }
         Insert: {
-          boss_id?: number | null
+          boss_id?: string | null
           id?: never
           title: string
         }
         Update: {
-          boss_id?: number | null
+          boss_id?: string | null
           id?: never
           title?: string
         }
@@ -182,15 +182,15 @@ export type Database = {
       }
       project_employee: {
         Row: {
-          employee_id: number
+          employee_id: string
           project_id: number
         }
         Insert: {
-          employee_id: number
+          employee_id: string
           project_id: number
         }
         Update: {
-          employee_id?: number
+          employee_id?: string
           project_id?: number
         }
         Relationships: [
