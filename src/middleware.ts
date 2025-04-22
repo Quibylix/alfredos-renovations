@@ -13,8 +13,6 @@ export async function middleware(request: NextRequest) {
     pathname,
   );
 
-  console.log({ allowed });
-
   if (allowed) return supabaseResponse;
 
   const url = request.nextUrl.clone();

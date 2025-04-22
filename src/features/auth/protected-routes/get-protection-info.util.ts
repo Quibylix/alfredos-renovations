@@ -4,6 +4,7 @@ import { getUserRole } from "./get-user-role.util";
 const pathnamesProtections = {
   "/auth/register-employee": ["boss"],
   "/dashboard": ["employee", "boss"],
+  "/sent-progress": ["employee"],
 };
 
 const redirectionURLs = {
@@ -25,8 +26,6 @@ export async function getProtectionInfo(
   const db = await createClient();
 
   const role = await getUserRole(userId, db);
-
-  console.log({ userId, role });
 
   if (!(pathname in pathnamesProtections)) {
     return { allowed: true, url: pathname };
