@@ -1,8 +1,25 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/features/db/supabase/middleware.util";
+import { getProtectionInfo } from "@/features/auth/protected-routes/get-protection-info.util";
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  const { supabaseResponse, user } = await updateSession(request);
+
+  const userId = user?.id ?? null;
+  const pathname = request.nextUrl.pathname;
+
+  const { allowed, url: redirectionURL } = await getProtectionInfo(
+    userId,
+    pathname,
+  );
+
+  console.log({ allowed });
+
+  if (allowed) return supabaseResponse;
+
+  const url = request.nextUrl.clone();
+  url.pathname = redirectionURL;
+  return NextResponse.redirect(url);
 }
 
 export const config = {
