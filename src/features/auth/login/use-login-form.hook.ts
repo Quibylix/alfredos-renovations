@@ -6,12 +6,15 @@ import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { APIResponse as LoginAPIResponse } from "@/app/api/v1/auth/login/route";
 import { ERROR_CODES as LOGIN_API_ERROR_CODES } from "@/features/auth/login/error_codes.constant";
+import { useRouter } from "next/navigation";
 
 export function useLoginForm() {
   const t = useTranslations("login");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const router = useRouter();
 
   const form = useForm({
     mode: "uncontrolled",
@@ -69,6 +72,7 @@ export function useLoginForm() {
         message: t("api.message.success"),
       });
       form.reset();
+      router.push("/dashboard");
     }
 
     function handleInvalidCredentials() {
