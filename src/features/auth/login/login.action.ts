@@ -4,6 +4,7 @@ import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
 
 const SUPABASE_INVALID_CREDENTIALS = "invalid_credentials";
+const SUPABASE_EMAIL_SUFFIX = "@alfredosrenovations.com";
 
 export async function login({
   username,
@@ -16,7 +17,7 @@ export async function login({
 
   const response = await db.auth
     .signInWithPassword({
-      email: username,
+      email: username + SUPABASE_EMAIL_SUFFIX,
       password,
     })
     .catch((err) => {
