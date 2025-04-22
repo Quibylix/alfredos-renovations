@@ -1,4 +1,4 @@
-import { LoginForm } from "@/features/auth/login-form/login-form.component";
+import { LoginForm } from "@/features/auth/login/login-form.component";
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 
