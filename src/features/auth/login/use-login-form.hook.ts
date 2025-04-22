@@ -4,7 +4,6 @@ import { validators } from "./validators.util";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
-import { Response as LoginAPIResponse } from "@/app/api/v1/auth/login/route";
 import { ERROR_CODES as LOGIN_API_ERROR_CODES } from "@/features/auth/login/error_codes.constant";
 
 export function useLoginForm() {

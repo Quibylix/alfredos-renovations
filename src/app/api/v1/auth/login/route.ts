@@ -2,7 +2,7 @@ import { ERROR_CODES } from "@/features/auth/login/error_codes.constant";
 import { getTranslations } from "next-intl/server";
 import { NextRequest } from "next/server";
 
-export type Response = {
+export type APIResponse = {
   success: boolean;
   errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
   message: string;
