@@ -19,6 +19,15 @@
       },
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "submit": "Iniciar sesión"
+    },
+    "success": "Inicio de sesión exitoso",
+    "error": "Error al iniciar sesión",
+    "api": {
+      "message": {
+        "success": "Inicio de sesión exitoso",
+        "invalidCredentials": "Credenciales inválidas. Por favor, verifica tu nombre de usuario y contraseña.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
     }
   }
 }
