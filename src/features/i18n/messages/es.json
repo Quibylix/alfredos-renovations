@@ -29,7 +29,30 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
   "registerEmployee": {
+    "title": "Registrar nuevo empleado",
+    "form": {
+      "username": {
+        "label": "Nombre de usuario",
+        "placeholder": "JohnDoe"
+      },
+      "fullName": {
+        "label": "Nombre completo",
+        "placeholder": "John Doe"
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "********"
+      },
+      "confirmPassword": {
+        "label": "Confirmar contraseña",
+        "placeholder": "********"
+      },
+      "submit": "Registrar"
+    },
+    "success": "Registro exitoso",
+    "error": "Error al registrar",
     "api": {
       "message": {
         "success": "Registro exitoso",
