@@ -1,6 +1,6 @@
 import { API_ROUTES } from "@/features/shared/api.constant";
 import { useForm } from "@mantine/form";
-import { validators } from "./validators.util";
+import { getValidators } from "./validators.util";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
@@ -21,7 +21,7 @@ export function useRegisterEmployeeForm() {
       password: "",
       confirmPassword: "",
     },
-    validate: validators,
+    validate: getValidators(t),
   });
 
   async function handleSubmit(values: {

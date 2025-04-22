@@ -1,35 +1,48 @@
-export const validators = {
-  username: (value: string) => {
-    if (value.trim().length < 3) {
-      return "Username must be at least 3 characters long";
-    }
-    if (value.trim().length > 20) {
-      return "Username must be at most 20 characters long";
-    }
-    return null;
-  },
-  fullName: (value: string) => {
-    if (value.trim().length < 3) {
-      return "Full name must be at least 3 characters long";
-    }
-    if (value.trim().length > 50) {
-      return "Full name must be at most 50 characters long";
-    }
-    return null;
-  },
-  password: (value: string) => {
-    if (value.length < 8) {
-      return "Password must be at least 8 characters long";
-    }
-    if (value.length > 50) {
-      return "Password must be at most 50 characters long";
-    }
-    return null;
-  },
-  confirmPassword: (value: string, values: { password: string }) => {
-    if (value !== values.password) {
-      return "Passwords do not match";
-    }
-    return null;
-  },
-};
+import { useTranslations } from "next-intl";
+
+export function getValidators(
+  t: ReturnType<typeof useTranslations<"registerEmployee">>,
+) {
+  return {
+    username: (value: string) => {
+      if (value.trim().length < 3) {
+        return t("form.username.minLength");
+      }
+
+      if (value.trim().length > 20) {
+        return t("form.username.maxLength");
+      }
+
+      return null;
+    },
+    fullName: (value: string) => {
+      if (value.trim().length < 3) {
+        return t("form.fullName.minLength");
+      }
+
+      if (value.trim().length > 50) {
+        return t("form.fullName.maxLength");
+      }
+
+      return null;
+    },
+    password: (value: string) => {
+      if (value.length < 8) {
+        return t("form.password.minLength");
+      }
+
+      if (value.length > 50) {
+        return t("form.password.maxLength");
+      }
+
+      return null;
+    },
+    confirmPassword: (value: string, values: { password: string }) => {
+      if (value !== values.password) {
+        return t("form.confirmPassword.notMatch");
+      }
+
+      return null;
+    },
+  };
+}

@@ -11,11 +11,13 @@
     "form": {
       "username": {
         "label": "Nombre de usuario",
-        "placeholder": "JohnDoe"
+        "placeholder": "JohnDoe",
+        "isRequired": "El nombre de usuario es obligatorio"
       },
       "password": {
         "label": "Contraseña",
-        "placeholder": "********"
+        "placeholder": "********",
+        "isRequired": "La contraseña es obligatoria"
       },
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "submit": "Iniciar sesión"
@@ -35,19 +37,26 @@
     "form": {
       "username": {
         "label": "Nombre de usuario",
-        "placeholder": "JohnDoe"
+        "placeholder": "JohnDoe",
+        "minLength": "El nombre de usuario debe tener al menos 3 caracteres",
+        "maxLength": "El nombre de usuario no puede exceder los 20 caracteres"
       },
       "fullName": {
         "label": "Nombre completo",
-        "placeholder": "John Doe"
+        "placeholder": "John Doe",
+        "minLength": "El nombre completo debe tener al menos 3 caracteres",
+        "maxLength": "El nombre completo no puede exceder los 50 caracteres"
       },
       "password": {
         "label": "Contraseña",
-        "placeholder": "********"
+        "placeholder": "********",
+        "minLength": "La contraseña debe tener al menos 8 caracteres",
+        "maxLength": "La contraseña no puede exceder los 20 caracteres"
       },
       "confirmPassword": {
         "label": "Confirmar contraseña",
-        "placeholder": "********"
+        "placeholder": "********",
+        "notMatch": "Las contraseñas no coinciden"
       },
       "submit": "Registrar"
     },
