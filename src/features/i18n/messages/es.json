@@ -5,5 +5,20 @@
   },
   "home": {
     "heading": "Alfredo's Renovations"
+  },
+  "login": {
+    "title": "Bienvenido de nuevo",
+    "form": {
+      "username": {
+        "label": "Nombre de usuario",
+        "placeholder": "JohnDoe"
+      },
+      "password": {
+        "label": "Contraseña",
+        "placeholder": "********"
+      },
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submit": "Iniciar sesión"
+    }
   }
 }
