@@ -66,6 +66,15 @@ as $$
 begin
   insert into public.profile (id, full_name)
   values (new.id, new.raw_user_meta_data->>'full_name');
+
+  if new.raw_user_meta_data->>'role' = 'boss' then
+    insert into public.boss (id)
+    values (new.id);
+  elsif new.raw_user_meta_data->>'role' = 'employee' then
+    insert into public.employee (id)
+    values (new.id);
+  end if;
+
   return new;
 end;
 $$ language plpgsql security definer;
