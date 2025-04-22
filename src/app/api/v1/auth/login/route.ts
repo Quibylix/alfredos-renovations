@@ -1,11 +1,6 @@
+import { ERROR_CODES } from "@/features/auth/login-form/error_codes.constant";
 import { getTranslations } from "next-intl/server";
 import { NextRequest } from "next/server";
-
-export const ERROR_CODES = {
-  SUCCESS: 0,
-  INVALID_CREDENTIALS: 1,
-  UNKNOWN: 2,
-} as const;
 
 export type Response = {
   success: boolean;
