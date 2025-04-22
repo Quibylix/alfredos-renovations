@@ -14,7 +14,7 @@ import { useTranslations } from "next-intl";
 import { useLoginForm } from "./use-login-form.hook";
 
 export function LoginForm() {
-  const { form, submitHandler, error } = useLoginForm();
+  const { form, submitHandler, error, loading } = useLoginForm();
 
   const t = useTranslations("login.form");
 
@@ -52,7 +52,7 @@ export function LoginForm() {
           {t("forgotPassword")}
         </Anchor>
       </Group>
-      <Button type="submit" fullWidth mt="xl">
+      <Button type="submit" fullWidth mt="xl" loading={loading}>
         {t("submit")}
       </Button>
     </Paper>

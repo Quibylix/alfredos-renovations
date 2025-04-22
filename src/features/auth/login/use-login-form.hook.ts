@@ -10,6 +10,7 @@ import { ERROR_CODES as LOGIN_API_ERROR_CODES } from "@/features/auth/login/erro
 export function useLoginForm() {
   const t = useTranslations("login");
 
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm({
@@ -23,6 +24,7 @@ export function useLoginForm() {
 
   async function handleSubmit(values: { username: string; password: string }) {
     setError(null);
+    setLoading(true);
 
     const options = {
       method: "POST",
@@ -44,6 +46,9 @@ export function useLoginForm() {
       .catch((error) => {
         console.error("Error:", error);
         handleUnknownError();
+      })
+      .finally(() => {
+        setLoading(false);
       });
 
     function handleApiResponse(res: LoginAPIResponse) {
@@ -85,5 +90,5 @@ export function useLoginForm() {
     }
   }
 
-  return { form, submitHandler: form.onSubmit(handleSubmit), error };
+  return { form, submitHandler: form.onSubmit(handleSubmit), error, loading };
 }
