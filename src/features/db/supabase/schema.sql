@@ -81,3 +81,34 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+alter table public.profile enable row level security;
+alter table public.boss enable row level security;
+alter table public.employee enable row level security;
+alter table public.project enable row level security;
+alter table public.project_employee enable row level security;
+alter table public.progress enable row level security;
+alter table public.notification enable row level security;
+
+alter policy "Enable users to view their own data only"
+on "public"."profile"
+to authenticated
+using (
+  ((select auth.uid() as uid) = id)
+);
+
+
+alter policy "Enable employees to view their own data only"
+on "public"."employee"
+to authenticated
+using (
+  ((select auth.uid() as uid) = id)
+);
+
+
+alter policy "Enable bosses to view their own data only"
+on "public"."boss"
+to authenticated
+using (
+  ((select auth.uid() as uid) = id)
+);
