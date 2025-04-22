@@ -10,7 +10,7 @@ export default async function LoginPage() {
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
-      <LoginForm />;
+      <LoginForm />
     </Container>
   );
 }
