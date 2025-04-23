@@ -1,10 +1,13 @@
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { getUserRole } from "./get-user-role.util";
+import { API_ROUTES } from "@/features/shared/api.constant";
 
 const pathnamesProtections = {
   "/auth/register-employee": ["boss"],
   "/dashboard": ["employee", "boss"],
   "/sent-progress": ["employee"],
+  [API_ROUTES.UPLOAD_IMAGE]: ["employee"],
+  [API_ROUTES.REGISTER_EMPLOYEE]: ["boss"],
 };
 
 const redirectionURLs = {
