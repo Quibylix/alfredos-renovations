@@ -5,10 +5,10 @@ import { API_ROUTES } from "@/features/shared/api.constant";
 const pathnamesProtections = {
   "/auth/register-employee": ["boss"],
   "/dashboard": ["employee", "boss"],
-  "/sent-progress": ["employee"],
+  "/progress/send": ["employee"],
   [API_ROUTES.UPLOAD_IMAGE]: ["employee"],
   [API_ROUTES.REGISTER_EMPLOYEE]: ["boss"],
-  [API_ROUTES.SENT_PROGRESS]: ["employee"],
+  [API_ROUTES.SEND_PROGRESS]: ["employee"],
 };
 
 const redirectionURLs = {

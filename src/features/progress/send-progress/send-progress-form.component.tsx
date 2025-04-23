@@ -10,7 +10,7 @@ export function SendProgressForm() {
   const { form, submitHandler, imageURL, changeImageURL, error, loading } =
     useSendProgressForm();
 
-  const t = useTranslations("sentProgress.form");
+  const t = useTranslations("sendProgress.form");
 
   return (
     <Paper

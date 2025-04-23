@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { SendProgressForm } from "@/features/progress/send-progress/send-progress-form.component";
 
 export default async function SendProgressPage() {
-  const t = await getTranslations("sentProgress");
+  const t = await getTranslations("sendProgress");
 
   return (
     <Container size="md" my={40}>

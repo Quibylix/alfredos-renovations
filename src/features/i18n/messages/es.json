@@ -87,7 +87,7 @@
       "description": "Formato permitido: JPEG, PNG, WEBP. Tamaño máximo: 1MB."
     }
   },
-  "sentProgress": {
+  "sendProgress": {
     "title": "Enviar progreso del proyecto",
     "form": {
       "title": {

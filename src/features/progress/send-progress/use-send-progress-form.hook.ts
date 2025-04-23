@@ -9,7 +9,7 @@ import { ERROR_CODES as SEND_PROGRESS_API_ERROR_CODES } from "./error_codes.cons
 import { useRouter } from "next/navigation";
 
 export function useSendProgressForm() {
-  const t = useTranslations("sentProgress");
+  const t = useTranslations("sendProgress");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +42,7 @@ export function useSendProgressForm() {
       body: JSON.stringify({ ...values, imageUrl: imageURL, projectId: 2 }),
     };
 
-    fetch(API_ROUTES.SENT_PROGRESS, options)
+    fetch(API_ROUTES.SEND_PROGRESS, options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

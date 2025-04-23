@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 
 export function getValidators(
-  t: ReturnType<typeof useTranslations<"sentProgress">>,
+  t: ReturnType<typeof useTranslations<"sendProgress">>,
 ) {
   return {
     title: (value: string) => {
