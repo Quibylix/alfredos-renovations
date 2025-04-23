@@ -1,6 +1,6 @@
 import { Group, Text } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
-import { Dropzone, DropzoneProps } from "@mantine/dropzone";
+import { Dropzone } from "@mantine/dropzone";
 import { useTranslations } from "next-intl";
 import { useUploadImageDropzone } from "./use-upload-image-dropzone.hook";
 

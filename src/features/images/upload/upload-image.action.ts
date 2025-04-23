@@ -30,7 +30,8 @@ export async function uploadImage(
     });
 
   if (!uploadResult || uploadResult.error) {
-    uploadResult && console.error("Error uploading image:", uploadResult.error);
+    if (uploadResult)
+      console.error("Error uploading image:", uploadResult.error);
 
     return {
       errorCode: ERROR_CODES.UNKNOWN,
