@@ -88,6 +88,26 @@
     }
   },
   "sentProgress": {
+    "title": "Enviar progreso del proyecto",
+    "form": {
+      "title": {
+        "label": "Título",
+        "placeholder": "Título de la tarea",
+        "isRequired": "El título es obligatorio"
+      },
+      "description": {
+        "label": "Descripción",
+        "placeholder": "Descripción de la tarea",
+        "isRequired": "La descripción es obligatoria"
+      },
+      "image": {
+        "label": "Imagen",
+        "previewAlt": "Imagen del progreso del proyecto"
+      },
+      "submit": "Enviar progreso"
+    },
+    "success": "Progreso enviado exitosamente",
+    "error": "Error al enviar progreso",
     "api": {
       "message": {
         "success": "Progreso enviado exitosamente",
