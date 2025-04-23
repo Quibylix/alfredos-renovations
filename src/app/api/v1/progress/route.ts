@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export type APIResponse = {
   success: boolean;
-  errorCode: string;
+  errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
   message: string;
 };
 

@@ -9,7 +9,7 @@ export type APIResponse = {
   data: {
     imageURL: string;
   };
-  errorCode: string;
+  errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
   message: string;
 };
 
