@@ -80,5 +80,14 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
+  "sentProgress": {
+    "api": {
+      "message": {
+        "success": "Progreso enviado exitosamente",
+        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
   }
 }

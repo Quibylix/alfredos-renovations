@@ -8,6 +8,7 @@ const pathnamesProtections = {
   "/sent-progress": ["employee"],
   [API_ROUTES.UPLOAD_IMAGE]: ["employee"],
   [API_ROUTES.REGISTER_EMPLOYEE]: ["boss"],
+  [API_ROUTES.SENT_PROGRESS]: ["employee"],
 };
 
 const redirectionURLs = {
