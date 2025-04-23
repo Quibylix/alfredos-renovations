@@ -1,0 +1,6 @@
+export const ERROR_CODES = {
+  SUCCESS: 0,
+  INVALID_REQUEST: 1,
+  MIME_TYPE_NOT_SUPPORTED: 2,
+  UNKNOWN: 3,
+};

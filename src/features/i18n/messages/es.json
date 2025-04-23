@@ -70,5 +70,15 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
+  "uploadImage": {
+    "api": {
+      "message": {
+        "success": "Imagen subida exitosamente",
+        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "mimeTypeNotSupported": "Tipo de archivo no permitido. Por favor, sube una imagen en formato JPEG o PNG.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
   }
 }
