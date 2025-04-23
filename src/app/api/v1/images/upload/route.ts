@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     return Response.json({
       success: true,
       data: {
-        image_url: url,
+        imageURL: url,
       },
       errorCode: ERROR_CODES.SUCCESS,
       message: t("message.success"),
