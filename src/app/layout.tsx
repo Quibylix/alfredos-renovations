@@ -10,6 +10,7 @@ import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Notifications } from "@mantine/notifications";
+import { mantineTheme } from "@/features/ui/theme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <NextIntlClientProvider locale="en">
-          <MantineProvider>
+          <MantineProvider theme={mantineTheme} defaultColorScheme="auto">
             <Notifications />
             {children}
           </MantineProvider>
