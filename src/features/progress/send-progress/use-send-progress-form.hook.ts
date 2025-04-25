@@ -19,18 +19,24 @@ export function useSendProgressForm() {
   const router = useRouter();
 
   const form = useForm<{
+    projectId: string;
     title: string;
     description: string;
   }>({
     mode: "uncontrolled",
     initialValues: {
+      projectId: "",
       title: "",
       description: "",
     },
     validate: getValidators(t),
   });
 
-  async function handleSubmit(values: { title: string; description: string }) {
+  async function handleSubmit(values: {
+    projectId: string;
+    title: string;
+    description: string;
+  }) {
     setError(null);
     setLoading(true);
 
@@ -39,7 +45,11 @@ export function useSendProgressForm() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ ...values, imageUrl: imageURL, projectId: 2 }),
+      body: JSON.stringify({
+        ...values,
+        imageUrl: imageURL,
+        projectId: Number(values.projectId),
+      }),
     };
 
     fetch(API_ROUTES.SEND_PROGRESS, options)

@@ -1,12 +1,23 @@
 "use client";
 
-import { Button, Paper, Text, Textarea, TextInput } from "@mantine/core";
+import {
+  Button,
+  Paper,
+  Select,
+  Text,
+  Textarea,
+  TextInput,
+} from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useSendProgressForm } from "./use-send-progress-form.hook";
 import { UploadImageDropzone } from "@/features/images/upload/upload-image-dropzone.component";
 import { ImagePreview } from "./image-preview.component";
 
-export function SendProgressForm() {
+export type SendProgressFormProps = {
+  projects: { id: number; title: string }[];
+};
+
+export function SendProgressForm({ projects }: SendProgressFormProps) {
   const { form, submitHandler, imageURL, changeImageURL, error, loading } =
     useSendProgressForm();
 
@@ -26,10 +37,23 @@ export function SendProgressForm() {
           {error}
         </Text>
       )}
+      <Select
+        label={t("project.label")}
+        placeholder={t("project.placeholder")}
+        data={projects.map((project) => ({
+          value: project.id.toString(),
+          label: project.title,
+        }))}
+        required
+        key={form.key("projectId")}
+        {...form.getInputProps("projectId")}
+        searchable
+      />
       <TextInput
         label={t("title.label")}
         placeholder={t("title.placeholder")}
         required
+        mt="md"
         key={form.key("title")}
         {...form.getInputProps("title")}
       />

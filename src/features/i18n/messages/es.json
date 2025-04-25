@@ -90,6 +90,11 @@
   "sendProgress": {
     "title": "Enviar progreso del proyecto",
     "form": {
+      "project": {
+        "label": "Proyecto",
+        "placeholder": "Selecciona un proyecto",
+        "isRequired": "El proyecto es obligatorio"
+      },
       "title": {
         "label": "Título",
         "placeholder": "Título de la tarea",
