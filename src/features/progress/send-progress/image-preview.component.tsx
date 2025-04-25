@@ -11,6 +11,7 @@ export function ImagePreview({ imageURL, alt, close }: ImagePreviewProps) {
     <Stack
       w="max-content"
       h="max-content"
+      maw="100%"
       mx="auto"
       mb="md"
       dir="column"
@@ -33,7 +34,9 @@ export function ImagePreview({ imageURL, alt, close }: ImagePreviewProps) {
         radius="md"
         mb="md"
         mah={300}
+        maw="100%"
         w="auto"
+        h="auto"
         display="block"
         mx="auto"
         onError={close}
