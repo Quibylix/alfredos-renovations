@@ -115,5 +115,14 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
+  "getRelatedProjects": {
+    "api": {
+      "message": {
+        "success": "Proyectos relacionados obtenidos exitosamente",
+        "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
   }
 }
