@@ -35,6 +35,7 @@ export function SendProgressForm() {
       />
       <Textarea
         autosize
+        rows={4}
         minRows={4}
         maxRows={8}
         label={t("description.label")}
