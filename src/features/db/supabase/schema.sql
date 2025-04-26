@@ -112,3 +112,45 @@ to authenticated
 using (
   ((select auth.uid() as uid) = id)
 );
+
+alter policy "Enable employee to view their own progress"
+on "public"."progress"
+to authenticated
+using (
+  ((select auth.uid() as uid) = employee_id)
+);
+
+alter policy "Enable insert for employees based on employee_id and project_id"
+on "public"."progress"
+to public
+with check (
+  (select auth.uid() as uid) = employee_id) and (
+    project_id in (select project_employee.project_id
+      from project_employee
+      where (project_employee.employee_id = progress.employee_id)
+  )
+);
+
+alter policy "Enable bosses to view their projects"
+on "public"."project"
+to public
+using (
+  (select auth.uid() as uid) = boss_id
+);
+
+alter policy "Enable employees to view the projects where they are"
+on "public"."project"
+to public
+using (
+  (select auth.uid() as uid) in (select project_employee.employee_id
+    from project_employee
+    where (project_employee.project_id = project.id)
+  )
+);
+
+alter policy "Enable employees to view their own data only"
+on "public"."project_employee"
+to authenticated
+using (
+  (select auth.uid() as uid) = employee_id
+);
