@@ -6,9 +6,9 @@ drop table if exists public.notification;
 
 drop table if exists public.progress;
 
-drop table if exists public.project_employee;
+drop table if exists public.project_employee cascade;
 
-drop table if exists public.project;
+drop table if exists public.project cascade;
 
 drop table if exists public.employee;
 
@@ -90,7 +90,7 @@ alter table public.project_employee enable row level security;
 alter table public.progress enable row level security;
 alter table public.notification enable row level security;
 
-alter policy "Enable users to view their own data only"
+create policy "Enable users to view their own data only"
 on "public"."profile"
 to authenticated
 using (
@@ -98,7 +98,7 @@ using (
 );
 
 
-alter policy "Enable employees to view their own data only"
+create policy "Enable employees to view their own data only"
 on "public"."employee"
 to authenticated
 using (
@@ -106,39 +106,40 @@ using (
 );
 
 
-alter policy "Enable bosses to view their own data only"
+create policy "Enable bosses to view their own data only"
 on "public"."boss"
 to authenticated
 using (
   ((select auth.uid() as uid) = id)
 );
 
-alter policy "Enable employee to view their own progress"
+create policy "Enable employee to view their own progress"
 on "public"."progress"
 to authenticated
 using (
   ((select auth.uid() as uid) = employee_id)
 );
 
-alter policy "Enable insert for employees based on employee_id and project_id"
+create policy "Enable insert for employees based on employee_id and project_id"
 on "public"."progress"
 to public
 with check (
-  (select auth.uid() as uid) = employee_id) and (
+  ((select auth.uid() as uid) = employee_id) and (
     project_id in (select project_employee.project_id
       from project_employee
-      where (project_employee.employee_id = progress.employee_id)
+      where project_employee.employee_id = progress.employee_id
+    )
   )
 );
 
-alter policy "Enable bosses to view their projects"
+create policy "Enable bosses to view their projects"
 on "public"."project"
 to public
 using (
   (select auth.uid() as uid) = boss_id
 );
 
-alter policy "Enable employees to view the projects where they are"
+create policy "Enable employees to view the projects where they are"
 on "public"."project"
 to public
 using (
@@ -148,7 +149,7 @@ using (
   )
 );
 
-alter policy "Enable employees to view their own data only"
+create policy "Enable employees to view their own data only"
 on "public"."project_employee"
 to authenticated
 using (
