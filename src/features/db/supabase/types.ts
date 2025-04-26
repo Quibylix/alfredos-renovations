@@ -53,21 +53,21 @@ export type Database = {
         Row: {
           description: string
           id: number
-          profile_id: string | null
+          profile_id: string
           redirection_link: string
           title: string
         }
         Insert: {
           description: string
           id?: never
-          profile_id?: string | null
+          profile_id: string
           redirection_link: string
           title: string
         }
         Update: {
           description?: string
           id?: never
-          profile_id?: string | null
+          profile_id?: string
           redirection_link?: string
           title?: string
         }
@@ -102,31 +102,31 @@ export type Database = {
       progress: {
         Row: {
           description: string
-          employee_id: string | null
+          employee_id: string
           id: number
           image_url: string | null
-          parent_id: number | null
-          project_id: number | null
+          parent_id: number
+          project_id: number
           sent_date: string
           title: string
         }
         Insert: {
           description: string
-          employee_id?: string | null
+          employee_id: string
           id?: never
           image_url?: string | null
-          parent_id?: number | null
-          project_id?: number | null
+          parent_id: number
+          project_id: number
           sent_date?: string
           title: string
         }
         Update: {
           description?: string
-          employee_id?: string | null
+          employee_id?: string
           id?: never
           image_url?: string | null
-          parent_id?: number | null
-          project_id?: number | null
+          parent_id?: number
+          project_id?: number
           sent_date?: string
           title?: string
         }
@@ -156,17 +156,17 @@ export type Database = {
       }
       project: {
         Row: {
-          boss_id: string | null
+          boss_id: string
           id: number
           title: string
         }
         Insert: {
-          boss_id?: string | null
+          boss_id: string
           id?: never
           title: string
         }
         Update: {
-          boss_id?: string | null
+          boss_id?: string
           id?: never
           title?: string
         }
