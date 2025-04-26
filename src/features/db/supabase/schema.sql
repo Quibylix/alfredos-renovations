@@ -29,12 +29,12 @@ create table public.employee (id uuid references public.profile on delete cascad
 create table public.project (
   id bigint generated always as identity primary key,
   title text not null,
-  boss_id uuid references public.boss
+  boss_id uuid references public.boss on delete cascade
 );
 
 create table public.project_employee (
-  project_id bigint references public.project,
-  employee_id uuid references public.employee,
+  project_id bigint references public.project on delete cascade,
+  employee_id uuid references public.employee on delete cascade,
   primary key (project_id, employee_id)
 );
 
@@ -44,9 +44,9 @@ create table public.progress (
   description text not null,
   image_url text,
   sent_date timestamp not null default now(),
-  parent_id bigint references public.progress,
-  employee_id uuid references public.employee,
-  project_id bigint references public.project
+  parent_id bigint references public.progress on delete cascade,
+  employee_id uuid references public.employee on delete cascade,
+  project_id bigint references public.project on delete cascade
 );
 
 create table public.notification (
@@ -54,7 +54,7 @@ create table public.notification (
   title text not null,
   description text not null,
   redirection_link text not null,
-  profile_id uuid references public.profile
+  profile_id uuid references public.profile on delete cascade
 );
 
 
