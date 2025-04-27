@@ -44,7 +44,7 @@ create table public.progress (
   description text not null,
   image_url text,
   sent_date timestamp not null default now(),
-  parent_id bigint references public.progress on delete cascade not null,
+  parent_id bigint references public.progress on delete cascade,
   employee_id uuid references public.employee on delete cascade not null,
   project_id bigint references public.project on delete cascade not null
 );

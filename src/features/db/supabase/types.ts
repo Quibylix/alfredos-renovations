@@ -105,7 +105,7 @@ export type Database = {
           employee_id: string
           id: number
           image_url: string | null
-          parent_id: number
+          parent_id: number | null
           project_id: number
           sent_date: string
           title: string
@@ -115,7 +115,7 @@ export type Database = {
           employee_id: string
           id?: never
           image_url?: string | null
-          parent_id: number
+          parent_id?: number | null
           project_id: number
           sent_date?: string
           title: string
@@ -125,7 +125,7 @@ export type Database = {
           employee_id?: string
           id?: never
           image_url?: string | null
-          parent_id?: number
+          parent_id?: number | null
           project_id?: number
           sent_date?: string
           title?: string
