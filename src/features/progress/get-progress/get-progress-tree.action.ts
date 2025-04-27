@@ -29,7 +29,7 @@ export async function getProgressTree(progressId: number): Promise<{
   const { data: dbProgressData, error: errorProgressData } = await db
     .from("progress")
     .select(
-      `id, title, description, sent_date, image_url,
+      `id, title, description, sent_date, image_url, parent_id,
     employee(id, profile(full_name)),
     project(id, title)`,
     )
@@ -48,7 +48,7 @@ export async function getProgressTree(progressId: number): Promise<{
   const { data: progressChildrenData, error: errorChildren } = await db
     .from("progress")
     .select(
-      `id, title, description, sent_date, image_url,
+      `id, title, description, sent_date, image_url, parent_id,
     employee(id, profile(full_name)),
     project(id, title)`,
     )
@@ -74,6 +74,7 @@ export async function getProgressTree(progressId: number): Promise<{
       description: item.description,
       sent_date: item.sent_date,
       image_url: item.image_url,
+      parent_id: item.parent_id,
       project: {
         id: item.project.id,
         title: item.project.title,
