@@ -138,5 +138,8 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
+  "dashboard": {
+    "title": "Tablero de control"
   }
 }
