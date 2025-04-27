@@ -113,7 +113,7 @@ export type Database = {
         Insert: {
           description: string
           employee_id: string
-          id?: never
+          id?: number
           image_url?: string | null
           parent_id?: number | null
           project_id: number
@@ -123,7 +123,7 @@ export type Database = {
         Update: {
           description?: string
           employee_id?: string
-          id?: never
+          id?: number
           image_url?: string | null
           parent_id?: number | null
           project_id?: number
