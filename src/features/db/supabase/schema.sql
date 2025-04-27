@@ -96,6 +96,18 @@ using (
   ((select auth.uid() as uid) = id)
 );
 
+create policy "Enable bosses to see their employees data"
+on "public"."profile"
+as permissive
+for select
+to authenticated
+using (
+  (id in (select project_employee.employee_id
+    from project_employee
+    where (project_employee.project_id in (select project.id
+            from project
+            where (project.boss_id = (select auth.uid() as uid))))))
+);
 
 create policy "Enable employees to view their own data only"
 on "public"."employee"
@@ -104,6 +116,18 @@ using (
   ((select auth.uid() as uid) = id)
 );
 
+create policy "Enable bosses to view the employees associated to their projects"
+on "public"."employee"
+as permissive
+for select
+to authenticated
+using (
+  (select auth.uid() as uid) in (select project.boss_id
+    from project
+    where (project.id in (select project_employee.project_id
+            from project_employee
+            where (project_employee.employee_id = employee.id))))
+);
 
 create policy "Enable bosses to view their own data only"
 on "public"."boss"
@@ -126,9 +150,18 @@ with check (
   ((select auth.uid() as uid) = employee_id) and (
     project_id in (select project_employee.project_id
       from project_employee
-      where project_employee.employee_id = progress.employee_id
-    )
-  )
+      where project_employee.employee_id = progress.employee_id))
+);
+
+create policy "Enable bosses to view the progress associated to their projects"
+on "public"."progress"
+as permissive
+for select
+to authenticated
+using (
+  (select auth.uid() as uid) in (select project.boss_id
+    from project
+    where (project.id = progress.project_id))
 );
 
 create policy "Enable bosses to view their projects"
@@ -153,4 +186,15 @@ on "public"."project_employee"
 to authenticated
 using (
   (select auth.uid() as uid) = employee_id
+);
+
+create policy "Enable bosses to view their projects data only"
+on "public"."project_employee"
+as permissive
+for select
+to authenticated
+using (
+  project_id in (select project.id
+    from project
+    where (project.boss_id = (select auth.uid() as uid)))
 );
