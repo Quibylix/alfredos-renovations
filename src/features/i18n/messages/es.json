@@ -129,5 +129,14 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
+  "getRelatedProgress": {
+    "api": {
+      "message": {
+        "success": "Progreso relacionado obtenido exitosamente",
+        "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
   }
 }
