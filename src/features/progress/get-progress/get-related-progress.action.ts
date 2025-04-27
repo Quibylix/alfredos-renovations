@@ -97,16 +97,6 @@ export async function getRelatedProgress(): Promise<{
     )
     .eq("boss_id", user!.id);
 
-  console.clear();
-  console.log(JSON.stringify(data, null, 2));
-  console.log(
-    JSON.stringify(
-      (await db.from("project").select("id, title, employee (id)")).data,
-      null,
-      2,
-    ),
-  );
-
   if (error) {
     console.error("Error fetching projects:", error);
     return {
