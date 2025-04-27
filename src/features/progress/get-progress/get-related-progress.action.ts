@@ -48,7 +48,8 @@ export async function getRelatedProgress(): Promise<{
         employee (id, profile (full_name)),
         project (id, title)`,
       )
-      .eq("employee_id", user!.id);
+      .eq("employee_id", user!.id)
+      .is("parent_id", null);
 
     if (error) {
       console.error("Error fetching projects:", error);
@@ -99,7 +100,8 @@ export async function getRelatedProgress(): Promise<{
       )
       `,
     )
-    .eq("boss_id", user!.id);
+    .eq("boss_id", user!.id)
+    .is("project_employee.employee.progress.parent_id", null);
 
   if (error) {
     console.error("Error fetching projects:", error);
