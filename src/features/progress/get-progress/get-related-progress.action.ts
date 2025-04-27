@@ -9,6 +9,7 @@ export type ProgressData = {
   title: string;
   description: string;
   image_url: string | null;
+  sent_date: string;
   project: {
     id: number;
     title: string;
@@ -42,7 +43,7 @@ export async function getRelatedProgress(): Promise<{
     const { data, error } = await db
       .from("progress")
       .select(
-        `id, title, description, image_url,
+        `id, title, description, image_url, sent_date,
         employee (id, profile (full_name)),
         project (id, title)`,
       )
@@ -63,6 +64,7 @@ export async function getRelatedProgress(): Promise<{
         title: progress.title,
         description: progress.description,
         image_url: progress.image_url,
+        sent_date: progress.sent_date,
         project: {
           id: project.id,
           title: project.title,
@@ -89,7 +91,7 @@ export async function getRelatedProgress(): Promise<{
           id, 
           profile (full_name),
           progress (
-            id, title, description, image_url
+            id, title, description, image_url, sent_date
           )
         )
       )
@@ -114,6 +116,7 @@ export async function getRelatedProgress(): Promise<{
           title: progressItem.title,
           description: progressItem.description,
           image_url: progressItem.image_url,
+          sent_date: progressItem.sent_date,
           project: {
             id: project.id,
             title: project.title,
