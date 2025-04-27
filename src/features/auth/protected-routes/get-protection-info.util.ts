@@ -34,12 +34,20 @@ export async function getProtectionInfo(
 
   const role = await getUserRole(userId, db);
 
-  if (!(pathname in pathnamesProtections)) {
+  const pathMatch = (
+    pathname in pathnamesProtections
+      ? pathname
+      : Object.keys(pathnamesProtections).find((path) => {
+          const regex = new RegExp(path.replace(/:\w+/g, "\\w+"));
+          return regex.test(pathname);
+        })
+  ) as keyof typeof pathnamesProtections | undefined;
+
+  if (!pathMatch) {
     return { allowed: true, url: pathname };
   }
 
-  const allowedRoles =
-    pathnamesProtections[pathname as keyof typeof pathnamesProtections];
+  const allowedRoles = pathnamesProtections[pathMatch];
 
   if (allowedRoles.includes(role)) {
     return { allowed: true, url: pathname };
