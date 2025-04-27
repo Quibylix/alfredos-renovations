@@ -19,7 +19,7 @@ drop table if exists public.profile;
 create table public.profile (
   id uuid references auth.users on delete cascade not null primary key,
   full_name VARCHAR(30) not null,
-  registration_date timestamp default now()
+  registration_date timestampz default now()
 );
 
 create table public.boss (id uuid references public.profile on delete cascade not null primary key);
@@ -43,7 +43,7 @@ create table public.progress (
   title text not null,
   description text not null,
   image_url text,
-  sent_date timestamp not null default now(),
+  sent_date timestampz not null default now(),
   parent_id bigint references public.progress on delete cascade,
   employee_id uuid references public.employee on delete cascade not null,
   project_id bigint references public.project on delete cascade not null
