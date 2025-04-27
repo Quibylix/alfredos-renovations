@@ -35,6 +35,7 @@ export async function sendProgress({
     .single();
 
   if (!response.data || response.error) {
+    console.error("Error inserting progress:", response.error);
     return ERROR_CODES.UNKNOWN;
   }
 
