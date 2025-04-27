@@ -4,4 +4,6 @@ export const API_ROUTES = {
   REGISTER_EMPLOYEE: `${API_URL_BASE}/auth/register-employee`,
   UPLOAD_IMAGE: `${API_URL_BASE}/images/upload`,
   SEND_PROGRESS: `${API_URL_BASE}/progress`,
+  GET_RELATED_PROGRESS: `${API_URL_BASE}/progress/related`,
+  GET_RELATED_PROJECTS: `${API_URL_BASE}/projects/related`,
 } as const;
