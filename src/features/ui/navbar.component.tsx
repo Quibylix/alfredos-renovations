@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-function getData(role: "boss" | "employee" | "anon") {
+function useData(role: "boss" | "employee" | "anon") {
   const t = useTranslations("navbar");
 
   const anonData = {
@@ -54,8 +54,9 @@ export type NavbarProps = {
 
 export function Navbar({ role, close }: NavbarProps) {
   const pathname = usePathname();
+  const data = useData(role);
 
-  const mainLink = getData(role).main.map((item) => (
+  const mainLink = data.main.map((item) => (
     <Link
       className={classes.link}
       data-active={item.link === pathname || undefined}
@@ -68,7 +69,7 @@ export function Navbar({ role, close }: NavbarProps) {
     </Link>
   ));
 
-  const footerLinks = getData(role).footer.map((item) => (
+  const footerLinks = data.footer.map((item) => (
     <Link
       className={classes.link}
       data-active={item.link === pathname || undefined}
