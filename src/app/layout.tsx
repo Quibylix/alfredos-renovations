@@ -15,6 +15,9 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Notifications } from "@mantine/notifications";
 import { mantineTheme } from "@/features/ui/theme";
+import { BaseAppShell } from "@/features/ui/base-app-shell.component";
+import { getUserRole } from "@/features/auth/protected-routes/get-user-role.util";
+import { createClient } from "@/features/db/supabase/create-server-client.util";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +45,10 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
 
+  const db = await createClient();
+  const userId = (await db.auth.getUser()).data.user?.id ?? null;
+  const role = await getUserRole(userId, db);
+
   return (
     <html lang={locale} {...mantineHtmlProps}>
       <head>
@@ -51,7 +58,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale="en">
           <MantineProvider theme={mantineTheme} defaultColorScheme="auto">
             <Notifications />
-            {children}
+            <BaseAppShell role={role}>{children}</BaseAppShell>
           </MantineProvider>
         </NextIntlClientProvider>
       </body>
