@@ -141,5 +141,9 @@
   },
   "dashboard": {
     "title": "Tablero de control"
+  },
+  "progress": {
+    "alt": "Imagen del progreso",
+    "avatar": "Avatar del empleado"
   }
 }

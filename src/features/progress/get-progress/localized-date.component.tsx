@@ -17,7 +17,7 @@ export function LocalizedDate({ date }: { date: Date }) {
 
     const formatter = new Intl.DateTimeFormat("en-US", options);
     setDateString(formatter.format(date));
-  }, []);
+  }, [date]);
 
   return (
     <span>

@@ -1,6 +1,7 @@
 import { Container, Image, Title, Avatar, Group, Text } from "@mantine/core";
 import { ProgressData } from "./get-related-progress.action";
 import { LocalizedDate } from "./localized-date.component";
+import { useTranslations } from "next-intl";
 
 export type ProgressProps = {
   data: ProgressData;
@@ -16,12 +17,14 @@ export function Progress({
     employee,
   },
 }: ProgressProps) {
+  const t = useTranslations("progress");
+
   return (
     <Container w="100%">
       <Group>
         <Avatar
           src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
-          alt="Avatar"
+          alt={t("avatar")}
           radius="xl"
         />
         <div>
@@ -44,6 +47,7 @@ export function Progress({
         {imageURL && (
           <Image
             src={imageURL}
+            alt={t("alt")}
             radius="md"
             my="sm"
             miw={160}
