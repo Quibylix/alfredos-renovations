@@ -6,12 +6,14 @@ const pathnamesProtections = {
   "/auth/register-employee": ["boss"],
   "/dashboard": ["employee", "boss"],
   "/progress/send": ["employee"],
+  "/progress/extend": ["employee"],
   "/progress/:id": ["employee", "boss"],
   [API_ROUTES.UPLOAD_IMAGE]: ["employee"],
   [API_ROUTES.REGISTER_EMPLOYEE]: ["boss"],
   [API_ROUTES.SEND_PROGRESS]: ["employee"],
   [API_ROUTES.GET_RELATED_PROGRESS]: ["employee", "boss"],
   [API_ROUTES.GET_RELATED_PROJECTS]: ["employee", "boss"],
+  [API_ROUTES.EXTEND_PROGRESS]: ["employee"],
 };
 
 const redirectionURLs = {
