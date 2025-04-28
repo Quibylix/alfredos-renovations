@@ -13,10 +13,7 @@ export function ProgressPreview({ progress }: { progress: ProgressData }) {
       <Link href={`/progress/${progress.id}`} className={classes.link}>
         <Group wrap="nowrap" gap={0}>
           <Image
-            src={
-              progress.image_url ??
-              "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fpng-vector%2F20210604%2Fourmid%2Fpngtree-gray-network-placeholder-png-image_3416659.jpg&f=1&nofb=1&ipt=e7bf35bf35bb382a33fb6efa0cf7991a314865d918e390a395a9dcea08ce0b0e"
-            }
+            src={progress.image_url ?? "/image-placeholder.jpg"}
             alt={t("alt")}
             miw={160}
             maw={160}
