@@ -43,7 +43,7 @@ create table public.progress (
   title text not null,
   description text not null,
   image_url text,
-  sent_date timestampz not null default now(),
+  sent_date timestamp with time zone not null default now(),
   parent_id bigint references public.progress on delete cascade,
   employee_id uuid references public.employee on delete cascade not null,
   project_id bigint references public.project on delete cascade not null
