@@ -14,7 +14,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <Container size="md" my={40}>
+    <Container size="md" my={20}>
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>

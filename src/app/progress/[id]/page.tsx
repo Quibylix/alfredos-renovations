@@ -41,7 +41,7 @@ export default async function ProgressPage(props: ProgressPageProps) {
   }
 
   return (
-    <Container size="md" my={40}>
+    <Container size="md" my={20}>
       <Title order={1} mb="xl" ta="center">
         {progress.title}
       </Title>
