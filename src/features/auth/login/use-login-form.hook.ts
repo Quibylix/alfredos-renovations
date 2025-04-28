@@ -73,6 +73,7 @@ export function useLoginForm() {
       });
       form.reset();
       router.push("/dashboard");
+      router.refresh();
     }
 
     function handleInvalidCredentials() {
