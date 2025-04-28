@@ -19,13 +19,13 @@ export function ProgressPreview({ progress }: { progress: ProgressData }) {
             h={160}
           />
           <div className={classes.body}>
-            <Text tt="uppercase" c="dimmed" fw={700} size="xs">
+            <Text tt="uppercase" c="dimmed" fw={700} size="xs" lineClamp={1}>
               {progress.project.title}
             </Text>
-            <Text className={classes.title} mt="xs">
+            <Text className={classes.title} mt="xs" lineClamp={1}>
               {progress.title}
             </Text>
-            <Text size="xs" c="dimmed" mt="xs" mb="md">
+            <Text size="xs" c="dimmed" mt="xs" mb="md" lineClamp={2}>
               {progress.description}
             </Text>
             <Group wrap="nowrap" gap="xs">
