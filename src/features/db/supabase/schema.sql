@@ -19,7 +19,7 @@ drop table if exists public.profile;
 create table public.profile (
   id uuid references auth.users on delete cascade not null primary key,
   full_name VARCHAR(30) not null,
-  registration_date timestampz default now()
+  registration_date timestamp with time zone default now()
 );
 
 create table public.boss (id uuid references public.profile on delete cascade not null primary key);
