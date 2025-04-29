@@ -3,6 +3,8 @@ import { getUserRole } from "./get-user-role.util";
 import { API_ROUTES } from "@/features/shared/api.constant";
 
 const pathnamesProtections = {
+  "/auth/login": ["anon"],
+  "/auth/logout": ["employee", "boss"],
   "/auth/register-employee": ["boss"],
   "/dashboard": ["employee", "boss"],
   "/progress/send": ["employee"],
