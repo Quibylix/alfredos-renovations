@@ -1,59 +1,16 @@
-import {
-  IconBriefcase,
-  IconHome,
-  IconKey,
-  IconLogout,
-  IconSend,
-  IconUserPlus,
-} from "@tabler/icons-react";
+import { IconLogout } from "@tabler/icons-react";
 import classes from "./navbar.module.css";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useLogout } from "../auth/logout/use-logout.hook";
+import { useLogout } from "../../auth/logout/use-logout.hook";
+import { bossLinks, employeeLinks, anonLinks } from "./navbar-links.constant";
+import { NavbarLinksGroup } from "./navbar-links-group.component";
 
-function useData(
-  role: "boss" | "employee" | "anon",
-  t: ReturnType<typeof useTranslations<"navbar">>,
-) {
-  const anonData = {
-    main: [{ link: "/", label: t("home"), icon: IconHome }],
-    footer: [{ link: "/auth/login", label: t("login"), icon: IconKey }],
-  };
-
-  const bossData = {
-    main: [
-      { link: "/", label: t("dashboard"), icon: IconHome },
-      {
-        link: "/projects/create",
-        label: t("createProject"),
-        icon: IconBriefcase,
-      },
-    ],
-    footer: [
-      {
-        link: "/auth/register-employee",
-        label: t("registerEmployee"),
-        icon: IconUserPlus,
-      },
-    ],
-  };
-
-  const employeeData = {
-    main: [
-      { link: "/", label: t("dashboard"), icon: IconHome },
-      {
-        link: "/progress/send",
-        label: t("sendProgress"),
-        icon: IconSend,
-      },
-    ],
-    footer: [],
-  };
-
-  if (role === "boss") return bossData;
-  if (role === "employee") return employeeData;
-  return anonData;
+function getLinks(role: "boss" | "employee" | "anon") {
+  if (role === "boss") return bossLinks;
+  if (role === "employee") return employeeLinks;
+  return anonLinks;
 }
 
 export type NavbarProps = {
@@ -65,34 +22,54 @@ export function Navbar({ role, close }: NavbarProps) {
   const t = useTranslations("navbar");
   const pathname = usePathname();
 
-  const data = useData(role, t);
+  const navbarLinks = getLinks(role);
   const { logout } = useLogout();
 
-  const mainLink = data.main.map((item) => (
-    <Link
-      className={classes.link}
-      data-active={item.link === pathname || undefined}
-      href={item.link}
-      key={item.label}
-      onClick={close}
-    >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
-    </Link>
-  ));
+  const mainLink = navbarLinks.main.map((item) =>
+    "links" in item ? (
+      <NavbarLinksGroup
+        close={close}
+        icon={item.icon}
+        label={item.label}
+        links={item.links}
+        key={item.label}
+      />
+    ) : (
+      <Link
+        className={classes.link}
+        data-active={item.link === pathname || undefined}
+        href={item.link}
+        key={item.label}
+        onClick={close}
+      >
+        <item.icon className={classes.linkIcon} stroke={1.5} />
+        <span>{t(item.label)}</span>
+      </Link>
+    ),
+  );
 
-  const footerLinks = data.footer.map((item) => (
-    <Link
-      className={classes.link}
-      data-active={item.link === pathname || undefined}
-      href={item.link}
-      key={item.label}
-      onClick={close}
-    >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
-    </Link>
-  ));
+  const footerLinks = navbarLinks.footer.map((item) =>
+    "links" in item ? (
+      <NavbarLinksGroup
+        close={close}
+        icon={item.icon}
+        label={item.label}
+        links={item.links}
+        key={item.label}
+      />
+    ) : (
+      <Link
+        className={classes.link}
+        data-active={item.link === pathname || undefined}
+        href={item.link}
+        key={item.label}
+        onClick={close}
+      >
+        <item.icon className={classes.linkIcon} stroke={1.5} />
+        <span>{t(item.label)}</span>
+      </Link>
+    ),
+  );
 
   return (
     <nav className={classes.navbar}>
