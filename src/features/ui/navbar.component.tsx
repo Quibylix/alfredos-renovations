@@ -21,7 +21,10 @@ function useData(
   };
 
   const bossData = {
-    main: [{ link: "/dashboard", label: t("dashboard"), icon: IconHome }],
+    main: [
+      { link: "/dashboard", label: t("dashboard"), icon: IconHome },
+      { link: "/projects/create", label: t("createProject"), icon: IconSend },
+    ],
     footer: [
       {
         link: "/auth/register-employee",

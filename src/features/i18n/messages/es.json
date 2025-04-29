@@ -9,7 +9,8 @@
     "sendProgress": "Enviar progreso",
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
-    "registerEmployee": "Registrar empleado"
+    "registerEmployee": "Registrar empleado",
+    "createProject": "Crear proyecto"
   },
   "home": {
     "heading": "Alfredo's Renovations"
@@ -196,6 +197,19 @@
     }
   },
   "createProject": {
+    "title": "Crear nuevo proyecto",
+    "form": {
+      "title": {
+        "label": "Título",
+        "placeholder": "Título del proyecto",
+        "isRequired": "El título es obligatorio"
+      },
+      "employees": {
+        "label": "Empleados",
+        "placeholder": "Selecciona empleados"
+      },
+      "submit": "Crear proyecto"
+    },
     "success": "Proyecto creado exitosamente",
     "error": "Error al crear proyecto",
     "api": {
