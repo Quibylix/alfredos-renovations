@@ -2,7 +2,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { Box, Collapse, Group, ThemeIcon, UnstyledButton } from "@mantine/core";
+import { Box, Collapse, Group, UnstyledButton } from "@mantine/core";
 import { NavbarGroup } from "./navbar-links.constant";
 import classes from "./navbar-links-group.module.css";
 import { IconChevronRight } from "@tabler/icons-react";

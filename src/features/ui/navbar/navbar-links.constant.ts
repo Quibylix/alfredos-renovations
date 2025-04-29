@@ -2,7 +2,6 @@ import {
   Icon,
   IconHome,
   IconProps,
-  IconSend,
   IconUserPlus,
   IconKey,
   IconBriefcase,
