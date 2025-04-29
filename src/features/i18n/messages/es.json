@@ -230,6 +230,8 @@
     "title": "Proyectos"
   },
   "project": {
-    "view": "Ver proyecto"
+    "view": "Ver proyecto",
+    "employees": "Empleados",
+    "progress": "Progreso"
   }
 }

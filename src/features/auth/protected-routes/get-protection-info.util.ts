@@ -13,6 +13,7 @@ const pathnamesProtections = {
   "/progress/:id": ["employee", "boss"],
   "/projects": ["employee", "boss"],
   "/projects/create": ["boss"],
+  "/projects/:id": ["employee", "boss"],
   [API_ROUTES.UPLOAD_IMAGE]: ["employee"],
   [API_ROUTES.REGISTER_EMPLOYEE]: ["boss"],
   [API_ROUTES.SEND_PROGRESS]: ["employee"],
