@@ -40,9 +40,18 @@ export const bossLinks: NavbarLinks = {
       links: [{ link: "/progress", label: "progressList" }],
     },
     {
-      label: "createProject",
+      label: "projects",
       icon: IconBriefcase,
-      link: "/projects/create",
+      links: [
+        {
+          label: "projectsList",
+          link: "/projects",
+        },
+        {
+          label: "createProject",
+          link: "/projects/create",
+        },
+      ],
     },
   ],
   footer: [
@@ -65,6 +74,16 @@ export const employeeLinks: NavbarLinks = {
         {
           link: "/progress/send",
           label: "sendProgress",
+        },
+      ],
+    },
+    {
+      label: "projects",
+      icon: IconBriefcase,
+      links: [
+        {
+          label: "projectsList",
+          link: "/projects",
         },
       ],
     },

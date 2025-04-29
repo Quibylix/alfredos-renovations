@@ -223,5 +223,11 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
+  "projects": {
+    "title": "Proyectos"
+  },
+  "project": {
+    "view": "Ver proyecto"
   }
 }

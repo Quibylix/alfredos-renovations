@@ -1,0 +1,16 @@
+.card {
+  height: 200px;
+  padding: var(--mantine-spacing-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-weight: 900;
+  color: var(--mantine-color-white);
+  line-height: 1.2;
+  font-size: 32px;
+  margin-top: var(--mantine-spacing-xs);
+}
