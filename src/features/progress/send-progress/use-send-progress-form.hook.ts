@@ -88,6 +88,7 @@ export function useSendProgressForm() {
       });
       form.reset();
       router.push("/dashboard");
+      router.refresh();
     }
 
     function handleInvalidRequest() {

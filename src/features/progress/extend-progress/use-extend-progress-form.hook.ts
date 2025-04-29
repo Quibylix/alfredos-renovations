@@ -87,6 +87,7 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
       });
       form.reset();
       router.push("/dashboard");
+      router.refresh();
     }
 
     function handleInvalidRequest() {
