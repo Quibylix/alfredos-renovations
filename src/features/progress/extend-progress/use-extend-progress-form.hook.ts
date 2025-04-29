@@ -86,7 +86,7 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
         message: t("api.message.success"),
       });
       form.reset();
-      router.push("/dashboard");
+      router.push("/progress/" + projectId);
       router.refresh();
     }
 
