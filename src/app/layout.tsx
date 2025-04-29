@@ -55,7 +55,7 @@ export default async function RootLayout({
         <ColorSchemeScript defaultColorScheme="auto" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <NextIntlClientProvider locale="en">
+        <NextIntlClientProvider locale="es">
           <MantineProvider theme={mantineTheme} defaultColorScheme="auto">
             <Notifications />
             <BaseAppShell role={role}>{children}</BaseAppShell>
