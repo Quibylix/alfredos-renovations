@@ -3,7 +3,7 @@
 import { AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBackhoe } from "@tabler/icons-react";
-import { Navbar } from "./navbar.component";
+import { Navbar } from "./navbar/navbar.component";
 
 export type BaseAppShellProps = {
   role: "boss" | "employee" | "anon";
