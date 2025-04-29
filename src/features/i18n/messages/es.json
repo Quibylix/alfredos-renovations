@@ -10,7 +10,9 @@
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "registerEmployee": "Registrar empleado",
-    "createProject": "Crear proyecto"
+    "createProject": "Crear proyecto",
+    "progress": "Progreso",
+    "progressList": "Lista de progresos"
   },
   "home": {
     "heading": "Alfredo's Renovations"
@@ -162,6 +164,7 @@
     "title": "Tablero de control"
   },
   "progress": {
+    "title": "Progresos",
     "extend": "Extender progreso",
     "alt": "Imagen del progreso",
     "avatar": "Avatar del empleado"

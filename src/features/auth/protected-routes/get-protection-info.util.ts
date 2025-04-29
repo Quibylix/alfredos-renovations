@@ -7,6 +7,7 @@ const pathnamesProtections = {
   "/auth/logout": ["employee", "boss"],
   "/auth/register-employee": ["boss"],
   "/": ["employee", "boss"],
+  "/progress": ["employee", "boss"],
   "/progress/send": ["employee"],
   "/progress/extend": ["employee"],
   "/progress/:id": ["employee", "boss"],

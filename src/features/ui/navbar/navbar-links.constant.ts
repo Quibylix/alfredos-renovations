@@ -6,6 +6,7 @@ import {
   IconUserPlus,
   IconKey,
   IconBriefcase,
+  IconProgress,
 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
@@ -34,6 +35,11 @@ export const bossLinks: NavbarLinks = {
   main: [
     { link: "/", label: "dashboard", icon: IconHome },
     {
+      label: "progress",
+      icon: IconProgress,
+      links: [{ link: "/progress", label: "progressList" }],
+    },
+    {
       label: "createProject",
       icon: IconBriefcase,
       link: "/projects/create",
@@ -52,9 +58,15 @@ export const employeeLinks: NavbarLinks = {
   main: [
     { link: "/", label: "dashboard", icon: IconHome },
     {
-      link: "/progress/send",
-      label: "sendProgress",
-      icon: IconSend,
+      label: "progress",
+      icon: IconProgress,
+      links: [
+        { link: "/progress", label: "progressList" },
+        {
+          link: "/progress/send",
+          label: "sendProgress",
+        },
+      ],
     },
   ],
   footer: [],
