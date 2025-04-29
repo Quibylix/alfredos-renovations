@@ -163,7 +163,9 @@
     }
   },
   "home": {
-    "title": "Tablero de control"
+    "title": "Tablero de control",
+    "projects": "Proyectos",
+    "progress": "Progresos"
   },
   "progress": {
     "title": "Progresos",
