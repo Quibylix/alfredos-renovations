@@ -1,5 +1,5 @@
-import { ERROR_CODES } from "@/features/projects/get-related-projects/error_codes.constant";
-import { getRelatedProjects } from "@/features/projects/get-related-projects/get-related-projects.action";
+import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
+import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
 import { getTranslations } from "next-intl/server";
 
 export type APIResponse = {
