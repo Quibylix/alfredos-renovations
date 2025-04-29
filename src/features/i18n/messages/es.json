@@ -40,6 +40,16 @@
       }
     }
   },
+  "logout": {
+    "success": "Cierre de sesión exitoso",
+    "error": "Error al cerrar sesión",
+    "api": {
+      "message": {
+        "success": "Cierre de sesión exitoso",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
+  },
   "registerEmployee": {
     "title": "Registrar nuevo empleado",
     "form": {
