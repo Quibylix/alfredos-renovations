@@ -9,10 +9,12 @@ import classes from "./navbar.module.css";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLogout } from "../auth/logout/use-logout.hook";
 
-function useData(role: "boss" | "employee" | "anon") {
-  const t = useTranslations("navbar");
-
+function useData(
+  role: "boss" | "employee" | "anon",
+  t: ReturnType<typeof useTranslations<"navbar">>,
+) {
   const anonData = {
     main: [{ link: "/", label: t("home"), icon: IconHome }],
     footer: [{ link: "/auth/login", label: t("login"), icon: IconKey }],
@@ -26,7 +28,6 @@ function useData(role: "boss" | "employee" | "anon") {
         label: t("registerEmployee"),
         icon: IconUserPlus,
       },
-      { link: "/auth/logout", label: t("logout"), icon: IconLogout },
     ],
   };
 
@@ -39,7 +40,7 @@ function useData(role: "boss" | "employee" | "anon") {
         icon: IconSend,
       },
     ],
-    footer: [{ link: "/auth/logout", label: t("logout"), icon: IconLogout }],
+    footer: [],
   };
 
   if (role === "boss") return bossData;
@@ -53,8 +54,11 @@ export type NavbarProps = {
 };
 
 export function Navbar({ role, close }: NavbarProps) {
+  const t = useTranslations("navbar");
   const pathname = usePathname();
-  const data = useData(role);
+
+  const data = useData(role, t);
+  const { logout } = useLogout();
 
   const mainLink = data.main.map((item) => (
     <Link
@@ -85,7 +89,23 @@ export function Navbar({ role, close }: NavbarProps) {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarMain}>{mainLink}</div>
-      <div className={classes.footer}>{footerLinks}</div>
+      <div className={classes.footer}>
+        {footerLinks}
+        {role !== "anon" && (
+          <button
+            className={classes.link}
+            onClick={(e) => {
+              e.preventDefault();
+
+              close();
+              logout();
+            }}
+          >
+            <IconLogout className={classes.linkIcon} stroke={1.5} />
+            <span>{t("logout")}</span>
+          </button>
+        )}
+      </div>
     </nav>
   );
 }
