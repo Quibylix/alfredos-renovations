@@ -1,4 +1,5 @@
 import {
+  IconBriefcase,
   IconHome,
   IconKey,
   IconLogout,
@@ -23,7 +24,11 @@ function useData(
   const bossData = {
     main: [
       { link: "/dashboard", label: t("dashboard"), icon: IconHome },
-      { link: "/projects/create", label: t("createProject"), icon: IconSend },
+      {
+        link: "/projects/create",
+        label: t("createProject"),
+        icon: IconBriefcase,
+      },
     ],
     footer: [
       {
