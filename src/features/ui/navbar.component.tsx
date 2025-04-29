@@ -23,7 +23,7 @@ function useData(
 
   const bossData = {
     main: [
-      { link: "/dashboard", label: t("dashboard"), icon: IconHome },
+      { link: "/", label: t("dashboard"), icon: IconHome },
       {
         link: "/projects/create",
         label: t("createProject"),
@@ -41,7 +41,7 @@ function useData(
 
   const employeeData = {
     main: [
-      { link: "/dashboard", label: t("dashboard"), icon: IconHome },
+      { link: "/", label: t("dashboard"), icon: IconHome },
       {
         link: "/progress/send",
         label: t("sendProgress"),

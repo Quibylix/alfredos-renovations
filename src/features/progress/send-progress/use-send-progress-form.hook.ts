@@ -87,7 +87,7 @@ export function useSendProgressForm() {
         message: t("api.message.success"),
       });
       form.reset();
-      router.push("/dashboard");
+      router.push("/");
       router.refresh();
     }
 

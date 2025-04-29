@@ -6,7 +6,7 @@ const pathnamesProtections = {
   "/auth/login": ["anon"],
   "/auth/logout": ["employee", "boss"],
   "/auth/register-employee": ["boss"],
-  "/dashboard": ["employee", "boss"],
+  "/": ["employee", "boss"],
   "/progress/send": ["employee"],
   "/progress/extend": ["employee"],
   "/progress/:id": ["employee", "boss"],
@@ -22,10 +22,10 @@ const pathnamesProtections = {
 
 const redirectionURLs = {
   boss: {
-    default: "/dashboard",
+    default: "/",
   },
   employee: {
-    default: "/dashboard",
+    default: "/",
   },
   anon: {
     default: "/auth/login",
