@@ -7,6 +7,7 @@ import { Progress } from "@/features/progress/get-progress/progress.component";
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { getUserRole } from "@/features/auth/protected-routes/get-user-role.util";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -47,6 +48,8 @@ export default async function ProgressPage(props: ProgressPageProps) {
   const user = await db.auth.getUser();
   const userRole = await getUserRole(user.data.user?.id ?? null, db);
 
+  const t = await getTranslations("progress");
+
   return (
     <Container size="md" my={20}>
       <Title order={1} mb="xl" ta="center">
@@ -63,7 +66,7 @@ export default async function ProgressPage(props: ProgressPageProps) {
             component={Link}
             href={`/progress/extend?projectId=${progress.project.id}&parentId=${progress.id}`}
           >
-            Extend progress
+            {t("extend")}
           </Button>
         )}
       </Stack>

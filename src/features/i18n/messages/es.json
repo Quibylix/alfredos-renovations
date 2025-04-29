@@ -161,6 +161,7 @@
     "title": "Tablero de control"
   },
   "progress": {
+    "extend": "Extender progreso",
     "alt": "Imagen del progreso",
     "avatar": "Avatar del empleado"
   },
