@@ -86,22 +86,14 @@ export async function getRelatedProgress(): Promise<{
   }
 
   const { data, error } = await db
-    .from("project")
+    .from("progress")
     .select(
-      `id, title,
-      project_employee!project_id (
-        employee (
-          id, 
-          profile (full_name),
-          progress (
-            id, title, description, image_url, sent_date, parent_id
-          )
-        )
-      )
-      `,
+      `id, title, description, image_url, sent_date, parent_id,
+        employee (id, profile (full_name)),
+        project (id, title, boss_id)`,
     )
-    .eq("boss_id", user!.id)
-    .is("project_employee.employee.progress.parent_id", null);
+    .eq("project.boss_id", user!.id)
+    .is("parent_id", null);
 
   if (error) {
     console.error("Error fetching projects:", error);
@@ -111,30 +103,24 @@ export async function getRelatedProgress(): Promise<{
     };
   }
 
-  const progress: ProgressData[] = [];
-  data.forEach((project) => {
-    project.project_employee.forEach(({ employee }) => {
-      employee.progress.forEach((progressItem) => {
-        const progressData = {
-          id: progressItem.id,
-          title: progressItem.title,
-          description: progressItem.description,
-          image_url: progressItem.image_url,
-          sent_date: progressItem.sent_date,
-          parent_id: progressItem.parent_id,
-          project: {
-            id: project.id,
-            title: project.title,
-          },
-          employee: {
-            id: employee.id,
-            full_name: employee.profile.full_name,
-          },
-        };
-
-        progress.push(progressData);
-      });
-    });
+  const progress = data.map((progress) => {
+    const { project, employee } = progress;
+    return {
+      id: progress.id,
+      title: progress.title,
+      description: progress.description,
+      image_url: progress.image_url,
+      sent_date: progress.sent_date,
+      parent_id: progress.parent_id,
+      project: {
+        id: project.id,
+        title: project.title,
+      },
+      employee: {
+        id: employee.id,
+        full_name: employee.profile.full_name,
+      },
+    };
   });
 
   return {
