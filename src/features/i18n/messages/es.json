@@ -10,6 +10,8 @@
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "registerEmployee": "Registrar empleado",
+    "projects": "Proyectos",
+    "projectsList": "Lista de proyectos",
     "createProject": "Crear proyecto",
     "progress": "Progreso",
     "progressList": "Lista de progresos"
