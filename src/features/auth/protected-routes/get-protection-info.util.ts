@@ -16,6 +16,7 @@ const pathnamesProtections = {
   [API_ROUTES.GET_RELATED_PROGRESS]: ["employee", "boss"],
   [API_ROUTES.GET_RELATED_PROJECTS]: ["employee", "boss"],
   [API_ROUTES.EXTEND_PROGRESS]: ["employee"],
+  [API_ROUTES.CREATE_PROJECT]: ["boss"],
 };
 
 const redirectionURLs = {

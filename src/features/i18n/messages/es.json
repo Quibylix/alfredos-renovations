@@ -194,5 +194,17 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
+  "createProject": {
+    "success": "Proyecto creado exitosamente",
+    "error": "Error al crear proyecto",
+    "api": {
+      "message": {
+        "success": "Proyecto creado exitosamente",
+        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
   }
 }
