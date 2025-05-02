@@ -5,6 +5,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+[data-mantine-color-scheme="dark"] .card {
+  border: 1px solid var(--mantine-color-dark-6);
+}
+
+[data-mantine-color-scheme="light"] .card {
   border: 1px solid var(--mantine-color-gray-2);
 }
 
