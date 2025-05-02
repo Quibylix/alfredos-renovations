@@ -54,7 +54,6 @@ export async function getProjectInfo(projectId: number): Promise<{
       .eq("id", projectId)
       .is("progress.parent_id", null)
       .eq("progress.employee_id", user!.id)
-      .eq("employee_id", user!.id)
       .single();
 
     if (error) {
