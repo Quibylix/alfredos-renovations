@@ -113,7 +113,7 @@ export type Database = {
         Insert: {
           description: string
           employee_id: string
-          id?: number
+          id?: never
           image_url?: string | null
           parent_id?: number | null
           project_id: number
@@ -123,7 +123,7 @@ export type Database = {
         Update: {
           description?: string
           employee_id?: string
-          id?: number
+          id?: never
           image_url?: string | null
           parent_id?: number | null
           project_id?: number
@@ -215,7 +215,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_employee_progress: {
+        Args: { e_id: string }
+        Returns: {
+          id: number
+          title: string
+          description: string
+          image_url: string
+          sent_date: string
+          parent_id: number
+          employee_id: string
+          employee_full_name: string
+          project_id: number
+          project_title: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
