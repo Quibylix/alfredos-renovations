@@ -1,4 +1,4 @@
-import { Container, Title } from "@mantine/core";
+import { Button, Container, Group, Title } from "@mantine/core";
 import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
 import { notFound } from "next/navigation";
 import { z } from "zod";
@@ -6,6 +6,10 @@ import { getTranslations } from "next-intl/server";
 import { getProjectInfo } from "@/features/projects/get-projects/get-project-info.action";
 import { ProgressList } from "@/features/progress/get-progress/progress-list.component";
 import { EmployeeList } from "@/features/employees/get-employees/employee-list.component";
+import Link from "next/link";
+import { IconEdit } from "@tabler/icons-react";
+import { createClient } from "@/features/db/supabase/create-server-client.util";
+import { getUserRole } from "@/features/auth/protected-routes/get-user-role.util";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -36,6 +40,11 @@ export default async function ProjectPage(props: ProgressPageProps) {
     notFound();
   }
 
+  const db = await createClient();
+  const userData = await db.auth.getUser();
+
+  const userRole = await getUserRole(userData.data.user?.id ?? null, db);
+
   const t = await getTranslations("project");
 
   return (
@@ -43,6 +52,19 @@ export default async function ProjectPage(props: ProgressPageProps) {
       <Title order={1} mb="xl" ta="center">
         {project.title}
       </Title>
+      {userRole === "boss" && (
+        <Group justify="center">
+          <Button
+            variant="outline"
+            component={Link}
+            href={`/projects/edit/${project.id}`}
+            color="dimmed"
+          >
+            {t("edit")}
+            <IconEdit size={20} />
+          </Button>
+        </Group>
+      )}
       {project.employees && (
         <Container component="section" fluid mt="lg">
           <Title order={2} mb="lg">
