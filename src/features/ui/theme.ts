@@ -24,7 +24,7 @@ export const mantineTheme: MantineThemeOverride = createTheme({
     "2xl": rem("28px"),
     "3xl": rem("32px"),
   },
-  primaryColor: "orange",
+  primaryColor: "blue",
   other: {
     style: "mantine",
   },
