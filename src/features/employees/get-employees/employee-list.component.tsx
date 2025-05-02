@@ -1,4 +1,5 @@
 import { Avatar, Group, Paper, Text } from "@mantine/core";
+import classes from "./employee-list.module.css";
 
 export type EmployeeListProps = {
   employees: {
@@ -11,7 +12,12 @@ export function EmployeeList({ employees }: EmployeeListProps) {
   return (
     <Group gap="lg">
       {employees.map((employee) => (
-        <Paper key={employee.id} p="sm" radius="md">
+        <Paper
+          key={employee.id}
+          p="sm"
+          radius="md"
+          className={classes.employee}
+        >
           <Group gap="sm">
             <Avatar
               size={30}
