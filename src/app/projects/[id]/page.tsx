@@ -1,10 +1,11 @@
-import { Avatar, Container, Group, Paper, Text, Title } from "@mantine/core";
+import { Container, Title } from "@mantine/core";
 import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { getTranslations } from "next-intl/server";
 import { getProjectInfo } from "@/features/projects/get-projects/get-project-info.action";
 import { ProgressList } from "@/features/progress/get-progress/progress-list.component";
+import { EmployeeList } from "@/features/employees/get-employees/employee-list.component";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -47,22 +48,7 @@ export default async function ProjectPage(props: ProgressPageProps) {
           <Title order={2} mb="lg">
             {t("employees")}
           </Title>
-          <Group gap="lg">
-            {project.employees.map((employee) => (
-              <Paper key={employee.id} p="sm" bg="dark.6" radius="md">
-                <Group gap="sm">
-                  <Avatar
-                    size={30}
-                    src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
-                    radius={30}
-                  />
-                  <Text fz="sm" fw={500}>
-                    {employee.fullName}
-                  </Text>
-                </Group>
-              </Paper>
-            ))}
-          </Group>
+          <EmployeeList employees={project.employees} />
         </Container>
       )}
       <Container component="section" fluid mt="lg">
