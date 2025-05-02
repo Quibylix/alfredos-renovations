@@ -10,6 +10,7 @@
     "supabase:gen:types": "pnpm dlx supabase gen types typescript --project-id 'lbmvykzndajewcaoosxn' --schema public > ./src/features/db/supabase/types.ts"
   },
   "dependencies": {
+    "@bprogress/next": "^3.2.12",
     "@mantine/core": "^7.17.4",
     "@mantine/dropzone": "^7.17.4",
     "@mantine/form": "^7.17.4",
