@@ -232,5 +232,30 @@
     "view": "Ver proyecto",
     "employees": "Empleados",
     "progress": "Progreso"
+  },
+  "editProject": {
+    "title": "Editar proyecto",
+    "form": {
+      "title": {
+        "label": "Título",
+        "placeholder": "Título del proyecto",
+        "isRequired": "El título es obligatorio"
+      },
+      "employees": {
+        "label": "Empleados",
+        "placeholder": "Selecciona empleados"
+      },
+      "submit": "Actualizar proyecto"
+    },
+    "success": "Proyecto actualizado exitosamente",
+    "error": "Error al actualizar proyecto",
+    "api": {
+      "message": {
+        "success": "Proyecto actualizado exitosamente",
+        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
   }
 }

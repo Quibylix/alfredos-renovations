@@ -9,4 +9,5 @@ export const API_ROUTES = {
   GET_RELATED_PROJECTS: `${API_URL_BASE}/projects/related`,
   EXTEND_PROGRESS: `${API_URL_BASE}/progress/extend`,
   CREATE_PROJECT: `${API_URL_BASE}/projects`,
+  EDIT_PROJECT: `${API_URL_BASE}/projects/edit`,
 } as const;
