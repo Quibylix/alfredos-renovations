@@ -22,3 +22,14 @@
 .link:hover {
   background-color: var(--mantine-color-default-hover);
 }
+
+.imageSmall {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+}
+
+.imageLarge {
+  min-width: 10rem;
+  height: 10rem;
+}
