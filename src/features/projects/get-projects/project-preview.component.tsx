@@ -17,12 +17,7 @@ export function ProjectPreview({
           {project.title}
         </Title>
       </div>
-      <Button
-        component={Link}
-        href={"/projects/" + project.id}
-        variant="white"
-        color="dark"
-      >
+      <Button component={Link} href={"/projects/" + project.id} variant="light">
         {t("view")}
       </Button>
     </Paper>

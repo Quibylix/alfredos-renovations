@@ -1,16 +1,15 @@
 .card {
-  height: 200px;
-  padding: var(--mantine-spacing-md);
+  height: 100%;
+  gap: 1rem;
+  padding: var(--mantine-spacing-sm);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  border: 1px solid var(--mantine-color-gray-2);
 }
 
 .title {
   font-weight: 900;
-  color: var(--mantine-color-white);
   line-height: 1.2;
   font-size: 32px;
-  margin-top: var(--mantine-spacing-xs);
 }
