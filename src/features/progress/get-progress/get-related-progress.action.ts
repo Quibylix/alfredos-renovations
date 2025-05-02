@@ -41,17 +41,11 @@ export async function getRelatedProgress(): Promise<{
   }
 
   if (role === "employee") {
-    const { data, error } = await db
-      .from("progress")
-      .select(
-        `id, title, description, image_url, sent_date, parent_id,
-        employee (id, profile (full_name)),
-        project (id, title)`,
-      )
-      .eq("employee_id", user!.id)
-      .is("parent_id", null);
+    const { data, error } = await db.rpc("get_employee_progress", {
+      e_id: user!.id,
+    });
 
-    if (error) {
+    if (error || !data) {
       console.error("Error fetching projects:", error);
       return {
         errorCode: ERROR_CODES.UNKNOWN,
@@ -60,7 +54,6 @@ export async function getRelatedProgress(): Promise<{
     }
 
     const progress = data.map((progress) => {
-      const { project, employee } = progress;
       return {
         id: progress.id,
         title: progress.title,
@@ -69,12 +62,12 @@ export async function getRelatedProgress(): Promise<{
         sent_date: progress.sent_date,
         parent_id: progress.parent_id,
         project: {
-          id: project.id,
-          title: project.title,
+          id: progress.project_id,
+          title: progress.project_title,
         },
         employee: {
-          id: employee.id,
-          full_name: employee.profile.full_name,
+          id: progress.employee_id,
+          full_name: progress.employee_full_name,
         },
       };
     });
