@@ -47,7 +47,7 @@ export async function getProtectionInfo(
     pathname in pathnamesProtections
       ? pathname
       : Object.keys(pathnamesProtections).find((path) => {
-          const regex = new RegExp(path.replace(/:\w+/g, "\\w+"));
+          const regex = new RegExp(`^${path.replace(/:\w+/g, "\\w+")}$`);
           return regex.test(pathname);
         })
   ) as keyof typeof pathnamesProtections | undefined;
