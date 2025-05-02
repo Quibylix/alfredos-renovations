@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { APIResponse as LoginAPIResponse } from "@/app/api/v1/auth/login/route";
 import { ERROR_CODES as LOGIN_API_ERROR_CODES } from "@/features/auth/login/error_codes.constant";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 export function useLoginForm() {
   const t = useTranslations("login");

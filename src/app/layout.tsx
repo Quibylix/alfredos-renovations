@@ -18,6 +18,7 @@ import { mantineTheme } from "@/features/ui/theme";
 import { BaseAppShell } from "@/features/ui/base-app-shell.component";
 import { getUserRole } from "@/features/auth/protected-routes/get-user-role.util";
 import { createClient } from "@/features/db/supabase/create-server-client.util";
+import { ProgressProvider } from "@/features/ui/progress-provider.component";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,10 +58,12 @@ export default async function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <NextIntlClientProvider locale="es">
-          <MantineProvider theme={mantineTheme} defaultColorScheme="auto">
-            <Notifications />
-            <BaseAppShell role={role}>{children}</BaseAppShell>
-          </MantineProvider>
+          <ProgressProvider>
+            <MantineProvider theme={mantineTheme} defaultColorScheme="auto">
+              <Notifications />
+              <BaseAppShell role={role}>{children}</BaseAppShell>
+            </MantineProvider>
+          </ProgressProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -4,7 +4,6 @@ import { getTranslations } from "next-intl/server";
 
 export default async function LoginPage() {
   const t = await getTranslations("login");
-
   return (
     <Container size={420} my={40}>
       <Title mb={30} ta="center" fw={900}>

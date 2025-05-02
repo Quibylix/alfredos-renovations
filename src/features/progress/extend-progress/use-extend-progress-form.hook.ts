@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { APIResponse as ProgressAPIResponse } from "@/app/api/v1/progress/extend/route";
 import { ERROR_CODES as EXTEND_PROGRESS_API_ERROR_CODES } from "./error_codes.constant";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 export function useExtendProgressForm(projectId: number, parentId: number) {
   const t = useTranslations("extendProgress");

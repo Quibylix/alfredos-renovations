@@ -4,7 +4,7 @@ import { APIResponse as LogoutAPIResponse } from "@/app/api/v1/auth/logout/route
 import { API_ROUTES } from "@/features/shared/api.constant";
 import { notifications } from "@mantine/notifications";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@bprogress/next/app";
 
 export function useLogout() {
   const router = useRouter();
