@@ -2,8 +2,8 @@
 
 import { AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconBackhoe } from "@tabler/icons-react";
 import { Navbar } from "./navbar/navbar.component";
+import { Logo } from "./logo.component";
 
 export type BaseAppShellProps = {
   role: "boss" | "employee" | "anon";
@@ -38,7 +38,7 @@ export function BaseAppShell({ role, children }: BaseAppShellProps) {
             visibleFrom="sm"
             size="sm"
           />
-          <IconBackhoe size={30} />
+          <Logo />
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
