@@ -1,0 +1,19 @@
+{
+  "name": "Alfredo Renovations",
+  "short_name": "Alfredo",
+  "start_url": "/",
+  "display": "standalone",
+  "display_override": ["fullscreen", "minimal-ui"],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
