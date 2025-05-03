@@ -17,7 +17,7 @@ export function UploadImageDropzone({ setImageURL }: UploadImageDropzoneProps) {
     <Dropzone
       onDrop={handleDrop}
       onReject={(files) => console.log("rejected files", files)}
-      maxSize={1 * 1024 ** 2}
+      maxSize={5 * 1024 ** 2}
       accept={["image/png", "image/jpeg", "image/jpg", "image/webp"]}
       multiple={false}
       loading={loading}
