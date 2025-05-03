@@ -23,6 +23,10 @@
   background-color: var(--mantine-color-default-hover);
 }
 
+.noImage {
+  display: none;
+}
+
 .imageSmall {
   min-width: 100%;
   height: auto;
@@ -30,6 +34,7 @@
 }
 
 .imageLarge {
+  width: 10rem;
   min-width: 10rem;
   height: 10rem;
 }

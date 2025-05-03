@@ -19,7 +19,11 @@ export function ProgressPreview({ progress }: { progress: ProgressData }) {
         <Group>
           <Image
             className={
-              rect.width < 500 ? classes.imageSmall : classes.imageLarge
+              rect.width == 0
+                ? classes.noImage
+                : rect.width > 500
+                  ? classes.imageLarge
+                  : classes.imageSmall
             }
             src={progress.image_url ?? "/image-placeholder.jpg"}
             alt={t("alt")}
