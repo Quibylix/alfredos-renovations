@@ -322,7 +322,7 @@ create policy "Enable employees to see the progress of their projects"
   for select
   to authenticated
   using (
-    ((SELECT auth.uid() as uid) = employee_id));
+    (SELECT private.is_progress_creator(progress.employee_id, progress.project_id) AS is_progress_creator));
 
 create policy "Enable employees to create progress"
   on public.progress
