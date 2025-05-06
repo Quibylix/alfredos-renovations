@@ -14,7 +14,8 @@
     "projectsList": "Lista de proyectos",
     "createProject": "Crear proyecto",
     "progress": "Progreso",
-    "progressList": "Lista de progresos"
+    "progressList": "Lista de progresos",
+    "changePassword": "Modificar contraseña"
   },
   "login": {
     "title": "Bienvenido de nuevo",
@@ -87,6 +88,33 @@
         "success": "Registro exitoso",
         "invalidCredentials": "Credenciales inválidas. Por favor, verifica tu nombre de usuario y contraseña.",
         "usernameTaken": "El nombre de usuario ya está en uso. Por favor, elige otro.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
+  },
+  "changePassword": {
+    "title": "Cambiar contraseña",
+    "form": {
+      "password": {
+        "label": "Nueva contraseña",
+        "placeholder": "********",
+        "minLength": "La contraseña debe tener al menos 8 caracteres",
+        "maxLength": "La contraseña no puede exceder los 20 caracteres"
+      },
+      "confirmPassword": {
+        "label": "Confirmar nueva contraseña",
+        "placeholder": "********",
+        "notMatch": "Las contraseñas no coinciden"
+      },
+      "submit": "Cambiar contraseña"
+    },
+    "success": "Contraseña cambiada exitosamente",
+    "error": "Error al cambiar la contraseña",
+    "api": {
+      "message": {
+        "success": "Contraseña cambiada exitosamente",
+        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }

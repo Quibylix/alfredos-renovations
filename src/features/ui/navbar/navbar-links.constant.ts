@@ -6,6 +6,7 @@ import {
   IconKey,
   IconBriefcase,
   IconProgress,
+  IconPasswordUser,
 } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
@@ -59,6 +60,11 @@ export const bossLinks: NavbarLinks = {
       label: "registerEmployee",
       icon: IconUserPlus,
     },
+    {
+      link: "/auth/change-password",
+      label: "changePassword",
+      icon: IconPasswordUser,
+    },
   ],
 };
 
@@ -87,7 +93,13 @@ export const employeeLinks: NavbarLinks = {
       ],
     },
   ],
-  footer: [],
+  footer: [
+    {
+      link: "/auth/change-password",
+      label: "changePassword",
+      icon: IconPasswordUser,
+    },
+  ],
 };
 
 export const anonLinks: NavbarLinks = {
