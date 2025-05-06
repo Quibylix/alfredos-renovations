@@ -6,7 +6,7 @@ import { ERROR_CODES } from "./error_codes.constant";
 export async function logout() {
   const db = await createClient();
 
-  const { error } = await db.auth.signOut();
+  const { error } = await db.auth.signOut({ scope: "local" });
 
   if (error) {
     return ERROR_CODES.UNKNOWN;
