@@ -1,4 +1,4 @@
-import { Button, Container, Group, Space, Text } from "@mantine/core";
+import { Button, Group, Text } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX, IconCamera } from "@tabler/icons-react";
 import { Dropzone } from "@mantine/dropzone";
 import { useTranslations } from "next-intl";
