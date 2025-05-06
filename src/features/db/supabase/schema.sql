@@ -1,64 +1,65 @@
-drop trigger if exists on_auth_user_created on auth.users;
-
-drop function if exists public.handle_new_user();
-
-drop table if exists public.notification;
-
-drop table if exists public.progress;
-
-drop table if exists public.project_employee cascade;
-
-drop table if exists public.project cascade;
-
-drop table if exists public.employee;
-
-drop table if exists public.boss;
-
-drop table if exists public.profile;
-
 create table public.profile (
-  id uuid references auth.users on delete cascade not null primary key,
-  full_name VARCHAR(30) not null,
-  registration_date timestamp with time zone default now()
-);
+  id uuid not null,
+  full_name character varying(30) not null,
+  registration_date timestamp with time zone null default now(),
+  constraint profile_pkey primary key (id),
+  constraint profile_id_fkey foreign KEY (id) references auth.users (id) on delete CASCADE
+) TABLESPACE pg_default;
 
-create table public.boss (id uuid references public.profile on delete cascade not null primary key);
+create table public.boss (
+  id uuid not null,
+  constraint boss_pkey primary key (id),
+  constraint boss_id_fkey foreign KEY (id) references profile (id) on delete CASCADE
+) TABLESPACE pg_default;
 
-create table public.employee (id uuid references public.profile on delete cascade not null primary key);
+create table public.employee (
+  id uuid not null,
+  constraint employee_pkey primary key (id),
+  constraint employee_id_fkey foreign KEY (id) references profile (id) on delete CASCADE
+) TABLESPACE pg_default;
 
 create table public.project (
-  id bigint generated always as identity primary key,
+  id bigint generated always as identity not null,
   title text not null,
-  boss_id uuid references public.boss on delete cascade not null
-);
+  boss_id uuid not null,
+  constraint project_pkey primary key (id),
+  constraint project_boss_id_fkey foreign KEY (boss_id) references boss (id) on delete CASCADE
+) TABLESPACE pg_default;
 
 create table public.project_employee (
-  project_id bigint references public.project on delete cascade not null,
-  employee_id uuid references public.employee on delete cascade not null,
-  primary key (project_id, employee_id)
-);
+  project_id bigint not null,
+  employee_id uuid not null,
+  constraint project_employee_pkey primary key (project_id, employee_id),
+  constraint project_employee_employee_id_fkey foreign KEY (employee_id) references employee (id) on delete CASCADE,
+  constraint project_employee_project_id_fkey foreign KEY (project_id) references project (id) on delete CASCADE
+) TABLESPACE pg_default;
 
 create table public.progress (
-  id bigint generated always as identity primary key,
+  id bigint generated always as identity not null,
   title text not null,
   description text not null,
-  image_url text,
+  image_url text null,
   sent_date timestamp with time zone not null default now(),
-  parent_id bigint references public.progress on delete cascade,
-  employee_id uuid references public.employee on delete cascade not null,
-  project_id bigint references public.project on delete cascade not null
-);
+  parent_id bigint null,
+  employee_id uuid not null,
+  project_id bigint not null,
+  constraint progress_pkey primary key (id),
+  constraint progress_employee_id_fkey foreign KEY (employee_id) references employee (id) on delete CASCADE,
+  constraint progress_parent_id_fkey foreign KEY (parent_id) references progress (id) on delete CASCADE,
+  constraint progress_project_id_fkey foreign KEY (project_id) references project (id) on delete CASCADE
+) TABLESPACE pg_default;
 
 create table public.notification (
-  id bigint generated always as identity primary key,
+  id bigint generated always as identity not null,
   title text not null,
   description text not null,
   redirection_link text not null,
-  profile_id uuid references public.profile on delete cascade not null
-);
+  profile_id uuid not null,
+  constraint notification_pkey primary key (id),
+  constraint notification_profile_id_fkey foreign KEY (profile_id) references profile (id) on delete CASCADE
+) TABLESPACE pg_default;
 
-
-create function public.handle_new_user()
+create or replace function public.handle_new_user()
 returns trigger
 set search_path = ''
 as $$
@@ -77,7 +78,8 @@ begin
   return new;
 end;
 $$ language plpgsql security definer;
-create trigger on_auth_user_created
+
+create or replace trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
 
@@ -89,128 +91,277 @@ alter table public.project_employee enable row level security;
 alter table public.progress enable row level security;
 alter table public.notification enable row level security;
 
-create policy "Enable users to view their own data only"
-on "public"."profile"
-as permissive
-for select
-to authenticated
-using (
-  ((select auth.uid() as uid) = id)
-);
+create schema private;
+
+create or replace function private.get_user_role()
+returns text
+language plpgsql
+security definer set search_path='public'
+as $$
+declare
+  user_role text;
+begin
+  if (select auth.uid() as uid) in (select id from public.boss) then
+    user_role := 'boss';
+  elsif (select auth.uid() as uid) in (select id from public.employee) then
+    user_role := 'employee';
+  else
+    user_role := 'anon';
+  end if;
+
+  return user_role;
+end;
+$$;
+
+create or replace function private.is_employee_boss(e_id uuid)
+returns boolean
+language plpgsql
+security definer set search_path='public'
+as $$
+begin
+  return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid() AS uid) IN ( SELECT project.boss_id
+   FROM project
+  WHERE (project.id IN ( SELECT project_employee.project_id
+           FROM project_employee
+          WHERE (project_employee.employee_id = e_id))))));
+end;
+$$;
+
+create or replace function private.is_progress_boss(p_id bigint)
+returns boolean
+language plpgsql
+security definer set search_path='public'
+as $$
+begin
+  return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid() AS uid) IN ( SELECT project.boss_id
+   FROM project
+  WHERE (project.id = p_id))));
+end;
+$$;
+
+create or replace function private.is_boss(p_id uuid)
+returns boolean
+language plpgsql
+security definer set search_path='public'
+as $$
+begin
+  return (( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (p_id IN ( SELECT id from employee));
+end;
+$$;
+
+create or replace function private.is_progress_creator(e_id uuid, p_id bigint)
+returns boolean
+language plpgsql
+security definer set search_path='public'
+as $$
+begin
+  return ((( SELECT private.get_user_role() AS get_user_role) = 'employee'::text) AND ((( SELECT auth.uid() AS uid) = e_id) AND (p_id IN ( SELECT project_employee.project_id
+   FROM project_employee
+  WHERE (project_employee.employee_id = e_id)))) AND (exists(select 1 from project_employee where project_employee.employee_id = e_id and project_employee.project_id = p_id)));
+end;
+$$;
+
+create or replace function private.is_employee_of_project(p_id bigint)
+returns boolean
+language plpgsql
+security definer set search_path='public'
+as $$
+begin
+  return (((SELECT private.get_user_role() AS get_user_role) = 'employee'::text) AND ((SELECT auth.uid() AS uid) IN (SELECT project_employee.employee_id
+   FROM project_employee
+  WHERE (project_employee.project_id = p_id))));
+end;
+$$;
+
+create or replace function private.is_project_employee_boss(p_id bigint)
+returns boolean
+language plpgsql
+security definer set search_path='public'
+as $$
+begin
+  return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid()) IN (SELECT project.boss_id
+   FROM project
+  WHERE project.id = p_id)));
+end;
+$$;
+
+create or replace function private.is_project_employee_boss(p_id bigint)
+returns boolean
+language plpgsql
+security definer set search_path='public'
+as $$
+begin
+  return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid()) IN (SELECT project.boss_id
+   FROM project
+  WHERE project.id = p_id)));
+end;
+$$;
+
+create policy "Enable users to see their own profile"
+  on public.profile
+  as permissive
+  for select
+  to authenticated
+  using (
+    ((SELECT auth.uid() AS uid) = id));
+
+create policy "Enable bosses to see their employees profiles"
+  on public.profile
+  as permissive
+  for select
+  to authenticated
+  using (
+    (SELECT private.is_boss(profile.id) AS is_profile_boss));
+
+create policy "Enable bosses to see their own data"
+  on public.boss
+  as permissive
+  for select
+  to authenticated
+  using (
+    ((SELECT auth.uid() AS uid) = id));
+
+create policy "Enable employees to see their own data"
+  on public.employee
+  as permissive
+  for select
+  to authenticated
+  using (
+    ((SELECT auth.uid() AS uid) = id));
 
 create policy "Enable bosses to see their employees data"
-on "public"."profile"
-as permissive
-for select
-to authenticated
-using (
-  (id in (select project_employee.employee_id
-    from project_employee
-    where (project_employee.project_id in (select project.id
-            from project
-            where (project.boss_id = (select auth.uid() as uid))))))
-);
+  on public.employee
+  as permissive
+  for select
+  to authenticated
+  using (
+    ((SELECT private.get_user_role() AS get_user_role) = 'boss'::text));
 
-create policy "Enable employees to view their own data only"
-on "public"."employee"
-as permissive
-for select
-to authenticated
-using (
-  ((select auth.uid() as uid) = id)
-);
+create policy "Enable bosses to see their own projects"
+  on public.project
+  as permissive
+  for select
+  to authenticated
+  using (
+    (((SELECT private.get_user_role() AS get_user_role) = 'boss'::text)
+      AND ((SELECT auth.uid() AS uid) = boss_id)));
 
-create policy "Enable bosses to view the employees associated to their projects"
-on "public"."employee"
-as permissive
-for select
-to authenticated
-using (
-  (select auth.uid() as uid) in (select project.boss_id
-    from project
-    where (project.id in (select project_employee.project_id
-            from project_employee
-            where (project_employee.employee_id = employee.id))))
-);
+create policy "Allow bosses to update their own projects"
+  on public.project
+  as permissive
+  for update
+  to authenticated
+  using (
+    (((SELECT private.get_user_role() AS get_user_role) = 'boss'::text)
+      AND ((SELECT auth.uid() AS uid) = boss_id)))
+  with check (
+    (((SELECT private.get_user_role() AS get_user_role) = 'boss'::text)
+      AND ((SELECT auth.uid() AS uid) = boss_id)));
 
-create policy "Enable bosses to view their own data only"
-on "public"."boss"
-as permissive
-for select
-to authenticated
-using (
-  ((select auth.uid() as uid) = id)
-);
+create policy "Enable bosses to create new projects"
+  on public.project
+  as permissive
+  for insert
+  to authenticated
+  with check (
+    (((SELECT private.get_user_role() AS get_user_role) = 'boss'::text)
+      AND ((SELECT auth.uid() AS uid) = boss_id)));
 
-create policy "Enable employee to view their own progress"
-on "public"."progress"
-as permissive
-for select
-to authenticated
-using (
-  ((select auth.uid() as uid) = employee_id)
-);
+create policy "Enable employees to see the projects they are part of"
+  on public.project
+  as permissive
+  for select
+  to authenticated
+  using (
+    (SELECT private.is_employee_of_project(project.id) AS is_employee_of_project));
 
-create policy "Enable insert for employees based on employee_id and project_id"
-on "public"."progress"
-as permissive
-for insert
-to authenticated
-with check (
-  ((select auth.uid() as uid) = employee_id) and (
-    project_id in (select project_employee.project_id
-      from project_employee
-      where project_employee.employee_id = progress.employee_id))
-);
+create policy "Enable employees to see the project-employee relationships they are part of"
+  on public.project_employee
+  as permissive
+  for select
+  to authenticated
+  using (
+    (((SELECT private.get_user_role() AS get_user_role) = 'employee'::text)
+      AND ((SELECT auth.uid() AS uid) = employee_id)));
 
-create policy "Enable bosses to view the progress associated to their projects"
-on "public"."progress"
-as permissive
-for select
-to authenticated
-using (
-  (select auth.uid() as uid) in (select project.boss_id
-    from project
-    where (project.id = progress.project_id))
-);
+create policy "Enable bosses to see the project-employee relationships they are part of"
+  on public.project_employee
+  as permissive
+  for select
+  to authenticated
+  using (
+    (SELECT private.is_project_employee_boss(project_employee.project_id) AS is_project_employee_boss));
 
-create policy "Enable bosses to view their projects"
-on "public"."project"
-as permissive
-for select
-to authenticated
-using (
-  (select auth.uid() as uid) = boss_id
-);
+create policy "Enable bosses to create project-employee relationships"
+  on public.project_employee
+  as permissive
+  for insert
+  to authenticated
+  with check (
+    (SELECT private.is_project_employee_boss(project_employee.project_id) AS is_project_employee_boss));
 
-create policy "Enable employees to view the projects where they are"
-on "public"."project"
-as permissive
-for select
-to authenticated
-using (
-  (select auth.uid() as uid) in (select project_employee.employee_id
-    from project_employee
-    where (project_employee.project_id = project.id)
-  )
-);
+create policy "Enable bosses to delete project-employee relationships"
+  on public.project_employee
+  as permissive
+  for delete
+  to authenticated
+  using (
+    (SELECT private.is_project_employee_boss(project_employee.project_id) AS is_project_employee_boss));
 
-create policy "Enable employees to view their own data only"
-on "public"."project_employee"
-as permissive
-for select
-to authenticated
-using (
-  (select auth.uid() as uid) = employee_id
-);
+create policy "Enable bosses to see the progress of their projects"
+  on public.progress
+  as permissive
+  for select
+  to authenticated
+  using (
+    (SELECT private.is_progress_boss(progress.project_id) AS is_progress_boss));
 
-create policy "Enable bosses to view their projects data only"
-on "public"."project_employee"
-as permissive
-for select
-to authenticated
-using (
-  project_id in (select project.id
-    from project
-    where (project.boss_id = (select auth.uid() as uid)))
-);
+create policy "Enable employees to see the progress of their projects"
+  on public.progress
+  as permissive
+  for select
+  to authenticated
+  using (
+    ((SELECT auth.uid() as uid) = employee_id));
+
+create policy "Enable employees to create progress"
+  on public.progress
+  as permissive
+  for insert
+  to authenticated
+  with check (
+    (SELECT private.is_progress_creator(progress.employee_id, progress.project_id) AS is_progress_creator));
+
+create policy "Give users authenticated upload access to images"
+  on storage.objects
+  for insert
+  to authenticated
+  with check (
+    (bucket_id = 'images' AND auth.role() = 'authenticated'));
+
+create or replace function public.get_employee_progress(e_id uuid)
+returns table (
+  id bigint,
+  title text,
+  description text,
+  image_url text,
+  sent_date timestamp with time zone,
+  parent_id bigint,
+  employee_id uuid,
+  employee_full_name varchar(30),
+  project_id bigint,
+  project_title text
+)
+language plpgsql
+security invoker set search_path='public'
+as $$
+begin
+  return query (SELECT pg.id, pg.title, pg.description, pg.image_url, pg.sent_date, pg.parent_id,
+  pg.employee_id, pf.full_name as employee_full_name, pg.project_id, pj.title as project_title
+ from progress pg
+  inner join project pj on pg.project_id = pj.id
+  inner join employee e on pg.employee_id = e.id
+  inner join profile pf on (pf.id = e.id and exists(select 1 from project_employee where project_employee.employee_id = e.id and project_employee.project_id = pj.id))
+   where pg.employee_id = e_id and pg.parent_id is null);
+end;
+$$;
