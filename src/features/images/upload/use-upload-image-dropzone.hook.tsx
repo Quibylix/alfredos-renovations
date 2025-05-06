@@ -1,5 +1,5 @@
 import { API_ROUTES } from "@/features/shared/api.constant";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { APIResponse as UploadImageAPIResponse } from "@/app/api/v1/images/upload/route";
@@ -10,6 +10,12 @@ export function useUploadImageDropzone(setImageURL: (url: string) => void) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const dropzoneOpenRef = useRef<() => void>(null);
+
+  function captureFromCamera() {
+    dropzoneOpenRef.current?.();
+  }
 
   async function handleDrop(files: File[]) {
     setError(null);
@@ -99,5 +105,11 @@ export function useUploadImageDropzone(setImageURL: (url: string) => void) {
     }
   }
 
-  return { handleDrop, error, loading };
+  return {
+    handleDrop,
+    error,
+    loading,
+    captureFromCamera,
+    dropzoneOpenRef,
+  };
 }

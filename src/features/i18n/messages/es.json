@@ -104,7 +104,8 @@
     "error": "Error al subir la imagen",
     "dropzone": {
       "title": "Arrastra y suelta una imagen aquí o haz clic para subir",
-      "description": "Formato permitido: JPEG, PNG, WEBP. Tamaño máximo: 5MB."
+      "description": "Formato permitido: JPEG, PNG, WEBP. Tamaño máximo: 5MB.",
+      "capture": "Captura desde la cámara"
     }
   },
   "sendProgress": {
