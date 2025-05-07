@@ -8,7 +8,6 @@ export default function RootTemplate({
 }: {
   children: React.ReactNode;
 }) {
-  console.clear();
   const searchParams = useSearchParams();
   const router = useRouter();
 
