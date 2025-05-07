@@ -37,6 +37,22 @@ export async function generateMetadata(): Promise<Metadata> {
     title: t("title"),
     description: t("description"),
     manifest: "/manifest.json",
+    icons: [
+      {
+        rel: "icon",
+        type: "image/ico",
+        sizes: "any",
+        url: "/favicon-light.ico",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        rel: "icon",
+        type: "image/ico",
+        sizes: "any",
+        url: "/favicon-dark.ico",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
   };
 }
 
