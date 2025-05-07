@@ -32,7 +32,7 @@ export default async function HomePage() {
         </Title>
         <ProgressList progress={progressResult.progress} />
       </Container>
-      <Container component="section" fluid mt="lg">
+      <Container component="section" fluid mt={45}>
         <Title order={2} mb="md" fw={700}>
           {t("projects")}
         </Title>

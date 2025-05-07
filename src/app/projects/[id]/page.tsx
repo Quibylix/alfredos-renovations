@@ -49,7 +49,7 @@ export default async function ProjectPage(props: ProgressPageProps) {
 
   return (
     <Container size="md" my={20}>
-      <Title order={1} mb="xl" ta="center">
+      <Title order={1} ta="center">
         {project.title}
       </Title>
       {userRole === "boss" && (
@@ -59,6 +59,7 @@ export default async function ProjectPage(props: ProgressPageProps) {
             component={Link}
             href={`/projects/edit/${project.id}`}
             color="dimmed"
+            mt="sm"
           >
             {t("edit")}
             <IconEdit size={20} />
@@ -66,14 +67,14 @@ export default async function ProjectPage(props: ProgressPageProps) {
         </Group>
       )}
       {project.employees && (
-        <Container component="section" fluid mt="lg">
+        <Container component="section" fluid mt="xl">
           <Title order={2} mb="lg">
             {t("employees")}
           </Title>
           <EmployeeList employees={project.employees} />
         </Container>
       )}
-      <Container component="section" fluid mt="lg">
+      <Container component="section" fluid mt={40}>
         <Title order={2} mb="lg">
           {t("progress")}
         </Title>
