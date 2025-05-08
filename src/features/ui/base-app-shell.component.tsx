@@ -4,9 +4,10 @@ import { AppShell, Burger, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Navbar } from "./navbar/navbar.component";
 import { Logo } from "./logo.component";
+import { UserRole } from "../db/user/user.constant";
 
 export type BaseAppShellProps = {
-  role: "boss" | "employee" | "anon";
+  role: UserRole;
   children: React.ReactNode;
 };
 

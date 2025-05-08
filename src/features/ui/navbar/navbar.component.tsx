@@ -6,15 +6,16 @@ import { usePathname } from "next/navigation";
 import { useLogout } from "../../auth/logout/use-logout.hook";
 import { bossLinks, employeeLinks, anonLinks } from "./navbar-links.constant";
 import { NavbarLinksGroup } from "./navbar-links-group.component";
+import { UserRole } from "@/features/db/user/user.constant";
 
-function getLinks(role: "boss" | "employee" | "anon") {
+function getLinks(role: UserRole) {
   if (role === "boss") return bossLinks;
   if (role === "employee") return employeeLinks;
   return anonLinks;
 }
 
 export type NavbarProps = {
-  role: "boss" | "employee" | "anon";
+  role: UserRole;
   close: () => void;
 };
 

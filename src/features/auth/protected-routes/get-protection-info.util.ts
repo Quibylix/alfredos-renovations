@@ -1,30 +1,31 @@
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { getUserRole } from "./get-user-role.util";
 import { API_ROUTES } from "@/features/shared/api.constant";
+import { USER_ROLES, UserRole } from "@/features/db/user/user.constant";
 
-const pathnamesProtections = {
-  "/auth/login": ["anon"],
-  "/auth/logout": ["employee", "boss"],
-  "/auth/register-employee": ["boss"],
-  "/auth/change-password": ["employee", "boss"],
-  "/": ["employee", "boss"],
-  "/progress": ["employee", "boss"],
-  "/progress/send": ["employee"],
-  "/progress/extend": ["employee"],
-  "/progress/:id": ["employee", "boss"],
-  "/projects": ["employee", "boss"],
-  "/projects/create": ["boss"],
-  "/projects/edit/:id": ["boss"],
-  "/projects/:id": ["employee", "boss"],
-  [API_ROUTES.UPLOAD_IMAGE]: ["employee"],
-  [API_ROUTES.REGISTER_EMPLOYEE]: ["boss"],
-  [API_ROUTES.SEND_PROGRESS]: ["employee"],
-  [API_ROUTES.CHANGE_PASSWORD]: ["employee", "boss"],
-  [API_ROUTES.GET_RELATED_PROGRESS]: ["employee", "boss"],
-  [API_ROUTES.GET_RELATED_PROJECTS]: ["employee", "boss"],
-  [API_ROUTES.EXTEND_PROGRESS]: ["employee"],
-  [API_ROUTES.CREATE_PROJECT]: ["boss"],
-  [API_ROUTES.EDIT_PROJECT]: ["boss"],
+const pathnamesProtections: { [key: string]: UserRole[] } = {
+  "/auth/login": [USER_ROLES.ANON],
+  "/auth/logout": [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  "/auth/register-employee": [USER_ROLES.BOSS],
+  "/auth/change-password": [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  "/": [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  "/progress": [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  "/progress/send": [USER_ROLES.EMPLOYEE],
+  "/progress/extend": [USER_ROLES.EMPLOYEE],
+  "/progress/:id": [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  "/projects": [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  "/projects/create": [USER_ROLES.BOSS],
+  "/projects/edit/:id": [USER_ROLES.BOSS],
+  "/projects/:id": [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  [API_ROUTES.UPLOAD_IMAGE]: [USER_ROLES.EMPLOYEE],
+  [API_ROUTES.REGISTER_EMPLOYEE]: [USER_ROLES.BOSS],
+  [API_ROUTES.SEND_PROGRESS]: [USER_ROLES.EMPLOYEE],
+  [API_ROUTES.CHANGE_PASSWORD]: [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  [API_ROUTES.GET_RELATED_PROGRESS]: [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  [API_ROUTES.GET_RELATED_PROJECTS]: [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],
+  [API_ROUTES.EXTEND_PROGRESS]: [USER_ROLES.EMPLOYEE],
+  [API_ROUTES.CREATE_PROJECT]: [USER_ROLES.BOSS],
+  [API_ROUTES.EDIT_PROJECT]: [USER_ROLES.BOSS],
 };
 
 const redirectionURLs = {
@@ -69,10 +70,7 @@ export async function getProtectionInfo(
   return { allowed: false, url: getRedirectionURL(role, pathname) };
 }
 
-function getRedirectionURL(
-  role: "boss" | "employee" | "anon",
-  pathname: string,
-) {
+function getRedirectionURL(role: UserRole, pathname: string) {
   if (pathname in redirectionURLs[role]) {
     return redirectionURLs[role][
       pathname as keyof (typeof redirectionURLs)[typeof role]
