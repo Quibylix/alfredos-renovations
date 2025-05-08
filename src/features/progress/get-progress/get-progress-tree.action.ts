@@ -1,9 +1,9 @@
 "use server";
 
-import { getUserRole } from "../../auth/protected-routes/get-user-role.util";
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
 import { ProgressData } from "./get-related-progress.action";
+import { User } from "@/features/db/user/user.model";
 
 export async function getProgressTree(progressId: number): Promise<{
   errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
@@ -12,11 +12,8 @@ export async function getProgressTree(progressId: number): Promise<{
 }> {
   const db = await createClient();
 
-  const {
-    data: { user },
-  } = await db.auth.getUser();
-
-  const role = await getUserRole(user?.id ?? null, db);
+  const userId = await User.getCurrentUserId();
+  const role = await User.getRole(userId);
 
   if (role === "anon") {
     return {

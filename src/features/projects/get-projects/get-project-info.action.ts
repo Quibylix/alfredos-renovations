@@ -1,8 +1,8 @@
 "use server";
 
-import { getUserRole } from "../../auth/protected-routes/get-user-role.util";
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
+import { User } from "@/features/db/user/user.model";
 
 export type ProjectData = {
   id: number;
@@ -32,11 +32,8 @@ export async function getProjectInfo(projectId: number): Promise<{
 }> {
   const db = await createClient();
 
-  const {
-    data: { user },
-  } = await db.auth.getUser();
-
-  const role = await getUserRole(user?.id ?? null, db);
+  const userId = await User.getCurrentUserId();
+  const role = await User.getRole(userId);
 
   if (role === "anon") {
     return {
@@ -53,7 +50,7 @@ export async function getProjectInfo(projectId: number): Promise<{
       )
       .eq("id", projectId)
       .is("progress.parent_id", null)
-      .eq("progress.employee_id", user!.id)
+      .eq("progress.employee_id", userId!)
       .single();
 
     if (error) {
@@ -96,7 +93,7 @@ export async function getProjectInfo(projectId: number): Promise<{
     )
     .eq("id", projectId)
     .is("progress.parent_id", null)
-    .eq("boss_id", user!.id)
+    .eq("boss_id", userId!)
     .single();
 
   if (error) {

@@ -2,7 +2,7 @@
 
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
-import { getUserRole } from "@/features/auth/protected-routes/get-user-role.util";
+import { User } from "@/features/db/user/user.model";
 
 export async function editProject({
   id,
@@ -17,13 +17,8 @@ export async function editProject({
 }) {
   const db = await createClient();
 
-  const userResult = await db.auth.getUser();
-
-  if (!userResult.data.user) {
-    return ERROR_CODES.NOT_AUTHORIZED;
-  }
-
-  const role = await getUserRole(userResult.data.user.id, db);
+  const userId = await User.getCurrentUserId();
+  const role = await User.getRole(userId);
 
   if (role !== "boss") {
     return ERROR_CODES.NOT_AUTHORIZED;
@@ -35,7 +30,7 @@ export async function editProject({
       title,
     })
     .eq("id", id)
-    .eq("boss_id", userResult.data.user.id)
+    .eq("boss_id", userId!)
     .select("id")
     .single();
 

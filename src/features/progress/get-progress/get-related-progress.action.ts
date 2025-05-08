@@ -1,8 +1,8 @@
 "use server";
 
-import { getUserRole } from "../../auth/protected-routes/get-user-role.util";
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
+import { User } from "@/features/db/user/user.model";
 
 export type ProgressData = {
   id: number;
@@ -27,11 +27,8 @@ export async function getRelatedProgress(): Promise<{
 }> {
   const db = await createClient();
 
-  const {
-    data: { user },
-  } = await db.auth.getUser();
-
-  const role = await getUserRole(user?.id ?? null, db);
+  const userId = await User.getCurrentUserId();
+  const role = await User.getRole(userId);
 
   if (role === "anon") {
     return {
@@ -42,7 +39,7 @@ export async function getRelatedProgress(): Promise<{
 
   if (role === "employee") {
     const { data, error } = await db.rpc("get_employee_progress", {
-      e_id: user!.id,
+      e_id: userId!,
     });
 
     if (error || !data) {
@@ -85,7 +82,7 @@ export async function getRelatedProgress(): Promise<{
         employee (id, profile (full_name)),
         project (id, title, boss_id)`,
     )
-    .eq("project.boss_id", user!.id)
+    .eq("project.boss_id", userId!)
     .is("parent_id", null);
 
   if (error) {

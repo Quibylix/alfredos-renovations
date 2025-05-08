@@ -1,7 +1,6 @@
-import { createClient } from "@/features/db/supabase/create-server-client.util";
-import { getUserRole } from "./get-user-role.util";
 import { API_ROUTES } from "@/features/shared/api.constant";
 import { USER_ROLES, UserRole } from "@/features/db/user/user.constant";
+import { User } from "@/features/db/user/user.model";
 
 const pathnamesProtections: { [key: string]: UserRole[] } = {
   "/auth/login": [USER_ROLES.ANON],
@@ -44,9 +43,7 @@ export async function getProtectionInfo(
   userId: string | null,
   pathname: string,
 ) {
-  const db = await createClient();
-
-  const role = await getUserRole(userId, db);
+  const role = await User.getRole(userId);
 
   const pathMatch = (
     pathname in pathnamesProtections

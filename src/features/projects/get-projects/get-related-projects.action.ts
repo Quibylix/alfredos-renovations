@@ -1,17 +1,14 @@
 "use server";
 
-import { getUserRole } from "../../auth/protected-routes/get-user-role.util";
+import { User } from "@/features/db/user/user.model";
 import { createClient } from "../../db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
 
 export async function getRelatedProjects() {
   const db = await createClient();
 
-  const {
-    data: { user },
-  } = await db.auth.getUser();
-
-  const role = await getUserRole(user?.id ?? null, db);
+  const userId = await User.getCurrentUserId();
+  const role = await User.getRole(userId);
 
   if (role === "anon") {
     return {
@@ -24,7 +21,7 @@ export async function getRelatedProjects() {
     const { data, error } = await db
       .from("employee")
       .select(`projects: project (id, title)`)
-      .eq("id", user!.id)
+      .eq("id", userId!)
       .single();
 
     if (error) {
@@ -44,7 +41,7 @@ export async function getRelatedProjects() {
   const { data: projects, error } = await db
     .from("project")
     .select("id, title")
-    .eq("boss_id", user!.id);
+    .eq("boss_id", userId!);
 
   if (error) {
     console.error("Error fetching projects:", error);

@@ -2,22 +2,13 @@
 
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
-import { getUserRole } from "@/features/auth/protected-routes/get-user-role.util";
+import { User } from "@/features/db/user/user.model";
 
 export async function getEmployees() {
   const db = await createClient();
 
-  const {
-    data: { user },
-  } = await db.auth.getUser();
-  if (!user) {
-    return {
-      errorCode: ERROR_CODES.NOT_AUTHORIZED,
-      employees: [],
-    };
-  }
-
-  const userRole = await getUserRole(user?.id ?? null, db);
+  const userId = await User.getCurrentUserId();
+  const userRole = await User.getRole(userId);
 
   if (userRole !== "boss") {
     return {

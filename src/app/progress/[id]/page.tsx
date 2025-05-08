@@ -4,10 +4,9 @@ import { getProgressTree } from "@/features/progress/get-progress/get-progress-t
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { Progress } from "@/features/progress/get-progress/progress.component";
-import { createClient } from "@/features/db/supabase/create-server-client.util";
-import { getUserRole } from "@/features/auth/protected-routes/get-user-role.util";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { User } from "@/features/db/user/user.model";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -44,9 +43,7 @@ export default async function ProgressPage(props: ProgressPageProps) {
     notFound();
   }
 
-  const db = await createClient();
-  const user = await db.auth.getUser();
-  const userRole = await getUserRole(user.data.user?.id ?? null, db);
+  const userRole = await User.getRole();
 
   const t = await getTranslations("progress");
 

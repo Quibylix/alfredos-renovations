@@ -8,8 +8,8 @@ import { ProgressList } from "@/features/progress/get-progress/progress-list.com
 import { EmployeeList } from "@/features/employees/get-employees/employee-list.component";
 import Link from "next/link";
 import { IconEdit } from "@tabler/icons-react";
-import { createClient } from "@/features/db/supabase/create-server-client.util";
-import { getUserRole } from "@/features/auth/protected-routes/get-user-role.util";
+import { User } from "@/features/db/user/user.model";
+import { USER_ROLES } from "@/features/db/user/user.constant";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -40,10 +40,7 @@ export default async function ProjectPage(props: ProgressPageProps) {
     notFound();
   }
 
-  const db = await createClient();
-  const userData = await db.auth.getUser();
-
-  const userRole = await getUserRole(userData.data.user?.id ?? null, db);
+  const userRole = await User.getRole();
 
   const t = await getTranslations("project");
 
@@ -52,7 +49,7 @@ export default async function ProjectPage(props: ProgressPageProps) {
       <Title order={1} ta="center">
         {project.title}
       </Title>
-      {userRole === "boss" && (
+      {userRole === USER_ROLES.BOSS && (
         <Group justify="center">
           <Button
             variant="outline"
