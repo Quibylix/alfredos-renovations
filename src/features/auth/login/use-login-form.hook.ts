@@ -5,8 +5,8 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { APIResponse as LoginAPIResponse } from "@/app/api/v1/auth/login/route";
-import { ERROR_CODES as LOGIN_API_ERROR_CODES } from "@/features/auth/login/error_codes.constant";
 import { useRouter } from "@bprogress/next/app";
+import { USER_STATUS_MESSAGES } from "@/features/db/user/user.constant";
 
 export function useLoginForm() {
   const t = useTranslations("login");
@@ -59,7 +59,7 @@ export function useLoginForm() {
         return handleSuccessResponse();
       }
 
-      if (res.errorCode === LOGIN_API_ERROR_CODES.INVALID_CREDENTIALS) {
+      if (res.errorCode === USER_STATUS_MESSAGES.INVALID_CREDENTIALS) {
         return handleInvalidCredentials();
       }
 
