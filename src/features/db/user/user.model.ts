@@ -1,28 +1,17 @@
 import { AuthError, SupabaseClient } from "@supabase/supabase-js";
-import { createClient } from "./supabase/create-server-client.util";
-import { Database } from "./supabase/types";
-
-export type UserStatusMessage =
-  (typeof User.STATUS_MESSAGES)[keyof typeof User.STATUS_MESSAGES];
-export type UserRole = (typeof User.ROLES)[keyof typeof User.ROLES];
+import { createClient } from "../supabase/create-server-client.util";
+import { Database } from "../supabase/types";
+import {
+  UserRole,
+  USER_ROLES,
+  USER_STATUS_MESSAGES,
+  UserStatusMessage,
+} from "./user.constant";
 
 export class User {
   private static client?: SupabaseClient<Database>;
 
   private static EMAIL_HOST = "@alfredosrenovations.com";
-
-  public static STATUS_MESSAGES = {
-    OK: "ok",
-    USERNAME_TAKEN: "username already taken",
-    INVALID_CREDENTIALS: "invalid credentials",
-    UNKNOWN_ERROR: "unknown error",
-  } as const;
-
-  public static ROLES = {
-    BOSS: "boss",
-    EMPLOYEE: "employee",
-    ANON: "anon",
-  } as const;
 
   static async getCurrentUserId() {
     const client = await this.getClient();
@@ -35,15 +24,15 @@ export class User {
   static async getRole(id?: string | null): Promise<UserRole> {
     if (id === undefined) id = await this.getCurrentUserId();
 
-    if (!id) return User.ROLES.ANON;
+    if (!id) return USER_ROLES.ANON;
 
     const isBoss = await this.isBoss({ id });
-    if (isBoss) return User.ROLES.BOSS;
+    if (isBoss) return USER_ROLES.BOSS;
 
     const isEmployee = await this.isEmployee({ id });
-    if (isEmployee) return User.ROLES.EMPLOYEE;
+    if (isEmployee) return USER_ROLES.EMPLOYEE;
 
-    return User.ROLES.ANON;
+    return USER_ROLES.ANON;
   }
 
   static async login(username: string, password: string) {
@@ -54,7 +43,7 @@ export class User {
       password,
     });
 
-    if (!error) return this.STATUS_MESSAGES.OK;
+    if (!error) return USER_STATUS_MESSAGES.OK;
 
     return this.handleLoginErrors(error);
   }
@@ -93,13 +82,13 @@ export class User {
 
   private static handleLoginErrors(error: AuthError): UserStatusMessage {
     if (error.code === "invalid_credentials") {
-      return this.STATUS_MESSAGES.INVALID_CREDENTIALS;
+      return USER_STATUS_MESSAGES.INVALID_CREDENTIALS;
     }
 
     if (error.code === "username_taken") {
-      return this.STATUS_MESSAGES.USERNAME_TAKEN;
+      return USER_STATUS_MESSAGES.USERNAME_TAKEN;
     }
 
-    return this.STATUS_MESSAGES.UNKNOWN_ERROR;
+    return USER_STATUS_MESSAGES.UNKNOWN_ERROR;
   }
 }
