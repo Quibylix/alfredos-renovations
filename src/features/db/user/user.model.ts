@@ -1,6 +1,5 @@
-import { AuthError, SupabaseClient } from "@supabase/supabase-js";
+import { AuthError } from "@supabase/supabase-js";
 import { createClient } from "../supabase/create-server-client.util";
-import { Database } from "../supabase/types";
 import {
   UserRole,
   USER_ROLES,
@@ -9,12 +8,10 @@ import {
 } from "./user.constant";
 
 export class User {
-  private static client?: SupabaseClient<Database>;
-
   private static EMAIL_HOST = "@alfredosrenovations.com";
 
   static async getCurrentUserId() {
-    const client = await this.getClient();
+    const client = await createClient();
     const { data } = await client.auth.getUser();
 
     if (!data.user) return null;
@@ -36,28 +33,22 @@ export class User {
   }
 
   static async login(username: string, password: string) {
-    const client = await this.getClient();
+    const client = await createClient();
 
-    const { error } = await client.auth.signInWithPassword({
+    const { data, error } = await client.auth.signInWithPassword({
       email: username + this.EMAIL_HOST,
       password,
     });
+
+    console.log({ data, error });
 
     if (!error) return USER_STATUS_MESSAGES.OK;
 
     return this.handleLoginErrors(error);
   }
 
-  private static async getClient() {
-    if (!this.client) {
-      this.client = await createClient();
-    }
-
-    return this.client;
-  }
-
   private static async isBoss({ id }: { id: string }) {
-    const client = await this.getClient();
+    const client = await createClient();
 
     const { data } = await client
       .from("boss")
@@ -69,7 +60,7 @@ export class User {
   }
 
   private static async isEmployee({ id }: { id: string }) {
-    const client = await this.getClient();
+    const client = await createClient();
 
     const { data } = await client
       .from("employee")
