@@ -96,7 +96,7 @@ create schema private;
 create or replace function private.get_user_role()
 returns text
 language plpgsql
-security definer set search_path='public'
+security definer set search_path=''
 as $$
 declare
   user_role text;
@@ -116,7 +116,7 @@ $$;
 create or replace function private.is_employee_boss(e_id uuid)
 returns boolean
 language plpgsql
-security definer set search_path='public'
+security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid() AS uid) IN ( SELECT project.boss_id
@@ -130,7 +130,7 @@ $$;
 create or replace function private.is_progress_boss(p_id bigint)
 returns boolean
 language plpgsql
-security definer set search_path='public'
+security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid() AS uid) IN ( SELECT project.boss_id
@@ -142,7 +142,7 @@ $$;
 create or replace function private.is_boss(p_id uuid)
 returns boolean
 language plpgsql
-security definer set search_path='public'
+security definer set search_path=''
 as $$
 begin
   return (( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (p_id IN ( SELECT id from employee));
@@ -152,7 +152,7 @@ $$;
 create or replace function private.is_progress_creator(e_id uuid, p_id bigint)
 returns boolean
 language plpgsql
-security definer set search_path='public'
+security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'employee'::text) AND ((( SELECT auth.uid() AS uid) = e_id) AND (p_id IN ( SELECT project_employee.project_id
@@ -164,7 +164,7 @@ $$;
 create or replace function private.is_employee_of_project(p_id bigint)
 returns boolean
 language plpgsql
-security definer set search_path='public'
+security definer set search_path=''
 as $$
 begin
   return (((SELECT private.get_user_role() AS get_user_role) = 'employee'::text) AND ((SELECT auth.uid() AS uid) IN (SELECT project_employee.employee_id
@@ -176,7 +176,7 @@ $$;
 create or replace function private.is_project_employee_boss(p_id bigint)
 returns boolean
 language plpgsql
-security definer set search_path='public'
+security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid()) IN (SELECT project.boss_id
@@ -188,7 +188,7 @@ $$;
 create or replace function private.is_project_employee_boss(p_id bigint)
 returns boolean
 language plpgsql
-security definer set search_path='public'
+security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid()) IN (SELECT project.boss_id
@@ -353,7 +353,7 @@ returns table (
   project_title text
 )
 language plpgsql
-security invoker set search_path='public'
+security invoker set search_path=''
 as $$
 begin
   return query (SELECT pg.id, pg.title, pg.description, pg.image_url, pg.sent_date, pg.parent_id,
