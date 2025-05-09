@@ -120,9 +120,9 @@ security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid() AS uid) IN ( SELECT project.boss_id
-   FROM project
+   FROM public.project
   WHERE (project.id IN ( SELECT project_employee.project_id
-           FROM project_employee
+           FROM public.project_employee
           WHERE (project_employee.employee_id = e_id))))));
 end;
 $$;
@@ -134,7 +134,7 @@ security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid() AS uid) IN ( SELECT project.boss_id
-   FROM project
+   FROM public.project
   WHERE (project.id = p_id))));
 end;
 $$;
@@ -145,7 +145,7 @@ language plpgsql
 security definer set search_path=''
 as $$
 begin
-  return (( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (p_id IN ( SELECT id from employee));
+  return (( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (p_id IN ( SELECT id from public.employee));
 end;
 $$;
 
@@ -156,8 +156,8 @@ security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'employee'::text) AND ((( SELECT auth.uid() AS uid) = e_id) AND (p_id IN ( SELECT project_employee.project_id
-   FROM project_employee
-  WHERE (project_employee.employee_id = e_id)))) AND (exists(select 1 from project_employee where project_employee.employee_id = e_id and project_employee.project_id = p_id)));
+   FROM public.project_employee
+  WHERE (project_employee.employee_id = e_id)))) AND (exists(select 1 from public.project_employee where project_employee.employee_id = e_id and project_employee.project_id = p_id)));
 end;
 $$;
 
@@ -168,7 +168,7 @@ security definer set search_path=''
 as $$
 begin
   return (((SELECT private.get_user_role() AS get_user_role) = 'employee'::text) AND ((SELECT auth.uid() AS uid) IN (SELECT project_employee.employee_id
-   FROM project_employee
+   FROM public.project_employee
   WHERE (project_employee.project_id = p_id))));
 end;
 $$;
@@ -180,7 +180,7 @@ security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid()) IN (SELECT project.boss_id
-   FROM project
+   FROM public.project
   WHERE project.id = p_id)));
 end;
 $$;
@@ -192,7 +192,7 @@ security definer set search_path=''
 as $$
 begin
   return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid()) IN (SELECT project.boss_id
-   FROM project
+   FROM public.project
   WHERE project.id = p_id)));
 end;
 $$;
@@ -358,10 +358,10 @@ as $$
 begin
   return query (SELECT pg.id, pg.title, pg.description, pg.image_url, pg.sent_date, pg.parent_id,
   pg.employee_id, pf.full_name as employee_full_name, pg.project_id, pj.title as project_title
- from progress pg
-  inner join project pj on pg.project_id = pj.id
-  inner join employee e on pg.employee_id = e.id
-  inner join profile pf on (pf.id = e.id and exists(select 1 from project_employee where project_employee.employee_id = e.id and project_employee.project_id = pj.id))
+ from public.progress pg
+  inner join public.project pj on pg.project_id = pj.id
+  inner join public.employee e on pg.employee_id = e.id
+  inner join public.profile pf on (pf.id = e.id and exists(select 1 from public.project_employee where project_employee.employee_id = e.id and project_employee.project_id = pj.id))
    where pg.employee_id = e_id and pg.parent_id is null);
 end;
 $$;
