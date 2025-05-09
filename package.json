@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "pnpm supabase:start:dev && next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "supabase:gen:types": "pnpm dlx supabase gen types typescript --project-id 'lbmvykzndajewcaoosxn' --schema public > ./src/features/db/supabase/types.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "pnpm supabase:start:test && playwright test",
+    "supabase:start:test": "sudo ./node_modules/supabase/bin/supabase start --workdir ./tests",
+    "supabase:stop:test": "sudo ./node_modules/supabase/bin/supabase stop --workdir ./tests"
   },
   "dependencies": {
     "@bprogress/next": "^3.2.12",
