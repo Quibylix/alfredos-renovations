@@ -12,8 +12,10 @@ import {
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useLoginForm } from "./use-login-form.hook";
+import { useClientSide } from "@/features/shared/use-client-side.hook";
 
 export function LoginForm() {
+  const formLoaded = useClientSide();
   const { form, submitHandler, error, loading } = useLoginForm();
 
   const t = useTranslations("login.form");
@@ -33,6 +35,7 @@ export function LoginForm() {
         </Text>
       )}
       <TextInput
+        disabled={!formLoaded}
         label={t("username.label")}
         placeholder={t("username.placeholder")}
         required
@@ -40,6 +43,7 @@ export function LoginForm() {
         {...form.getInputProps("username")}
       />
       <PasswordInput
+        disabled={!formLoaded}
         label={t("password.label")}
         placeholder={t("password.placeholder")}
         required
@@ -52,7 +56,7 @@ export function LoginForm() {
           {t("forgotPassword")}
         </Anchor>
       </Group>
-      <Button type="submit" fullWidth mt="xl" loading={loading}>
+      <Button disabled={!formLoaded} type="submit" fullWidth mt="xl" loading={loading}>
         {t("submit")}
       </Button>
     </Paper>
