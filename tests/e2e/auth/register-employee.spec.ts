@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import es from "@/features/i18n/messages/es.json";
 import path from "path";
+import { users } from "../users.constant";
 
 test.describe("Register employee", () => {
   test.beforeEach(async ({ page }) => {
@@ -19,7 +20,10 @@ test.describe("Register employee", () => {
 
   test.describe("As an employee", () => {
     test.use({
-      storageState: path.resolve(__dirname, "../.auth/employee1.json"),
+      storageState: path.resolve(
+        __dirname,
+        `../.auth/${users.employee1.username}.json`,
+      ),
     });
 
     test("should redirect to home page if user is an employee", async ({
@@ -34,7 +38,12 @@ test.describe("Register employee", () => {
   });
 
   test.describe("As a boss", () => {
-    test.use({ storageState: path.resolve(__dirname, "../.auth/boss.json") });
+    test.use({
+      storageState: path.resolve(
+        __dirname,
+        `../.auth/${users.boss.username}.json`,
+      ),
+    });
 
     test("should display the registration form", async ({ page }) => {
       const fullNameLabel = es.registerEmployee.form.fullName.label;
