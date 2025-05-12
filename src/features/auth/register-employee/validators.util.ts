@@ -13,6 +13,10 @@ export function getValidators(
         return t("form.username.maxLength");
       }
 
+      if (!/^[a-zA-Z0-9._-]+$/.test(value)) {
+        return t("form.username.noSpecialChars");
+      }
+
       return null;
     },
     fullName: (value: string) => {
