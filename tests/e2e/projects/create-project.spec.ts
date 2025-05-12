@@ -1,6 +1,12 @@
-import { expect, Page, test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import {
+  getTextboxByName,
+  getListboxByName,
+  getButtonByName,
+  getTextByContent,
+} from "../shared/get-elements.util";
 import es from "@/features/i18n/messages/es.json";
-import path from "path";
+import { getAuthStatePath } from "../auth/get-auth-state-path.util";
 import { users } from "../users.constant";
 
 const LOGIN_URL = "/auth/login";
@@ -15,30 +21,6 @@ const {
   success: SUCCESS_MSG,
 } = es.createProject;
 
-const getTextboxByName = (page: Page, name: string) =>
-  page.getByRole("textbox", {
-    name,
-    exact: true,
-  });
-
-const getListboxByName = (page: Page, name: string) =>
-  page.getByRole("listbox", {
-    name,
-    exact: true,
-  });
-
-const getButtonByName = (page: Page, name: string) =>
-  page.getByRole("button", {
-    name,
-    exact: true,
-  });
-
-const getTextByContent = (page: Page, content: string) =>
-  page.getByText(content, { exact: true }).first();
-
-const getAuthResolvePath = (username: string) =>
-  path.resolve(__dirname, `../.auth/${username}.json`);
-
 test.describe("Create project", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/projects/create");
@@ -52,7 +34,7 @@ test.describe("Create project", () => {
 
   test.describe("When logged in as employee", () => {
     test.use({
-      storageState: getAuthResolvePath(users.employee1.username),
+      storageState: getAuthStatePath(users.employee1.username),
     });
 
     test("should redirect to home page", async ({ page }) => {
@@ -62,7 +44,7 @@ test.describe("Create project", () => {
 
   test.describe("When logged in as boss", () => {
     test.use({
-      storageState: getAuthResolvePath(users.bossWhoCreatesProjects.username),
+      storageState: getAuthStatePath(users.bossWhoCreatesProjects.username),
     });
 
     test("should display the form", async ({ page }) => {
