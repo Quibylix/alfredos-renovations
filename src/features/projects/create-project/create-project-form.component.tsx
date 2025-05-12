@@ -3,12 +3,14 @@
 import { Button, MultiSelect, Paper, Text, TextInput } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useCreateProjectForm } from "./use-create-project-form.hook";
+import { useClientSide } from "@/features/shared/use-client-side.hook";
 
 export type SendProgressFormProps = {
   employees: { id: string; fullName: string }[];
 };
 
 export function CreateProjectForm({ employees }: SendProgressFormProps) {
+  const formLoaded = useClientSide();
   const { form, submitHandler, error, loading } = useCreateProjectForm();
 
   const t = useTranslations("createProject.form");
@@ -28,6 +30,7 @@ export function CreateProjectForm({ employees }: SendProgressFormProps) {
         </Text>
       )}
       <TextInput
+        disabled={!formLoaded}
         label={t("title.label")}
         placeholder={t("title.placeholder")}
         required
@@ -35,6 +38,7 @@ export function CreateProjectForm({ employees }: SendProgressFormProps) {
         {...form.getInputProps("title")}
       />
       <MultiSelect
+        disabled={!formLoaded}
         mt="md"
         label={t("employees.label")}
         placeholder={t("employees.placeholder")}
@@ -48,7 +52,13 @@ export function CreateProjectForm({ employees }: SendProgressFormProps) {
         key={form.key("employees")}
         {...form.getInputProps("employees")}
       />
-      <Button type="submit" fullWidth mt="xl" loading={loading}>
+      <Button
+        disabled={!formLoaded}
+        type="submit"
+        fullWidth
+        mt="xl"
+        loading={loading}
+      >
         {t("submit")}
       </Button>
     </Paper>
