@@ -72,9 +72,9 @@ setup("create new database", async ({}) => {
 
 async function getLoginState(
   page: Page,
-  authFile: string,
   user: { username: string; password: string },
 ) {
+  const authFile = path.resolve(__dirname, ".auth", `${user.username}.json`);
   const loginUrl = "/auth/login";
 
   await page.goto(loginUrl);
@@ -93,14 +93,11 @@ async function getLoginState(
   });
 
   await page.context().storageState({ path: authFile });
+  await page.context().clearCookies();
 }
 
-setup("authenticate as boss", async ({ page }) => {
-  const authFile = path.join(__dirname, ".auth/boss.json");
-  await getLoginState(page, authFile, users.boss);
-});
-
-setup("authenticate as employee1", async ({ page }) => {
-  const authFile = path.join(__dirname, ".auth/employee1.json");
-  await getLoginState(page, authFile, users.employee1);
+setup("get employees states", async ({ page }) => {
+  for (const user of Object.values(users)) {
+    await getLoginState(page, user);
+  }
 });
