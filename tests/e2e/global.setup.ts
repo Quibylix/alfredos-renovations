@@ -1,6 +1,8 @@
 import { Database } from "@/features/db/supabase/types";
-import { test as setup } from "@playwright/test";
+import { expect, Page, test as setup } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
+import es from "@/features/i18n/messages/es.json";
+import path from "path";
 
 export const users = {
   boss: {
@@ -86,4 +88,39 @@ async function configureDatabase() {
 setup("create new database", async ({}) => {
   await resetDatabase();
   await configureDatabase();
+});
+
+async function getLoginState(
+  page: Page,
+  authFile: string,
+  user: { username: string; password: string },
+) {
+  const loginUrl = "/auth/login";
+
+  await page.goto(loginUrl);
+
+  const usernameLabel = es.login.form.username.label;
+  const passwordLabel = es.login.form.password.label;
+  const buttonText = es.login.form.submit;
+
+  await page.getByRole("textbox", { name: usernameLabel }).fill(user.username);
+  await page.getByRole("textbox", { name: passwordLabel }).fill(user.password);
+
+  await page.getByRole("button", { name: buttonText }).click();
+
+  await expect(page).toHaveURL((url) => {
+    return url.pathname === "/";
+  });
+
+  await page.context().storageState({ path: authFile });
+}
+
+setup("authenticate as boss", async ({ page }) => {
+  const authFile = path.join(__dirname, ".auth/boss.json");
+  await getLoginState(page, authFile, users.boss);
+});
+
+setup("authenticate as employee1", async ({ page }) => {
+  const authFile = path.join(__dirname, ".auth/employee1.json");
+  await getLoginState(page, authFile, users.employee1);
 });
