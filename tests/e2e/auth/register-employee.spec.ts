@@ -227,6 +227,47 @@ test.describe("Register employee", () => {
       ).toBeVisible();
     });
 
+    test("should display an error if the username has invalid characters", async ({
+      page,
+    }) => {
+      const usernameLabel = es.registerEmployee.form.username.label;
+      const fullNameLabel = es.registerEmployee.form.fullName.label;
+      const passwordLabel = es.registerEmployee.form.password.label;
+      const confirmPasswordLabel =
+        es.registerEmployee.form.confirmPassword.label;
+
+      const buttonLabel = es.registerEmployee.form.submit;
+
+      const errorMessage = es.registerEmployee.form.username.noSpecialChars;
+
+      const usernameInput = page.getByRole("textbox", {
+        name: usernameLabel,
+        exact: true,
+      });
+      const fullNameInput = page.getByRole("textbox", {
+        name: fullNameLabel,
+      });
+      const passwordInput = page.getByRole("textbox", {
+        name: passwordLabel,
+        exact: true,
+      });
+      const confirmPasswordInput = page.getByRole("textbox", {
+        name: confirmPasswordLabel,
+        exact: true,
+      });
+
+      await usernameInput.fill("user name");
+      await fullNameInput.fill("Full Name");
+      await passwordInput.fill("Password");
+      await confirmPasswordInput.fill("Password");
+
+      await page.getByRole("button", { name: buttonLabel }).click();
+
+      await expect(
+        page.getByText(errorMessage, { exact: true }).first(),
+      ).toBeVisible();
+    });
+
     test("should display an error if the trimmed full name is too short", async ({
       page,
     }) => {
@@ -479,7 +520,7 @@ test.describe("Register employee", () => {
       ).toBeVisible();
     });
 
-    test.only("should register a new employee", async ({ page }, {
+    test("should register a new employee", async ({ page }, {
       workerIndex,
     }) => {
       const username = "new-employee-" + workerIndex;
