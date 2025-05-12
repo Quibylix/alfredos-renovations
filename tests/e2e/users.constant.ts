@@ -17,4 +17,16 @@ export const users = {
     fullName: "Employee 2",
     role: "employee",
   },
+  bossWhoCreatesProjects: {
+    username: "bossWhoCreatesProjects",
+    password: "Password1234",
+    fullName: "Boss Who Creates Projects",
+    role: "boss",
+  },
+  employeeWhoGetsAssignedToProjects: {
+    username: "employeeAssignedToProjects",
+    password: "Password1234",
+    fullName: "Assigned Employee",
+    role: "employee",
+  },
 };
