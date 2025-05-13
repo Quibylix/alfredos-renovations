@@ -1,7 +1,7 @@
 "use client";
 
 import { APIResponse as LogoutAPIResponse } from "@/app/api/v1/auth/logout/route";
-import { API_ROUTES } from "@/features/shared/api.constant";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 import { notifications } from "@mantine/notifications";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@bprogress/next/app";
@@ -11,7 +11,7 @@ export function useLogout() {
   const t = useTranslations("logout");
 
   function logout() {
-    fetch(API_ROUTES.LOGOUT)
+    fetch(AppRoutes.getRoute("API_LOGOUT"))
       .then((res) => res.json())
       .then(handleRes)
       .catch((err) => {

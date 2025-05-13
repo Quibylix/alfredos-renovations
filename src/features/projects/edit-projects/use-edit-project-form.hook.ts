@@ -1,4 +1,3 @@
-import { API_ROUTES } from "@/features/shared/api.constant";
 import { useForm } from "@mantine/form";
 import { getValidators } from "./validators.util";
 import { useState } from "react";
@@ -7,6 +6,7 @@ import { notifications } from "@mantine/notifications";
 import { APIResponse as EditProjectAPIResponse } from "@/app/api/v1/progress/route";
 import { ERROR_CODES as EDIT_PROJECT_API_ERROR_CODES } from "./error_codes.constant";
 import { useRouter } from "@bprogress/next/app";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export function useEditProjectForm({
   id,
@@ -57,7 +57,7 @@ export function useEditProjectForm({
       }),
     };
 
-    fetch(API_ROUTES.EDIT_PROJECT, options)
+    fetch(AppRoutes.getRoute("API_EDIT_PROJECT"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

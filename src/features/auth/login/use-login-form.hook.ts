@@ -1,4 +1,4 @@
-import { API_ROUTES } from "@/features/shared/api.constant";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 import { useForm } from "@mantine/form";
 import { getValidators } from "./validators.util";
 import { useState } from "react";
@@ -37,7 +37,7 @@ export function useLoginForm() {
       body: JSON.stringify(values),
     };
 
-    fetch(API_ROUTES.LOGIN, options)
+    fetch(AppRoutes.getRoute("API_LOGIN"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

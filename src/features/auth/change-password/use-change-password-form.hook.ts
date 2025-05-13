@@ -1,4 +1,4 @@
-import { API_ROUTES } from "@/features/shared/api.constant";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 import { useForm } from "@mantine/form";
 import { getValidators } from "./validators.util";
 import { useState } from "react";
@@ -40,7 +40,7 @@ export function useChangePasswordForm() {
       body: JSON.stringify({ password: values.password }),
     };
 
-    fetch(API_ROUTES.CHANGE_PASSWORD, options)
+    fetch(AppRoutes.getRoute("API_CHANGE_PASSWORD"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

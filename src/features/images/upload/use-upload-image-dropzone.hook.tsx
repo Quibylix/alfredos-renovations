@@ -1,9 +1,9 @@
-import { API_ROUTES } from "@/features/shared/api.constant";
 import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { APIResponse as UploadImageAPIResponse } from "@/app/api/v1/images/upload/route";
 import { ERROR_CODES as UPLOAD_IMAGE_API_ERROR_CODES } from "./error_codes.constant";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export function useUploadImageDropzone(setImageURL: (url: string) => void) {
   const t = useTranslations("uploadImage");
@@ -34,7 +34,7 @@ export function useUploadImageDropzone(setImageURL: (url: string) => void) {
       }),
     };
 
-    fetch(API_ROUTES.UPLOAD_IMAGE, options)
+    fetch(AppRoutes.getRoute("UPLOAD_IMAGE"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

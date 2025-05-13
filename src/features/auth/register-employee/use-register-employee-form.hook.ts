@@ -1,4 +1,3 @@
-import { API_ROUTES } from "@/features/shared/api.constant";
 import { useForm } from "@mantine/form";
 import { getValidators } from "./validators.util";
 import { useState } from "react";
@@ -6,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { APIResponse as RegisterEmployeeAPIResponse } from "@/app/api/v1/auth/register-employee/route";
 import { ERROR_CODES as REGISTER_EMPLOYEE_API_ERROR_CODES } from "./error_codes.constant";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export function useRegisterEmployeeForm() {
   const t = useTranslations("registerEmployee");
@@ -40,7 +40,7 @@ export function useRegisterEmployeeForm() {
       body: JSON.stringify(values),
     };
 
-    fetch(API_ROUTES.REGISTER_EMPLOYEE, options)
+    fetch(AppRoutes.getRoute("API_REGISTER_EMPLOYEE"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
