@@ -1,0 +1,28 @@
+const API_URL_BASE = "/api/v1" as const;
+
+const APP_ROUTES = {
+  HOME: "/",
+  LOGIN: "/auth/login",
+  CHANGE_PASSWORD: "/auth/change-password",
+  REGISTER_EMPLOYEE: "/auth/register-employee",
+  UPLOAD_IMAGE: "/images/upload",
+  PROGRESS_LIST: "/progress",
+  PROGRESS: "/progress/:id",
+  SEND_PROGRESS: "/progress/create/:id",
+  EXTEND_PROGRESS: "/progress/extend",
+  PROJECT_LIST: "/projects",
+  PROJECT: "/projects/:id",
+  CREATE_PROJECT: "/projects/create",
+  EDIT_PROJECT: "/projects/edit/:id",
+  API_LOGIN: `${API_URL_BASE}/auth/login`,
+  API_LOGOUT: `${API_URL_BASE}/auth/logout`,
+  API_CHANGE_PASSWORD: `${API_URL_BASE}/auth/change-password`,
+  API_REGISTER_EMPLOYEE: `${API_URL_BASE}/auth/register-employee`,
+  API_UPLOAD_IMAGE: `${API_URL_BASE}/images/upload`,
+  API_SEND_PROGRESS: `${API_URL_BASE}/progress`,
+  API_GET_RELATED_PROGRESS: `${API_URL_BASE}/progress/related`,
+  API_GET_RELATED_PROJECTS: `${API_URL_BASE}/projects/related`,
+  API_EXTEND_PROGRESS: `${API_URL_BASE}/progress/extend`,
+  API_CREATE_PROJECT: `${API_URL_BASE}/projects`,
+  API_EDIT_PROJECT: `${API_URL_BASE}/projects/edit`,
+} as const;
