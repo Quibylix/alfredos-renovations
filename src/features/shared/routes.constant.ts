@@ -8,7 +8,7 @@ export const APP_ROUTES = {
   UPLOAD_IMAGE: "/images/upload",
   PROGRESS_LIST: "/progress",
   PROGRESS: "/progress/:id",
-  SEND_PROGRESS: "/progress/create/:id",
+  SEND_PROGRESS: "/progress/send",
   EXTEND_PROGRESS: "/progress/extend",
   PROJECT_LIST: "/projects",
   PROJECT: "/projects/:id",
