@@ -1,6 +1,6 @@
 const API_URL_BASE = "/api/v1" as const;
 
-const APP_ROUTES = {
+export const APP_ROUTES = {
   HOME: "/",
   LOGIN: "/auth/login",
   CHANGE_PASSWORD: "/auth/change-password",
