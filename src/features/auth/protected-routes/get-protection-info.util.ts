@@ -1,5 +1,6 @@
 import { USER_ROLES, UserRole } from "@/features/db/user/user.constant";
 import { User } from "@/features/db/user/user.model";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 import { APP_ROUTES } from "@/features/shared/routes.constant";
 
 const pathnamesProtections: { [key: string]: UserRole[] } = {
@@ -29,13 +30,13 @@ const pathnamesProtections: { [key: string]: UserRole[] } = {
 
 const redirectionURLs = {
   boss: {
-    default: "/",
+    default: AppRoutes.getRoute("HOME"),
   },
   employee: {
-    default: "/",
+    default: AppRoutes.getRoute("HOME"),
   },
   anon: {
-    default: "/auth/login",
+    default: AppRoutes.getRoute("LOGIN"),
   },
 };
 

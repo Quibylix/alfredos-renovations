@@ -92,7 +92,7 @@ export function useEditProjectForm({
         message: t("api.message.success"),
       });
       form.reset();
-      router.push("/projects/" + id);
+      router.push(AppRoutes.getRoute("PROJECT", { id: id.toString() }));
       router.refresh();
     }
 

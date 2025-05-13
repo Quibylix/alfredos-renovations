@@ -2,19 +2,18 @@ import { expect, test } from "@playwright/test";
 import es from "@/features/i18n/messages/es.json";
 import path from "path";
 import { users } from "../users.constant";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 test.describe("Register employee", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/auth/register-employee");
+    await page.goto(AppRoutes.getRoute("REGISTER_EMPLOYEE"));
   });
 
   test("should redirect to login page if user is not authenticated", async ({
     page,
   }) => {
-    const loginUrl = "/auth/login";
-
     await expect(page).toHaveURL((url) => {
-      return url.pathname === loginUrl;
+      return url.pathname === AppRoutes.getRoute("LOGIN");
     });
   });
 
@@ -29,10 +28,8 @@ test.describe("Register employee", () => {
     test("should redirect to home page if user is an employee", async ({
       page,
     }) => {
-      const homeUrl = "/";
-
       await expect(page).toHaveURL((url) => {
-        return url.pathname === homeUrl;
+        return url.pathname === AppRoutes.getRoute("HOME");
       });
     });
   });

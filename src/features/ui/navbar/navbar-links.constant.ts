@@ -1,3 +1,4 @@
+import { AppRoutes } from "@/features/shared/app-routes.util";
 import {
   Icon,
   IconHome,
@@ -33,11 +34,13 @@ export type NavbarLinkWithIcon = NavbarLink & {
 
 export const bossLinks: NavbarLinks = {
   main: [
-    { link: "/", label: "dashboard", icon: IconHome },
+    { link: AppRoutes.getRoute("HOME"), label: "dashboard", icon: IconHome },
     {
       label: "progress",
       icon: IconProgress,
-      links: [{ link: "/progress", label: "progressList" }],
+      links: [
+        { link: AppRoutes.getRoute("PROGRESS_LIST"), label: "progressList" },
+      ],
     },
     {
       label: "projects",
@@ -45,23 +48,23 @@ export const bossLinks: NavbarLinks = {
       links: [
         {
           label: "projectsList",
-          link: "/projects",
+          link: AppRoutes.getRoute("PROJECT_LIST"),
         },
         {
           label: "createProject",
-          link: "/projects/create",
+          link: AppRoutes.getRoute("CREATE_PROJECT"),
         },
       ],
     },
   ],
   footer: [
     {
-      link: "/auth/register-employee",
+      link: AppRoutes.getRoute("REGISTER_EMPLOYEE"),
       label: "registerEmployee",
       icon: IconUserPlus,
     },
     {
-      link: "/auth/change-password",
+      link: AppRoutes.getRoute("CHANGE_PASSWORD"),
       label: "changePassword",
       icon: IconPasswordUser,
     },
@@ -70,14 +73,14 @@ export const bossLinks: NavbarLinks = {
 
 export const employeeLinks: NavbarLinks = {
   main: [
-    { link: "/", label: "dashboard", icon: IconHome },
+    { link: AppRoutes.getRoute("HOME"), label: "dashboard", icon: IconHome },
     {
       label: "progress",
       icon: IconProgress,
       links: [
-        { link: "/progress", label: "progressList" },
+        { link: AppRoutes.getRoute("PROGRESS_LIST"), label: "progressList" },
         {
-          link: "/progress/send",
+          link: AppRoutes.getRoute("SEND_PROGRESS"),
           label: "sendProgress",
         },
       ],
@@ -88,14 +91,14 @@ export const employeeLinks: NavbarLinks = {
       links: [
         {
           label: "projectsList",
-          link: "/projects",
+          link: AppRoutes.getRoute("PROJECT_LIST"),
         },
       ],
     },
   ],
   footer: [
     {
-      link: "/auth/change-password",
+      link: AppRoutes.getRoute("REGISTER_EMPLOYEE"),
       label: "changePassword",
       icon: IconPasswordUser,
     },
@@ -103,6 +106,8 @@ export const employeeLinks: NavbarLinks = {
 };
 
 export const anonLinks: NavbarLinks = {
-  main: [{ link: "/", label: "home", icon: IconHome }],
-  footer: [{ link: "/auth/login", label: "login", icon: IconKey }],
+  main: [{ link: AppRoutes.getRoute("HOME"), label: "home", icon: IconHome }],
+  footer: [
+    { link: AppRoutes.getRoute("LOGIN"), label: "login", icon: IconKey },
+  ],
 };

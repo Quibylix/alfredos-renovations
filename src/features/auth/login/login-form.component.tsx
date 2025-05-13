@@ -56,7 +56,13 @@ export function LoginForm() {
           {t("forgotPassword")}
         </Anchor>
       </Group>
-      <Button disabled={!formLoaded} type="submit" fullWidth mt="xl" loading={loading}>
+      <Button
+        disabled={!formLoaded}
+        type="submit"
+        fullWidth
+        mt="xl"
+        loading={loading}
+      >
         {t("submit")}
       </Button>
     </Paper>

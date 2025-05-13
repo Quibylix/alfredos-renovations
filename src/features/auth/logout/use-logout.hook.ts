@@ -33,7 +33,7 @@ export function useLogout() {
         message: t("api.message.success"),
         color: "green",
       });
-      router.push("/auth/login");
+      router.push(AppRoutes.getRoute("LOGIN"));
       router.refresh();
     }
 
@@ -43,7 +43,7 @@ export function useLogout() {
         message: t("api.message.unknown"),
         color: "red",
       });
-      router.push("/auth/login");
+      router.push(AppRoutes.getRoute("LOGIN"));
       router.refresh();
     }
   }

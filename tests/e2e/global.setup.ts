@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { users } from "./users.constant";
 import es from "@/features/i18n/messages/es.json";
 import path from "path";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 async function resetDatabase() {
   const client = createClient<Database>(
@@ -75,9 +76,8 @@ async function getLoginState(
   user: { username: string; password: string },
 ) {
   const authFile = path.resolve(__dirname, ".auth", `${user.username}.json`);
-  const loginUrl = "/auth/login";
 
-  await page.goto(loginUrl);
+  await page.goto(AppRoutes.getRoute("LOGIN"));
 
   const usernameLabel = es.login.form.username.label;
   const passwordLabel = es.login.form.password.label;
@@ -89,7 +89,7 @@ async function getLoginState(
   await page.getByRole("button", { name: buttonText }).click();
 
   await expect(page).toHaveURL((url) => {
-    return url.pathname === "/";
+    return url.pathname === AppRoutes.getRoute("HOME");
   });
 
   await page.context().storageState({ path: authFile });

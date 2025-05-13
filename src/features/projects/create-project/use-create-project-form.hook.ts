@@ -72,7 +72,7 @@ export function useCreateProjectForm() {
         message: t("api.message.success"),
       });
       form.reset();
-      router.push("/");
+      router.push(AppRoutes.getRoute("PROJECT_LIST"));
       router.refresh();
     }
 

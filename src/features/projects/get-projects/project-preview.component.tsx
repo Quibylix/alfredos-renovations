@@ -2,6 +2,7 @@ import { Button, Paper, Title } from "@mantine/core";
 import classes from "./project-preview.module.css";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export function ProjectPreview({
   project,
@@ -17,7 +18,11 @@ export function ProjectPreview({
           {project.title}
         </Title>
       </div>
-      <Button component={Link} href={"/projects/" + project.id} variant="light">
+      <Button
+        component={Link}
+        href={AppRoutes.getRoute("PROJECT", { id: project.id.toString() })}
+        variant="light"
+      >
         {t("view")}
       </Button>
     </Paper>

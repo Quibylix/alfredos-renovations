@@ -4,6 +4,7 @@ import { SendProgressForm } from "@/features/progress/send-progress/send-progres
 import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
 import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
 import { redirect } from "next/navigation";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export default async function SendProgressPage() {
   const t = await getTranslations("sendProgress");
@@ -12,12 +13,12 @@ export default async function SendProgressPage() {
 
   if (errorCode === ERROR_CODES.NOT_AUTHORIZED) {
     console.error("User is not authorized to access this page");
-    redirect("/login");
+    redirect(AppRoutes.getRoute("LOGIN"));
   }
 
   if (errorCode === ERROR_CODES.UNKNOWN) {
     console.error("Unknown error occurred while fetching projects");
-    redirect("/");
+    redirect(AppRoutes.getRoute("HOME"));
   }
 
   return (

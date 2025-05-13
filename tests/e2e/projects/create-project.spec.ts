@@ -8,9 +8,7 @@ import {
 import es from "@/features/i18n/messages/es.json";
 import { getAuthStatePath } from "../auth/get-auth-state-path.util";
 import { users } from "../users.constant";
-
-const LOGIN_URL = "/auth/login";
-const HOME_URL = "/";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 const {
   form: {
@@ -23,12 +21,14 @@ const {
 
 test.describe("Create project", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/projects/create");
+    await page.goto(AppRoutes.getRoute("CREATE_PROJECT"));
   });
 
   test.describe("When not authenticated", () => {
     test("should redirect to login page", async ({ page }) => {
-      await expect(page).toHaveURL((url) => url.pathname === LOGIN_URL);
+      await expect(page).toHaveURL(
+        (url) => url.pathname === AppRoutes.getRoute("LOGIN"),
+      );
     });
   });
 
@@ -38,7 +38,9 @@ test.describe("Create project", () => {
     });
 
     test("should redirect to home page", async ({ page }) => {
-      await expect(page).toHaveURL((url) => url.pathname === HOME_URL);
+      await expect(page).toHaveURL(
+        (url) => url.pathname === AppRoutes.getRoute("HOME"),
+      );
     });
   });
 

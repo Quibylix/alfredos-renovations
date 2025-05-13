@@ -72,7 +72,7 @@ export function useLoginForm() {
         message: t("api.message.success"),
       });
       form.reset();
-      router.push("/");
+      router.push(AppRoutes.getRoute("HOME"));
       router.refresh();
     }
 

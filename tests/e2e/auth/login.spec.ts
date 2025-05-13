@@ -1,9 +1,10 @@
 import { expect, test } from "@playwright/test";
 import es from "@/features/i18n/messages/es.json";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 test.describe("Login", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/auth/login");
+    await page.goto(AppRoutes.getRoute("LOGIN"));
   });
 
   test("should display the login form", async ({ page }) => {
@@ -66,7 +67,9 @@ test.describe("Login", () => {
     await expect(page.getByText(errorMessage)).toBeVisible();
   });
 
-  test("should display an error if entering invalid credentials", async ({ page }) => {
+  test("should display an error if entering invalid credentials", async ({
+    page,
+  }) => {
     const invalidUsername = "invalidUser";
     const invalidPassword = "invalidPassword";
 
@@ -86,10 +89,8 @@ test.describe("Login", () => {
 
     await page.getByRole("button", { name: buttonText }).click();
 
-    await expect(
-      page.getByText(errorMessage).first(),
-    ).toBeVisible();
-  })
+    await expect(page.getByText(errorMessage).first()).toBeVisible();
+  });
 
   test("should login successfully if valid credentials are provided", async ({
     page,
@@ -114,7 +115,7 @@ test.describe("Login", () => {
 
     await expect(page.getByText(successMessage).first()).toBeVisible();
     await expect(page).toHaveURL((url) => {
-      return url.pathname === "/";
+      return url.pathname === AppRoutes.getRoute("HOME");
     });
   });
 });
