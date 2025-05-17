@@ -3,6 +3,9 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   experimental: {
+    serverActions: {
+      bodySizeLimit: "5mb",
+    },
     optimizePackageImports: [
       "@mantine/core",
       "@mantine/hooks",
