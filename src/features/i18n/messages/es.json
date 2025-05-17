@@ -125,7 +125,7 @@
       "message": {
         "success": "Imagen subida exitosamente",
         "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
-        "mimeTypeNotSupported": "Tipo de archivo no permitido. Por favor, sube una imagen en formato JPEG o PNG.",
+        "mimeTypeNotSupported": "Tipo de archivo no permitido. Por favor, sube una imagen en formato JPEG, PNG o HEIC.",
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     },
@@ -133,7 +133,7 @@
     "error": "Error al subir la imagen",
     "dropzone": {
       "title": "Arrastra y suelta una imagen aquí o haz clic para subir",
-      "description": "Formato permitido: JPEG, PNG, WEBP. Tamaño máximo: 5MB.",
+      "description": "Formato permitido: JPEG, PNG, WEBP, HEIC. Tamaño máximo: 5MB.",
       "capture": "Captura desde la cámara"
     }
   },

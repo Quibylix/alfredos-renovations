@@ -1,6 +1,7 @@
 import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { randomUUID } from "crypto";
 import { ERROR_CODES } from "./error_codes.constant";
+import convert from "heic-convert";
 
 export async function uploadImage(
   image: ArrayBuffer,
@@ -8,11 +9,30 @@ export async function uploadImage(
 ) {
   const db = await createClient();
 
-  const extension = getExtensionFromMimeType(mimeType);
+  const originalExtension = getExtensionFromMimeType(mimeType);
 
-  if (extension === null) {
+  if (originalExtension === null) {
     return {
       errorCode: ERROR_CODES.MIME_TYPE_NOT_SUPPORTED,
+      url: null,
+    };
+  }
+
+  const extension = originalExtension === "heif" ? "jpeg" : originalExtension;
+  let imageBuffer;
+  try {
+    imageBuffer =
+      originalExtension === "heif"
+        ? await convert({
+            buffer: new Uint8Array(image) as unknown as ArrayBuffer,
+            format: "JPEG",
+            quality: 0.3,
+          })
+        : image;
+  } catch (error) {
+    console.error("Error converting HEIF image:", error);
+    return {
+      errorCode: ERROR_CODES.UNKNOWN,
       url: null,
     };
   }
@@ -21,7 +41,7 @@ export async function uploadImage(
 
   const uploadResult = await db.storage
     .from("images")
-    .upload(imageName, image, {
+    .upload(imageName, imageBuffer, {
       contentType: mimeType,
     })
     .catch((error) => {
@@ -59,6 +79,8 @@ function getExtensionFromMimeType(mimeType: string) {
       return "gif";
     case "image/webp":
       return "webp";
+    case "image/heif":
+      return "heif";
     default:
       return null;
   }

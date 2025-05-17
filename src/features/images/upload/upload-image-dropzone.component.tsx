@@ -24,7 +24,13 @@ export function UploadImageDropzone({ setImageURL }: UploadImageDropzoneProps) {
         onDrop={handleDrop}
         onReject={(files) => console.log(files)}
         maxSize={5 * 1024 ** 2}
-        accept={["image/png", "image/jpeg", "image/jpg", "image/webp"]}
+        accept={[
+          "image/png",
+          "image/jpeg",
+          "image/jpg",
+          "image/webp",
+          "image/heif",
+        ]}
         multiple={false}
         loading={loading}
       >
@@ -75,7 +81,13 @@ export function UploadImageDropzone({ setImageURL }: UploadImageDropzoneProps) {
         inputProps={{
           capture: "environment",
         }}
-        accept={["image/png", "image/jpeg", "image/jpg", "image/webp"]}
+        accept={[
+          "image/png",
+          "image/jpeg",
+          "image/jpg",
+          "image/webp",
+          "image/heif",
+        ]}
         multiple={false}
         loading={loading}
       />
