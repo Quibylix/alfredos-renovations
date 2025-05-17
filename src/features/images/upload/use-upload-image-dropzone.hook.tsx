@@ -34,7 +34,7 @@ export function useUploadImageDropzone(setImageURL: (url: string) => void) {
       }),
     };
 
-    fetch(AppRoutes.getRoute("UPLOAD_IMAGE"), options)
+    fetch(AppRoutes.getRoute("API_UPLOAD_IMAGE"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
