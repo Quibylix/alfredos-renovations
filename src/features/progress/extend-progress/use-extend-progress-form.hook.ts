@@ -47,7 +47,7 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
       }),
     };
 
-    fetch(AppRoutes.getRoute("EXTEND_PROGRESS"), options)
+    fetch(AppRoutes.getRoute("API_EXTEND_PROGRESS"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
