@@ -137,6 +137,24 @@
       "capture": "Captura desde la cámara"
     }
   },
+  "uploadMedia": {
+    "api": {
+      "message": {
+        "success": "Archivo subido exitosamente",
+        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "mimeTypeNotSupported": "Tipo de archivo no permitido. Por favor, sube una imagen en formato JPEG, PNG o HEIC o un video en formato MP4 o MOV.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    },
+    "success": "Archivo subido exitosamente",
+    "error": "Error al subir el archivo",
+    "dropzone": {
+      "title": "Arrastra y suelta un archivo aquí o haz clic para subir",
+      "description": "Formato permitido: JPEG, PNG, WEBP, HEIC, MP4, MOV. Tamaño máximo: 15MB.",
+      "capture": "Captura desde la cámara"
+    }
+  },
+
   "sendProgress": {
     "title": "Enviar progreso del proyecto",
     "form": {
