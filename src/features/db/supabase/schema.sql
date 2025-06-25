@@ -341,12 +341,12 @@ create policy "Enable employees to create progress"
   with check (
     (SELECT private.is_progress_creator(progress.employee_id, progress.project_id) AS is_progress_creator));
 
-create policy "Give users authenticated upload access to images"
+create policy "Give users authenticated upload access to media"
   on storage.objects
   for insert
   to authenticated
   with check (
-    (bucket_id = 'images' AND auth.role() = 'authenticated'));
+    (bucket_id = 'media' AND auth.role() = 'authenticated'));
 
 
 create or replace function public.get_employee_progress(e_id uuid)
