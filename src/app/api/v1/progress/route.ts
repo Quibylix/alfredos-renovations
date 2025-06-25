@@ -15,7 +15,14 @@ const bodySchema = z.object({
   projectId: z.number().int().positive(),
   title: z.string().trim().nonempty(),
   description: z.string().trim().nonempty(),
-  imageUrl: z.string().url().nullable(),
+  media: z
+    .array(
+      z.object({
+        type: z.enum(["image", "video"]),
+        url: z.string().url(),
+      }),
+    )
+    .nonempty(),
 });
 
 export async function POST(request: NextRequest) {
