@@ -98,7 +98,7 @@ export const employeeLinks: NavbarLinks = {
   ],
   footer: [
     {
-      link: AppRoutes.getRoute("REGISTER_EMPLOYEE"),
+      link: AppRoutes.getRoute("CHANGE_PASSWORD"),
       label: "changePassword",
       icon: IconPasswordUser,
     },
