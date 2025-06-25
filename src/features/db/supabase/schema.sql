@@ -394,7 +394,7 @@ begin
       ) as employee
 
     from public.progress pg
-    inner join public.progress_media pm on pg.id = pm.progress_id
+    left join public.progress_media pm on pg.id = pm.progress_id
     inner join public.project pj on pg.project_id = pj.id
     inner join public.employee e on pg.employee_id = e.id
     inner join public.profile pf on pf.id = e.id
