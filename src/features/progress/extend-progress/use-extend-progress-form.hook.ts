@@ -14,7 +14,9 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [imageURL, setImageURL] = useState<string | null>(null);
+  const [media, setMedia] = useState<
+    { type: "image" | "video"; url: string }[]
+  >([]);
 
   const router = useRouter();
 
@@ -41,7 +43,7 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
       },
       body: JSON.stringify({
         ...values,
-        imageUrl: imageURL,
+        media,
         projectId,
         parentId,
       }),
@@ -118,15 +120,20 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
     }
   }
 
-  function changeImageURL(url: string | null) {
-    setImageURL(url);
+  function addMedia(type: "image" | "video", url: string) {
+    setMedia((prev) => [...prev, { type, url }]);
+  }
+
+  function removeMedia(index: number) {
+    setMedia((prev) => prev.filter((_, i) => i !== index));
   }
 
   return {
     form,
     submitHandler: form.onSubmit(handleSubmit),
-    imageURL,
-    changeImageURL,
+    media,
+    addMedia,
+    removeMedia,
     error,
     loading,
   };

@@ -3,8 +3,8 @@
 import { Button, Paper, Text, Textarea, TextInput } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useExtendProgressForm } from "./use-extend-progress-form.hook";
-import { UploadImageDropzone } from "@/features/images/upload/upload-image-dropzone.component";
-import { ImagePreview } from "../send-progress/image-preview.component";
+import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzone.component";
+import { MediaUploadPreview } from "@/features/media/upload/media-upload-preview.component";
 
 export type ExtendProgressFormProps = {
   projectId: number;
@@ -15,7 +15,7 @@ export function ExtendProgressForm({
   projectId,
   parentId,
 }: ExtendProgressFormProps) {
-  const { form, submitHandler, imageURL, changeImageURL, error, loading } =
+  const { form, submitHandler, media, addMedia, removeMedia, error, loading } =
     useExtendProgressForm(projectId, parentId);
 
   const t = useTranslations("extendProgress.form");
@@ -57,15 +57,8 @@ export function ExtendProgressForm({
       <Text size="sm" mt="md" mb={5} fw={500}>
         {t("image.label")}
       </Text>
-      {imageURL ? (
-        <ImagePreview
-          imageURL={imageURL}
-          alt={t("image.previewAlt")}
-          close={() => changeImageURL("")}
-        />
-      ) : (
-        <UploadImageDropzone setImageURL={changeImageURL} />
-      )}
+      <MediaUploadPreview media={media} removeMedia={removeMedia} />
+      <UploadMediaDropzone addMedia={addMedia} />
       <Button type="submit" fullWidth mt="xl" loading={loading}>
         {t("submit")}
       </Button>

@@ -9,13 +9,13 @@ export async function extendProgress({
   parentId,
   title,
   description,
-  imageUrl,
+  media,
 }: {
   projectId: number;
   parentId: number;
   title: string;
   description: string;
-  imageUrl: string | null;
+  media: { type: "image" | "video"; url: string }[];
 }) {
   if (!projectProgressEmployeeValidator(projectId, parentId)) {
     return ERROR_CODES.NOT_AUTHORIZED;
@@ -28,6 +28,8 @@ export async function extendProgress({
   if (!userResult.data.user) {
     return ERROR_CODES.NOT_AUTHORIZED;
   }
+
+  const imageUrl = media.find((m) => m.type === "image")?.url || null;
 
   const response = await db
     .from("progress")
@@ -44,6 +46,21 @@ export async function extendProgress({
 
   if (!response.data || response.error) {
     console.error("Error inserting progress:", response.error);
+    return ERROR_CODES.UNKNOWN;
+  }
+
+  const progressId = response.data.id;
+
+  const mediaInsertions = media.map((m) => ({
+    progress_id: progressId,
+    type: m.type,
+    url: m.url,
+  }));
+
+  const mediaResponse = await db.from("progress_media").insert(mediaInsertions);
+
+  if (mediaResponse.error) {
+    console.error("Error inserting progress media:", mediaResponse.error);
     return ERROR_CODES.UNKNOWN;
   }
 
