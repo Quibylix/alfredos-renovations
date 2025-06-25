@@ -154,6 +154,35 @@ export type Database = {
           },
         ]
       }
+      progress_media: {
+        Row: {
+          id: number
+          progress_id: number
+          type: string
+          url: string
+        }
+        Insert: {
+          id?: never
+          progress_id: number
+          type: string
+          url: string
+        }
+        Update: {
+          id?: never
+          progress_id?: number
+          type?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progress_media_progress_id_fkey"
+            columns: ["progress_id"]
+            isOneToOne: false
+            referencedRelation: "progress"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project: {
         Row: {
           boss_id: string
@@ -224,10 +253,9 @@ export type Database = {
           image_url: string
           sent_date: string
           parent_id: number
-          employee_id: string
-          employee_full_name: string
-          project_id: number
-          project_title: string
+          media: Json
+          project: Json
+          employee: Json
         }[]
       }
     }

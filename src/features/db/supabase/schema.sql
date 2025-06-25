@@ -38,7 +38,6 @@ create table public.progress (
   id bigint generated always as identity not null,
   title text not null,
   description text not null,
-  image_url text null,
   sent_date timestamp with time zone not null default now(),
   parent_id bigint null,
   employee_id uuid not null,
@@ -47,6 +46,15 @@ create table public.progress (
   constraint progress_employee_id_fkey foreign KEY (employee_id) references employee (id) on delete CASCADE,
   constraint progress_parent_id_fkey foreign KEY (parent_id) references progress (id) on delete CASCADE,
   constraint progress_project_id_fkey foreign KEY (project_id) references project (id) on delete CASCADE
+) TABLESPACE pg_default;
+
+create table public.progress_media (
+  id bigint generated always as identity not null,
+  progress_id bigint not null,
+  type text not null,
+  url text not null,
+  constraint progress_media_pkey primary key (id),
+  constraint progress_media_progress_id_fkey foreign KEY (progress_id) references progress (id) on delete CASCADE
 ) TABLESPACE pg_default;
 
 create table public.notification (
@@ -89,6 +97,7 @@ alter table public.employee enable row level security;
 alter table public.project enable row level security;
 alter table public.project_employee enable row level security;
 alter table public.progress enable row level security;
+alter table public.progress_media enable row level security;
 alter table public.notification enable row level security;
 
 create schema private;
@@ -339,6 +348,7 @@ create policy "Give users authenticated upload access to images"
   with check (
     (bucket_id = 'images' AND auth.role() = 'authenticated'));
 
+
 create or replace function public.get_employee_progress(e_id uuid)
 returns table (
   id bigint,
@@ -347,21 +357,56 @@ returns table (
   image_url text,
   sent_date timestamp with time zone,
   parent_id bigint,
-  employee_id uuid,
-  employee_full_name varchar(30),
-  project_id bigint,
-  project_title text
+  media jsonb,
+  project jsonb,
+  employee jsonb
 )
 language plpgsql
 security invoker set search_path=''
 as $$
 begin
-  return query (SELECT pg.id, pg.title, pg.description, pg.image_url, pg.sent_date, pg.parent_id,
-  pg.employee_id, pf.full_name as employee_full_name, pg.project_id, pj.title as project_title
- from public.progress pg
-  inner join public.project pj on pg.project_id = pj.id
-  inner join public.employee e on pg.employee_id = e.id
-  inner join public.profile pf on (pf.id = e.id and exists(select 1 from public.project_employee where project_employee.employee_id = e.id and project_employee.project_id = pj.id))
-   where pg.employee_id = e_id and pg.parent_id is null);
+  return query (
+    select
+      pg.id,
+      pg.title,
+      pg.description,
+      pg.image_url,
+      pg.sent_date,
+      pg.parent_id,
+
+      -- Aggregate media into JSONB array
+      jsonb_agg(jsonb_build_object(
+        'id', pm.id,
+        'type', pm.type,
+        'url', pm.url
+      )) as media,
+
+      -- Embed project info as JSONB
+      jsonb_build_object(
+        'id', pj.id,
+        'title', pj.title
+      ) as project,
+
+      -- Embed employee info as JSONB
+      jsonb_build_object(
+        'id', pf.id,
+        'full_name', pf.full_name
+      ) as employee
+
+    from public.progress pg
+    inner join public.progress_media pm on pg.id = pm.progress_id
+    inner join public.project pj on pg.project_id = pj.id
+    inner join public.employee e on pg.employee_id = e.id
+    inner join public.profile pf on pf.id = e.id
+    where pg.employee_id = e_id
+      and pg.parent_id is null
+      and exists (
+        select 1
+        from public.project_employee pe
+        where pe.employee_id = e.id
+          and pe.project_id = pj.id
+      )
+    group by pg.id, pg.title, pg.description, pg.image_url, pg.sent_date, pg.parent_id, pj.id, pj.title, pf.id, pf.full_name
+  );
 end;
 $$;
