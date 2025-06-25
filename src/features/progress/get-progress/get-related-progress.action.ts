@@ -11,6 +11,11 @@ export type ProgressData = {
   image_url: string | null;
   sent_date: string;
   parent_id: number | null;
+  media: {
+    id: number;
+    type: "image" | "video";
+    url: string;
+  }[];
   project: {
     id: number;
     title: string;
@@ -50,28 +55,9 @@ export async function getRelatedProgress(): Promise<{
       };
     }
 
-    const progress = data.map((progress) => {
-      return {
-        id: progress.id,
-        title: progress.title,
-        description: progress.description,
-        image_url: progress.image_url,
-        sent_date: progress.sent_date,
-        parent_id: progress.parent_id,
-        project: {
-          id: progress.project_id,
-          title: progress.project_title,
-        },
-        employee: {
-          id: progress.employee_id,
-          full_name: progress.employee_full_name,
-        },
-      };
-    });
-
     return {
       errorCode: ERROR_CODES.SUCCESS,
-      progress,
+      progress: data as ProgressData[],
     };
   }
 
@@ -80,7 +66,8 @@ export async function getRelatedProgress(): Promise<{
     .select(
       `id, title, description, image_url, sent_date, parent_id,
         employee (id, profile (full_name)),
-        project (id, title, boss_id)`,
+        project (id, title, boss_id),
+        progress_media (id, type, url)`,
     )
     .eq("project.boss_id", userId!)
     .is("parent_id", null);
@@ -94,7 +81,7 @@ export async function getRelatedProgress(): Promise<{
   }
 
   const progress = data.map((progress) => {
-    const { project, employee } = progress;
+    const { project, employee, progress_media } = progress;
     return {
       id: progress.id,
       title: progress.title,
@@ -110,6 +97,11 @@ export async function getRelatedProgress(): Promise<{
         id: employee.id,
         full_name: employee.profile.full_name,
       },
+      media: progress_media.map((media) => ({
+        id: media.id,
+        type: media.type as "image" | "video",
+        url: media.url,
+      })),
     };
   });
 

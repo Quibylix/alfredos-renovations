@@ -13,6 +13,11 @@ export type ProjectData = {
     description: string;
     sentDate: string;
     imageUrl: string | null;
+    media: {
+      id: number;
+      type: "image" | "video";
+      url: string;
+    }[];
     employee: {
       id: string;
       fullName: string;
@@ -46,7 +51,12 @@ export async function getProjectInfo(projectId: number): Promise<{
     const { data, error } = await db
       .from("project")
       .select(
-        "id, title, progress(id, title, description, sent_date, image_url, employee (id, profile(full_name)))",
+        `id, title,
+          progress(
+            id, title, description, sent_date, image_url,
+            employee (id, profile(full_name)),
+            progress_media (id, type, url)
+          )`,
       )
       .eq("id", projectId)
       .is("progress.parent_id", null)
@@ -74,6 +84,11 @@ export async function getProjectInfo(projectId: number): Promise<{
           id: item.employee.id,
           fullName: item.employee.profile.full_name,
         },
+        media: item.progress_media as Array<{
+          id: number;
+          type: "image" | "video";
+          url: string;
+        }>,
       })),
       employees: null,
     };
@@ -88,7 +103,11 @@ export async function getProjectInfo(projectId: number): Promise<{
     .from("project")
     .select(
       `id, title,
-      progress(id, title, description, sent_date, image_url, employee(id, profile(full_name))),
+      progress(
+        id, title, description, sent_date, image_url,
+        employee(id, profile(full_name)),
+        progress_media(id, type, url)
+      ),
       employee(id, ...profile(full_name))`,
     )
     .eq("id", projectId)
@@ -117,6 +136,11 @@ export async function getProjectInfo(projectId: number): Promise<{
         id: item.employee.id,
         fullName: item.employee.profile.full_name,
       },
+      media: item.progress_media.map((media) => ({
+        id: media.id,
+        type: media.type as "image" | "video",
+        url: media.url,
+      })),
     })),
     employees: data.employee.map((employee) => ({
       id: employee.id,

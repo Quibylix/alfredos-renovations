@@ -27,8 +27,9 @@ export async function getProgressTree(progressId: number): Promise<{
     .from("progress")
     .select(
       `id, title, description, sent_date, image_url, parent_id,
-    employee(id, profile(full_name)),
-    project(id, title)`,
+      employee(id, profile(full_name)),
+      project(id, title),
+      progress_media(id, type, url)`,
     )
     .eq("id", progressId)
     .single();
@@ -46,8 +47,9 @@ export async function getProgressTree(progressId: number): Promise<{
     .from("progress")
     .select(
       `id, title, description, sent_date, image_url, parent_id,
-    employee(id, profile(full_name)),
-    project(id, title)`,
+      employee(id, profile(full_name)),
+      project(id, title),
+      progress_media(id, type, url)`,
     )
     .eq("parent_id", progressId);
 
@@ -80,6 +82,11 @@ export async function getProgressTree(progressId: number): Promise<{
         id: item.employee.id,
         full_name: item.employee.profile.full_name,
       },
+      media: item.progress_media as {
+        id: number;
+        type: "image" | "video";
+        url: string;
+      }[],
     };
   }
 

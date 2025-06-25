@@ -87,6 +87,7 @@ export default async function ProjectPage(props: ProgressPageProps) {
               id: progress.employee.id,
               full_name: progress.employee.fullName,
             },
+            media: progress.media,
             project: {
               id: project.id,
               title: project.title,
