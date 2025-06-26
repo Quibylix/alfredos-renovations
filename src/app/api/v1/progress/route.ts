@@ -15,14 +15,12 @@ const bodySchema = z.object({
   projectId: z.number().int().positive(),
   title: z.string().trim().nonempty(),
   description: z.string().trim().nonempty(),
-  media: z
-    .array(
-      z.object({
-        type: z.enum(["image", "video"]),
-        url: z.string().url(),
-      }),
-    )
-    .nonempty(),
+  media: z.array(
+    z.object({
+      type: z.enum(["image", "video"]),
+      url: z.string().url(),
+    }),
+  ),
 });
 
 export async function POST(request: NextRequest) {
