@@ -1,5 +1,4 @@
 import { useForm } from "@mantine/form";
-import { getValidators } from "./validators.util";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
