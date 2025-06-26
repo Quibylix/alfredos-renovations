@@ -35,7 +35,7 @@ export function UploadMediaDropzone({ addMedia }: UploadImageDropzoneProps) {
         onReject={(files) => console.log(files)}
         maxSize={15 * 1024 ** 2}
         accept={acceptedMimeTypes}
-        multiple={false}
+        multiple={true}
         loading={loading}
       >
         {error && (
@@ -86,7 +86,7 @@ export function UploadMediaDropzone({ addMedia }: UploadImageDropzoneProps) {
           capture: "environment",
         }}
         accept={acceptedMimeTypes}
-        multiple={false}
+        multiple={true}
         loading={loading}
       />
       {isMobile && (

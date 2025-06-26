@@ -23,64 +23,67 @@ export function useUploadMediaDropzone(
     setError(null);
     setLoading(true);
 
-    const file = files[0];
-
     const db = await createBrowserClient();
 
-    const mediaType = getMediaTypeFromMimeType(file.type);
-    const originalExtension = getExtensionFromMimeType(file.type);
+    for (const file of files) {
+      const mediaType = getMediaTypeFromMimeType(file.type);
+      const originalExtension = getExtensionFromMimeType(file.type);
 
-    if (mediaType === null || originalExtension === null) {
-      return handleMimeTypeNotSupported();
+      if (mediaType === null || originalExtension === null) {
+        handleMimeTypeNotSupported();
+        continue;
+      }
+
+      const extension =
+        originalExtension === "heif" ? "jpeg" : originalExtension;
+      let mediaBuffer;
+      try {
+        mediaBuffer =
+          originalExtension === "heif"
+            ? await convert({
+                buffer: new Uint8Array(
+                  await file.arrayBuffer(),
+                ) as unknown as ArrayBuffer,
+                format: "JPEG",
+                quality: 0.3,
+              })
+            : await file.arrayBuffer();
+      } catch (error) {
+        console.error("Error converting HEIF image:", error);
+        handleUnknownError();
+        continue;
+      }
+
+      const mediaName = `${randomId(`${mediaType}-`)}.${extension}`;
+
+      const uploadResult = await db.storage
+        .from("media")
+        .upload(mediaName, mediaBuffer, {
+          contentType: file.type,
+        })
+        .catch((error) => {
+          console.log("Error uploading media:", error);
+          return null;
+        });
+
+      if (!uploadResult || uploadResult.error) {
+        if (uploadResult)
+          console.error("Error uploading media:", uploadResult.error);
+
+        handleUnknownError();
+        continue;
+      }
+
+      const {
+        data: { publicUrl: url },
+      } = db.storage.from("media").getPublicUrl(mediaName);
+
+      addMedia(mediaType, url);
+      handleSuccessResponse();
     }
-
-    const extension = originalExtension === "heif" ? "jpeg" : originalExtension;
-    let mediaBuffer;
-    try {
-      mediaBuffer =
-        originalExtension === "heif"
-          ? await convert({
-              buffer: new Uint8Array(
-                await file.arrayBuffer(),
-              ) as unknown as ArrayBuffer,
-              format: "JPEG",
-              quality: 0.3,
-            })
-          : await file.arrayBuffer();
-    } catch (error) {
-      console.error("Error converting HEIF image:", error);
-      return handleUnknownError();
-    }
-
-    const mediaName = `${randomId(`${mediaType}-`)}.${extension}`;
-
-    const uploadResult = await db.storage
-      .from("media")
-      .upload(mediaName, mediaBuffer, {
-        contentType: file.type,
-      })
-      .catch((error) => {
-        console.log("Error uploading media:", error);
-        return null;
-      });
-
-    if (!uploadResult || uploadResult.error) {
-      if (uploadResult)
-        console.error("Error uploading media:", uploadResult.error);
-
-      return handleUnknownError();
-    }
-
-    const {
-      data: { publicUrl: url },
-    } = db.storage.from("media").getPublicUrl(mediaName);
-
-    addMedia(mediaType, url);
-    return handleSuccessResponse();
 
     function handleSuccessResponse() {
       setLoading(false);
-      setError(null);
       notifications.show({
         title: t("success"),
         message: t("api.message.success"),
