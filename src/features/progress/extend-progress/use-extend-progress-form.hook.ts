@@ -29,12 +29,26 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
       title: "",
       description: "",
     },
-    validate: getValidators(t),
   });
 
   async function handleSubmit(values: { title: string; description: string }) {
     setError(null);
     setLoading(true);
+
+    if (
+      !values.title.trim() &&
+      !values.description.trim() &&
+      media.length === 0
+    ) {
+      setError(t("api.message.noData"));
+      notifications.show({
+        title: t("error"),
+        message: t("api.message.noData"),
+        color: "red",
+      });
+      setLoading(false);
+      return;
+    }
 
     const options = {
       method: "POST",

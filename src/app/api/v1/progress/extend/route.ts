@@ -13,8 +13,8 @@ export type APIResponse = {
 const bodySchema = z.object({
   projectId: z.number().int().positive(),
   parentId: z.number().int().positive(),
-  title: z.string().trim().nonempty(),
-  description: z.string().trim().nonempty(),
+  title: z.string().trim(),
+  description: z.string().trim(),
   media: z.array(
     z.object({
       type: z.enum(["image", "video"]),
@@ -35,6 +35,18 @@ export async function POST(request: NextRequest) {
       success: false,
       errorCode: ERROR_CODES.INVALID_REQUEST,
       message: t("message.invalidRequest"),
+    });
+  }
+
+  if (
+    !parsedBody.data.title &&
+    !parsedBody.data.description &&
+    parsedBody.data.media.length === 0
+  ) {
+    return Response.json({
+      success: false,
+      errorCode: ERROR_CODES.NO_DATA,
+      message: t("message.noData"),
     });
   }
 

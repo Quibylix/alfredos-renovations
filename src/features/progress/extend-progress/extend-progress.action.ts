@@ -13,8 +13,8 @@ export async function extendProgress({
 }: {
   projectId: number;
   parentId: number;
-  title: string;
-  description: string;
+  title: string | null;
+  description: string | null;
   media: { type: "image" | "video"; url: string }[];
 }) {
   if (!projectProgressEmployeeValidator(projectId, parentId)) {

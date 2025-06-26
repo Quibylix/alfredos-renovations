@@ -243,6 +243,7 @@
       "message": {
         "success": "Progreso enviado exitosamente",
         "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "noData": "El progreso no incluye ninguna información nueva. (Por favor, proporciona al menos una nueva descripción o archivo.)",
         "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }

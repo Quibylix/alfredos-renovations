@@ -37,7 +37,6 @@ export function ExtendProgressForm({
       <TextInput
         label={t("title.label")}
         placeholder={t("title.placeholder")}
-        required
         mt="md"
         key={form.key("title")}
         {...form.getInputProps("title")}
@@ -49,7 +48,6 @@ export function ExtendProgressForm({
         maxRows={8}
         label={t("description.label")}
         placeholder={t("description.placeholder")}
-        required
         mt="md"
         key={form.key("description")}
         {...form.getInputProps("description")}

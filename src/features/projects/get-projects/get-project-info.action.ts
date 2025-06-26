@@ -76,8 +76,8 @@ export async function getProjectInfo(projectId: number): Promise<{
       title: data.title,
       progress: data.progress.map((item) => ({
         id: item.id,
-        title: item.title,
-        description: item.description,
+        title: item.title!,
+        description: item.description!,
         sentDate: item.sent_date,
         imageUrl: item.image_url,
         employee: {
@@ -128,8 +128,8 @@ export async function getProjectInfo(projectId: number): Promise<{
     title: data.title,
     progress: data.progress.map((item) => ({
       id: item.id,
-      title: item.title,
-      description: item.description,
+      title: item.title!,
+      description: item.description!,
       sentDate: item.sent_date,
       imageUrl: item.image_url,
       employee: {

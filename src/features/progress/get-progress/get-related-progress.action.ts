@@ -6,8 +6,8 @@ import { User } from "@/features/db/user/user.model";
 
 export type ProgressData = {
   id: number;
-  title: string;
-  description: string;
+  title: string | null;
+  description: string | null;
   image_url: string | null;
   sent_date: string;
   parent_id: number | null;
