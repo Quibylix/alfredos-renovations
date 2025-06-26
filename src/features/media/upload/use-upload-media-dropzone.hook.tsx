@@ -128,6 +128,7 @@ function getMediaTypeFromMimeType(mimeType: string): "image" | "video" | null {
       return "image";
     case "video/mp4":
     case "video/quicktime":
+    case "video/webm":
       return "video";
     default:
       return null;
@@ -150,6 +151,8 @@ function getExtensionFromMimeType(mimeType: string) {
       return "mp4";
     case "video/quicktime":
       return "mov";
+    case "video/webm":
+      return "webm";
     default:
       return null;
   }

@@ -17,6 +17,7 @@ const acceptedMimeTypes = [
   MIME_TYPES.heif,
   MIME_TYPES.mp4,
   "video/quicktime", // For .mov files
+  "video/webm",
 ];
 
 export function UploadMediaDropzone({ addMedia }: UploadImageDropzoneProps) {
@@ -85,7 +86,7 @@ export function UploadMediaDropzone({ addMedia }: UploadImageDropzoneProps) {
         inputProps={{
           capture: "environment",
         }}
-        accept={acceptedMimeTypes}
+        accept={[MIME_TYPES.png, MIME_TYPES.jpeg, "image/jpg", MIME_TYPES.webp]}
         multiple={true}
         loading={loading}
       />
