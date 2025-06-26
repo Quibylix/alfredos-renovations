@@ -150,7 +150,7 @@
     "error": "Error al subir el archivo",
     "dropzone": {
       "title": "Arrastra y suelta un archivo aquí o haz clic para subir",
-      "description": "Formato permitido: JPEG, PNG, WEBP, HEIC, MP4, MOV. Tamaño máximo: 15MB.",
+      "description": "Formato permitido: JPEG, PNG, WEBP, HEIC, MP4, MOV. Tamaño máximo: 50MB.",
       "capture": "Captura desde la cámara"
     }
   },
