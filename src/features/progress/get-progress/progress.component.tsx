@@ -1,21 +1,15 @@
-import { Container, Image, Title, Avatar, Group, Text } from "@mantine/core";
+import { Container, Title, Avatar, Group, Text } from "@mantine/core";
 import { ProgressData } from "./get-related-progress.action";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
+import { MediaPreview } from "@/features/media/preview/media-preview.component";
 
 export type ProgressProps = {
   data: ProgressData;
 };
 
 export function Progress({
-  data: {
-    title,
-    description,
-    image_url: imageURL,
-    sent_date: sentDate,
-    project,
-    employee,
-  },
+  data: { title, description, media, sent_date: sentDate, project, employee },
 }: ProgressProps) {
   const t = useTranslations("progress");
 
@@ -41,23 +35,10 @@ export function Progress({
         <Title order={2} size="lg">
           {title}
         </Title>
-        <Text mt="2xs" size="sm">
+        <Text mt="2xs" size="sm" mb="md">
           {description}
         </Text>
-        {imageURL && (
-          <Image
-            src={imageURL}
-            alt={t("alt")}
-            radius="md"
-            my="sm"
-            miw={160}
-            mih={160}
-            mah={300}
-            maw="100%"
-            w="auto"
-            h="auto"
-          />
-        )}
+        <MediaPreview media={media} />
       </Container>
     </Container>
   );
