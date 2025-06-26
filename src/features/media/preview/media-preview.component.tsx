@@ -73,7 +73,7 @@ export function MediaPreview({ media }: MediaPreviewGridProps) {
         >
           <Box style={{ position: "relative" }}>
             {activeMedia?.type === "image" ? (
-              <Image src={activeMedia.url} fit="contain" />
+              <Image src={activeMedia.url} alt="" fit="contain" />
             ) : (
               <video
                 src={activeMedia.url}
