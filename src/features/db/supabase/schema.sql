@@ -148,6 +148,32 @@ begin
 end;
 $$;
 
+create or replace function private.is_progress_media_boss(p_id bigint)
+returns boolean
+language plpgsql
+security definer set search_path=''
+as $$
+begin
+  return ((( SELECT private.get_user_role() AS get_user_role) = 'boss'::text) AND (( SELECT auth.uid() AS uid) IN ( SELECT project.boss_id
+   FROM public.project
+  WHERE (project.id IN ( SELECT progress.project_id
+           FROM public.progress
+          WHERE (progress.id = p_id))))));
+end;
+$$;
+
+create or replace function private.is_progress_media_employee(p_id bigint)
+returns boolean
+language plpgsql
+security definer set search_path=''
+as $$
+begin
+  return ((( SELECT private.get_user_role() AS get_user_role) = 'employee'::text) AND (( SELECT auth.uid() AS uid) IN ( SELECT progress.employee_id
+   FROM public.progress
+  WHERE (progress.id = p_id))));
+end;
+$$;
+
 create or replace function private.is_boss(p_id uuid)
 returns boolean
 language plpgsql
@@ -340,6 +366,30 @@ create policy "Enable employees to create progress"
   to authenticated
   with check (
     (SELECT private.is_progress_creator(progress.employee_id, progress.project_id) AS is_progress_creator));
+
+create policy "Enable bosses to see the progress media of their projects"
+  on public.progress_media
+  as permissive
+  for select
+  to authenticated
+  using (
+    (SELECT private.is_progress_media_boss(progress_media.progress_id) AS is_progress_media_boss));
+
+create policy "Enable employees to see the progress media of their projects"
+  on public.progress_media
+  as permissive
+  for select
+  to authenticated
+  using (
+    (SELECT private.is_progress_media_employee(progress_media.progress_id) AS is_progress_media_employee));
+
+create policy "Enable employees to create progress media"
+  on public.progress_media
+  as permissive
+  for insert
+  to authenticated
+  with check (
+    (SELECT private.is_progress_media_employee(progress_media.progress_id) AS is_progress_media_employee));
 
 create policy "Give users authenticated upload access to media"
   on storage.objects
