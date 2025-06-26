@@ -33,7 +33,7 @@ export function UploadMediaDropzone({ addMedia }: UploadImageDropzoneProps) {
         w="100%"
         onDrop={handleDrop}
         onReject={(files) => console.log(files)}
-        maxSize={5 * 1024 ** 2}
+        maxSize={15 * 1024 ** 2}
         accept={acceptedMimeTypes}
         multiple={false}
         loading={loading}
@@ -81,7 +81,7 @@ export function UploadMediaDropzone({ addMedia }: UploadImageDropzoneProps) {
         openRef={dropzoneOpenRef}
         onDrop={handleDrop}
         onReject={(files) => console.log(files)}
-        maxSize={5 * 1024 ** 2}
+        maxSize={15 * 1024 ** 2}
         inputProps={{
           capture: "environment",
         }}
