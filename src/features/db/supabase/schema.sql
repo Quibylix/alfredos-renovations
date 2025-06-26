@@ -36,8 +36,8 @@ create table public.project_employee (
 
 create table public.progress (
   id bigint generated always as identity not null,
-  title text not null,
-  description text not null,
+  title text,
+  description text,
   sent_date timestamp with time zone not null default now(),
   parent_id bigint null,
   employee_id uuid not null,
@@ -46,6 +46,11 @@ create table public.progress (
   constraint progress_employee_id_fkey foreign KEY (employee_id) references employee (id) on delete CASCADE,
   constraint progress_parent_id_fkey foreign KEY (parent_id) references progress (id) on delete CASCADE,
   constraint progress_project_id_fkey foreign KEY (project_id) references project (id) on delete CASCADE
+  constraint progress_title_description_check
+    check (
+      (parent_id is null and title is not null and description is not null) or
+      (parent_id is not null)
+    )
 ) TABLESPACE pg_default;
 
 create table public.progress_media (

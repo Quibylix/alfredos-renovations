@@ -101,34 +101,34 @@ export type Database = {
       }
       progress: {
         Row: {
-          description: string
+          description: string | null
           employee_id: string
           id: number
           image_url: string | null
           parent_id: number | null
           project_id: number
           sent_date: string
-          title: string
+          title: string | null
         }
         Insert: {
-          description: string
+          description?: string | null
           employee_id: string
           id?: never
           image_url?: string | null
           parent_id?: number | null
           project_id: number
           sent_date?: string
-          title: string
+          title?: string | null
         }
         Update: {
-          description?: string
+          description?: string | null
           employee_id?: string
           id?: never
           image_url?: string | null
           parent_id?: number | null
           project_id?: number
           sent_date?: string
-          title?: string
+          title?: string | null
         }
         Relationships: [
           {
