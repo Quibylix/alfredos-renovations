@@ -9,8 +9,8 @@
     "lint": "next lint",
     "supabase:gen:types": "pnpm dlx supabase gen types typescript --project-id 'lbmvykzndajewcaoosxn' --schema public > ./src/features/db/supabase/types.ts",
     "test:e2e": "pnpm supabase:start:test && playwright test",
-    "supabase:start:test": "sudo ./node_modules/supabase/bin/supabase start --workdir ./tests",
-    "supabase:stop:test": "sudo ./node_modules/supabase/bin/supabase stop --workdir ./tests"
+    "supabase:start:test": "supabase start --workdir ./tests",
+    "supabase:stop:test": "supabase stop --workdir ./tests"
   },
   "dependencies": {
     "@bprogress/next": "^3.2.12",
