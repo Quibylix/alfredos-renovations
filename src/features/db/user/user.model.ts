@@ -35,12 +35,10 @@ export class User {
   static async login(username: string, password: string) {
     const client = await createClient();
 
-    const { data, error } = await client.auth.signInWithPassword({
+    const { error } = await client.auth.signInWithPassword({
       email: username + this.EMAIL_HOST,
       password,
     });
-
-    console.log({ data, error });
 
     if (!error) return USER_STATUS_MESSAGES.OK;
 
