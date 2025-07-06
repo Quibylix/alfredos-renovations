@@ -6,6 +6,7 @@ import {
   USER_STATUS_MESSAGES,
   UserStatusMessage,
 } from "./user.constant";
+import { createAdminClient } from "../supabase/create-admin-client.util";
 
 export class User {
   private static EMAIL_HOST = "@alfredosrenovations.com";
@@ -46,7 +47,7 @@ export class User {
   }
 
   private static async isBoss({ id }: { id: string }) {
-    const client = await createClient();
+    const client = createAdminClient();
 
     const { data } = await client
       .from("boss")
@@ -58,7 +59,7 @@ export class User {
   }
 
   private static async isEmployee({ id }: { id: string }) {
-    const client = await createClient();
+    const client = createAdminClient();
 
     const { data } = await client
       .from("employee")
