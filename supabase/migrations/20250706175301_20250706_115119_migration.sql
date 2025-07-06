@@ -177,6 +177,7 @@ create table "public"."progress" (
     "id" bigint generated always as identity not null,
     "title" text,
     "description" text,
+    "image_url" text,
     "sent_date" timestamp with time zone not null default now(),
     "parent_id" bigint,
     "employee_id" uuid not null,
