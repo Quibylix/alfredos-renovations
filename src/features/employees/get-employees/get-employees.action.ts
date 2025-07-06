@@ -1,11 +1,11 @@
 "use server";
 
-import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
+import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 
 export async function getEmployees() {
-  const db = await createClient();
+  const db = createAdminClient();
 
   const userId = await User.getCurrentUserId();
   const userRole = await User.getRole(userId);
