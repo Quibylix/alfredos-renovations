@@ -194,97 +194,56 @@ export type Database = {
       }
       project: {
         Row: {
-          boss_id: string
           id: number
           title: string
         }
         Insert: {
-          boss_id: string
-          id?: never
+          id?: number
           title: string
         }
         Update: {
-          boss_id?: string
-          id?: never
+          id?: number
           title?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "project_boss_id_fkey"
-            columns: ["boss_id"]
-            isOneToOne: false
-            referencedRelation: "boss"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      project_employee: {
-        Row: {
-          employee_id: string
-          project_id: number
-        }
-        Insert: {
-          employee_id: string
-          project_id: number
-        }
-        Update: {
-          employee_id?: string
-          project_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "project_employee_employee_id_fkey"
-            columns: ["employee_id"]
-            isOneToOne: false
-            referencedRelation: "employee"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "project_employee_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "project"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       task: {
         Row: {
-          boss_id: string
           completed: boolean
           created_at: string
           description: string
           duration: number
           id: number
+          project_id: number
           start_date: string
           title: string
         }
         Insert: {
-          boss_id: string
           completed?: boolean
           created_at?: string
           description: string
           duration: number
           id?: number
+          project_id: number
           start_date: string
           title: string
         }
         Update: {
-          boss_id?: string
           completed?: boolean
           created_at?: string
           description?: string
           duration?: number
           id?: number
+          project_id?: number
           start_date?: string
           title?: string
         }
         Relationships: [
           {
-            foreignKeyName: "task_boss_id_fkey"
-            columns: ["boss_id"]
+            foreignKeyName: "task_project_id_fkey"
+            columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "boss"
+            referencedRelation: "project"
             referencedColumns: ["id"]
           },
         ]
