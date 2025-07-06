@@ -1,5 +1,6 @@
 "use server";
 
+import { User } from "@/features/db/user/user.model";
 import { ERROR_CODES } from "./error_codes.constant";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 
@@ -15,6 +16,12 @@ export async function registerEmployee({
   fullName: string;
   password: string;
 }) {
+  const userRole = await User.getRole();
+
+  if (userRole !== "boss") {
+    return ERROR_CODES.INVALID_CREDENTIALS;
+  }
+
   const db = createAdminClient();
 
   const response = await db.auth.admin
