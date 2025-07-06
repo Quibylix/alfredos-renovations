@@ -12,7 +12,6 @@ export type APIResponse = {
 
 const bodySchema = z.object({
   title: z.string().trim().nonempty(),
-  employees: z.array(z.string().trim().nonempty()),
 });
 
 export async function POST(request: NextRequest) {

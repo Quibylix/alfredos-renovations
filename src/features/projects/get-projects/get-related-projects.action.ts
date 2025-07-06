@@ -1,11 +1,11 @@
 "use server";
 
 import { User } from "@/features/db/user/user.model";
-import { createClient } from "../../db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
+import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 
 export async function getRelatedProjects() {
-  const db = await createClient();
+  const db = createAdminClient();
 
   const userId = await User.getCurrentUserId();
   const role = await User.getRole(userId);
@@ -18,11 +18,16 @@ export async function getRelatedProjects() {
   }
 
   if (role === "employee") {
-    const { data, error } = await db
-      .from("employee")
-      .select(`projects: project (id, title)`)
-      .eq("id", userId!)
-      .single();
+    // TODO - Implement a stored procedure to fetch employee projects using tasks
+    // const { data, error } = await db
+    //   .from("employee")
+    //   .select(`projects: project (id, title)`)
+    //   .eq("id", userId!)
+    //   .single();
+    const { data, error } = {
+      data: { projects: [] },
+      error: null,
+    };
 
     if (error) {
       console.error("Error fetching projects:", error);
@@ -40,8 +45,7 @@ export async function getRelatedProjects() {
 
   const { data: projects, error } = await db
     .from("project")
-    .select("id, title")
-    .eq("boss_id", userId!);
+    .select("id, title");
 
   if (error) {
     console.error("Error fetching projects:", error);

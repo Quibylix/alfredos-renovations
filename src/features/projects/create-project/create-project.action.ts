@@ -4,13 +4,7 @@ import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 
-export async function createProject({
-  title,
-  employees,
-}: {
-  title: string;
-  employees: string[];
-}) {
+export async function createProject({ title }: { title: string }) {
   const db = createAdminClient();
 
   const userId = await User.getCurrentUserId();
@@ -24,25 +18,12 @@ export async function createProject({
     .from("project")
     .insert({
       title,
-      boss_id: userId!,
     })
     .select("id")
     .single();
 
   if (!response.data || response.error) {
     console.error("Error inserting project:", response.error);
-    return ERROR_CODES.UNKNOWN;
-  }
-
-  const { error } = await db.from("project_employee").insert(
-    employees.map((employee) => ({
-      project_id: response.data.id,
-      employee_id: employee,
-    })),
-  );
-
-  if (error) {
-    console.error("Error inserting project_employee:", error);
     return ERROR_CODES.UNKNOWN;
   }
 

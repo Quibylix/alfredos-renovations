@@ -13,8 +13,6 @@ export type APIResponse = {
 const bodySchema = z.object({
   id: z.number().int().positive(),
   title: z.string().trim().nonempty(),
-  removedEmployees: z.array(z.string()),
-  addedEmployees: z.array(z.string()),
 });
 
 export async function POST(request: NextRequest) {

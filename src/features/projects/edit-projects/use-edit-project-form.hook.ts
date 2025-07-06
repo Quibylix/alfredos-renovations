@@ -11,11 +11,9 @@ import { AppRoutes } from "@/features/shared/app-routes.util";
 export function useEditProjectForm({
   id,
   initialTitle,
-  initialEmployees,
 }: {
   id: number;
   initialTitle: string;
-  initialEmployees: string[];
 }) {
   const t = useTranslations("editProject");
 
@@ -28,21 +26,13 @@ export function useEditProjectForm({
     mode: "uncontrolled",
     initialValues: {
       title: initialTitle,
-      employees: initialEmployees,
     },
     validate: getValidators(t),
   });
 
-  async function handleSubmit(values: { title: string; employees: string[] }) {
+  async function handleSubmit(values: { title: string }) {
     setError(null);
     setLoading(true);
-
-    const removedEmployees = initialEmployees.filter(
-      (employee) => !values.employees.includes(employee),
-    );
-    const addedEmployees = values.employees.filter(
-      (employee) => !initialEmployees.includes(employee),
-    );
 
     const options = {
       method: "POST",
@@ -52,8 +42,6 @@ export function useEditProjectForm({
       body: JSON.stringify({
         id,
         title: values.title,
-        removedEmployees,
-        addedEmployees,
       }),
     };
 

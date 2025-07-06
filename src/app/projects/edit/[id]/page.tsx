@@ -32,13 +32,7 @@ export default async function EditProjectPage(props: EditProjectPageProps) {
     notFound();
   }
 
-  if (project === null || project.employees === null) {
-    notFound();
-  }
-
-  const { errorCode: employeesErrorCode, employees } = await getEmployees();
-
-  if (employeesErrorCode !== ERROR_CODES.SUCCESS) {
+  if (project === null) {
     notFound();
   }
 
@@ -49,15 +43,7 @@ export default async function EditProjectPage(props: EditProjectPageProps) {
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
-      <EditProjectForm
-        id={Number(id)}
-        initialTitle={project.title}
-        employees={employees}
-        initialEmployees={project.employees.map((e) => ({
-          id: e.id,
-          fullName: e.fullName,
-        }))}
-      />
+      <EditProjectForm id={Number(id)} initialTitle={project.title} />
     </Container>
   );
 }

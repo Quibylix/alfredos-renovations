@@ -1,32 +1,18 @@
 "use client";
 
-import { Paper, Text, TextInput, MultiSelect, Button } from "@mantine/core";
+import { Paper, Text, TextInput, Button } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useEditProjectForm } from "./use-edit-project-form.hook";
 
 export type EditProjectFormProps = {
   id: number;
   initialTitle: string;
-  employees: {
-    id: string;
-    fullName: string;
-  }[];
-  initialEmployees: {
-    id: string;
-    fullName: string;
-  }[];
 };
 
-export function EditProjectForm({
-  id,
-  initialTitle,
-  employees,
-  initialEmployees,
-}: EditProjectFormProps) {
+export function EditProjectForm({ id, initialTitle }: EditProjectFormProps) {
   const { form, submitHandler, error, loading } = useEditProjectForm({
     id,
     initialTitle,
-    initialEmployees: initialEmployees.map((employee) => employee.id),
   });
 
   const t = useTranslations("editProject.form");
@@ -51,20 +37,6 @@ export function EditProjectForm({
         required
         key={form.key("title")}
         {...form.getInputProps("title")}
-      />
-      <MultiSelect
-        mt="md"
-        label={t("employees.label")}
-        placeholder={t("employees.placeholder")}
-        data={employees.map((employee) => ({
-          value: employee.id,
-          label: employee.fullName,
-        }))}
-        limit={10}
-        hidePickedOptions
-        searchable
-        key={form.key("employees")}
-        {...form.getInputProps("employees")}
       />
       <Button type="submit" fullWidth mt="xl" loading={loading}>
         {t("submit")}

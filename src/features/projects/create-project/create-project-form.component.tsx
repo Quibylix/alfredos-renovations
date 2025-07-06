@@ -1,15 +1,11 @@
 "use client";
 
-import { Button, MultiSelect, Paper, Text, TextInput } from "@mantine/core";
+import { Button, Paper, Text, TextInput } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useCreateProjectForm } from "./use-create-project-form.hook";
 import { useClientSide } from "@/features/shared/use-client-side.hook";
 
-export type SendProgressFormProps = {
-  employees: { id: string; fullName: string }[];
-};
-
-export function CreateProjectForm({ employees }: SendProgressFormProps) {
+export function CreateProjectForm() {
   const formLoaded = useClientSide();
   const { form, submitHandler, error, loading } = useCreateProjectForm();
 
@@ -36,21 +32,6 @@ export function CreateProjectForm({ employees }: SendProgressFormProps) {
         required
         key={form.key("title")}
         {...form.getInputProps("title")}
-      />
-      <MultiSelect
-        disabled={!formLoaded}
-        mt="md"
-        label={t("employees.label")}
-        placeholder={t("employees.placeholder")}
-        data={employees.map((employee) => ({
-          value: employee.id,
-          label: employee.fullName,
-        }))}
-        limit={10}
-        hidePickedOptions
-        searchable
-        key={form.key("employees")}
-        {...form.getInputProps("employees")}
       />
       <Button
         disabled={!formLoaded}

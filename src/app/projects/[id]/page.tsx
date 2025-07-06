@@ -4,8 +4,6 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 import { getTranslations } from "next-intl/server";
 import { getProjectInfo } from "@/features/projects/get-projects/get-project-info.action";
-import { ProgressList } from "@/features/progress/get-progress/progress-list.component";
-import { EmployeeList } from "@/features/employees/get-employees/employee-list.component";
 import Link from "next/link";
 import { IconEdit } from "@tabler/icons-react";
 import { User } from "@/features/db/user/user.model";
@@ -63,37 +61,10 @@ export default async function ProjectPage(props: ProgressPageProps) {
           </Button>
         </Group>
       )}
-      {project.employees && (
-        <Container component="section" fluid mt="xl">
-          <Title order={2} mb="lg">
-            {t("employees")}
-          </Title>
-          <EmployeeList employees={project.employees} />
-        </Container>
-      )}
       <Container component="section" fluid mt={40}>
         <Title order={2} mb="lg">
           {t("progress")}
         </Title>
-        <ProgressList
-          progress={project.progress.map((progress) => ({
-            id: progress.id,
-            title: progress.title,
-            description: progress.description,
-            sent_date: progress.sentDate,
-            image_url: progress.imageUrl,
-            parent_id: null,
-            employee: {
-              id: progress.employee.id,
-              full_name: progress.employee.fullName,
-            },
-            media: progress.media,
-            project: {
-              id: project.id,
-              title: project.title,
-            },
-          }))}
-        />
       </Container>
     </Container>
   );

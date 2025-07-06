@@ -20,12 +20,11 @@ export function useCreateProjectForm() {
     mode: "uncontrolled",
     initialValues: {
       title: "",
-      employees: [],
     },
     validate: getValidators(t),
   });
 
-  async function handleSubmit(values: { title: string; employees: string[] }) {
+  async function handleSubmit(values: { title: string }) {
     setError(null);
     setLoading(true);
 
