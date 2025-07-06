@@ -74,6 +74,74 @@ export type Database = {
           },
         ]
       }
+      message: {
+        Row: {
+          content: string
+          id: number
+          profile_id: string
+          sent_date: string
+          task_id: number
+        }
+        Insert: {
+          content: string
+          id?: number
+          profile_id: string
+          sent_date?: string
+          task_id: number
+        }
+        Update: {
+          content?: string
+          id?: number
+          profile_id?: string
+          sent_date?: string
+          task_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "message_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "message_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "task"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      message_media: {
+        Row: {
+          id: number
+          message_id: number
+          type: string
+          url: string
+        }
+        Insert: {
+          id?: number
+          message_id: number
+          type: string
+          url: string
+        }
+        Update: {
+          id?: number
+          message_id?: number
+          type?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "progress_media_progress_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "message"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification: {
         Row: {
           description: string
@@ -123,90 +191,6 @@ export type Database = {
           registration_date?: string | null
         }
         Relationships: []
-      }
-      progress: {
-        Row: {
-          description: string | null
-          employee_id: string
-          id: number
-          image_url: string | null
-          parent_id: number | null
-          project_id: number
-          sent_date: string
-          title: string | null
-        }
-        Insert: {
-          description?: string | null
-          employee_id: string
-          id?: never
-          image_url?: string | null
-          parent_id?: number | null
-          project_id: number
-          sent_date?: string
-          title?: string | null
-        }
-        Update: {
-          description?: string | null
-          employee_id?: string
-          id?: never
-          image_url?: string | null
-          parent_id?: number | null
-          project_id?: number
-          sent_date?: string
-          title?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "progress_employee_id_fkey"
-            columns: ["employee_id"]
-            isOneToOne: false
-            referencedRelation: "employee"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "progress_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "progress"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "progress_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "project"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      progress_media: {
-        Row: {
-          id: number
-          progress_id: number
-          type: string
-          url: string
-        }
-        Insert: {
-          id?: never
-          progress_id: number
-          type: string
-          url: string
-        }
-        Update: {
-          id?: never
-          progress_id?: number
-          type?: string
-          url?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "progress_media_progress_id_fkey"
-            columns: ["progress_id"]
-            isOneToOne: false
-            referencedRelation: "progress"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       project: {
         Row: {
@@ -260,6 +244,112 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task: {
+        Row: {
+          boss_id: string
+          completed: boolean
+          created_at: string
+          description: string
+          duration: number
+          id: number
+          start_date: string
+          title: string
+        }
+        Insert: {
+          boss_id: string
+          completed?: boolean
+          created_at?: string
+          description: string
+          duration: number
+          id?: number
+          start_date: string
+          title: string
+        }
+        Update: {
+          boss_id?: string
+          completed?: boolean
+          created_at?: string
+          description?: string
+          duration?: number
+          id?: number
+          start_date?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_boss_id_fkey"
+            columns: ["boss_id"]
+            isOneToOne: false
+            referencedRelation: "boss"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_assignment: {
+        Row: {
+          created_at: string
+          employee_id: string
+          task_id: number
+        }
+        Insert: {
+          created_at?: string
+          employee_id: string
+          task_id: number
+        }
+        Update: {
+          created_at?: string
+          employee_id?: string
+          task_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_assignment_employee_id_fkey"
+            columns: ["employee_id"]
+            isOneToOne: false
+            referencedRelation: "employee"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "task_assignment_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "task"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      task_media: {
+        Row: {
+          created_at: string
+          id: number
+          task_id: number
+          type: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          task_id: number
+          type: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          task_id?: number
+          type?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "task_media_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "task"
             referencedColumns: ["id"]
           },
         ]
