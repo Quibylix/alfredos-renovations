@@ -12,7 +12,7 @@
     "supabase:stop:test": "supabase stop --workdir ./tests",
     "supabase:start:dev": "supabase start",
     "supabase:stop:dev": "supabase stop",
-    "supabase:diff": "pnpm supabase:start:dev && supabase db diff --file $(date +\"%Y%m%d_%H%M%S\")_migration --schema private,public,storage,auth",
+    "supabase:diff": "pnpm supabase:start:dev && supabase db diff --file $(date +\"%Y%m%d_%H%M%S\")_migration --schema private,public",
     "supabase:gen:types": "pnpm supabase:start:dev && supabase gen types typescript --db-url \"postgresql://postgres:postgres@localhost:54322/postgres\" > ./src/features/db/supabase/types.ts",
     "supabase:push:dev": "pnpm supabase:start:dev && supabase db push --db-url \"postgresql://postgres:postgres@localhost:54322/postgres\"",
     "supabase:reset:test": "pnpm supabase:start:test && ./supabase/scripts/copy-migrations-to-test.sh && supabase db reset --workdir ./tests"
