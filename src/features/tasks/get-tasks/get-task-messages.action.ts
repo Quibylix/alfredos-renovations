@@ -5,6 +5,7 @@ import { TaskData } from "./get-related-tasks.action";
 import { User } from "@/features/db/user/user.model";
 import { USER_ROLES } from "@/features/db/user/user.constant";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
+import { taskEmployeeValidator } from "@/features/messages/send-message/task-employee-validator.action";
 
 export type MessageData = {
   id: number;
@@ -39,22 +40,26 @@ export async function getTaskMessages(taskId: number): Promise<{
     };
   }
 
-  const builtQuery = db
+  if (!(await taskEmployeeValidator(taskId))) {
+    return {
+      errorCode: ERROR_CODES.NOT_AUTHORIZED,
+      task: null,
+      messages: [],
+    };
+  }
+
+  const { data: taskData, error: taskError } = await db
     .from("task")
     .select(
       `id, title, description, startDate: start_date, duration,
         completed, createdAt: created_at,
-        employees: employee!inner(id, ...profile(fullName: full_name)),
+        employees: employee(id, ...profile(fullName: full_name)),
         media: task_media (id, type, url),
         boss(id, ...profile(fullName: full_name)),
         project(id, title)`,
     )
-    .eq("id", taskId);
-
-  const { data: taskData, error: taskError } =
-    role === USER_ROLES.EMPLOYEE
-      ? await builtQuery.eq("employees.id", userId!).single()
-      : await builtQuery.single();
+    .eq("id", taskId)
+    .single();
 
   if (!taskData) {
     return {

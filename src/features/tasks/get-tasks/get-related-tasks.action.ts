@@ -48,22 +48,44 @@ export async function getRelatedTasks(): Promise<{
     };
   }
 
-  const builtQuery = db.from("task").select(
-    `id, title, description, startDate: start_date, duration,
+  if (role === USER_ROLES.BOSS) {
+    const { data, error } = await db.from("task").select(
+      `id, title, description, startDate: start_date, duration,
         completed, createdAt: created_at,
-        employees: employee!inner(id, ...profile(fullName: full_name)),
+        employees: employee(id, ...profile(fullName: full_name)),
         media: task_media (id, type, url),
         boss(id, ...profile(fullName: full_name)),
         project(id, title)`,
-  );
+    );
 
-  const { data, error } =
-    role === USER_ROLES.EMPLOYEE
-      ? await builtQuery.eq("employees.id", userId!)
-      : await builtQuery;
+    if (error || !data) {
+      console.error("Error fetching projects:", error);
+      return {
+        errorCode: ERROR_CODES.UNKNOWN,
+        tasks: [],
+      };
+    }
 
-  if (error || !data) {
-    console.error("Error fetching projects:", error);
+    return {
+      errorCode: ERROR_CODES.SUCCESS,
+      tasks: data as TaskData[],
+    };
+  }
+
+  const { data, error } = await db
+    .from("task_assignment")
+    .select(
+      `...task(id, title, description, startDate: start_date,
+        duration, completed, createdAt: created_at,
+        employees: employee(id, ...profile(fullName: full_name)),
+        media: task_media (id, type, url),
+        boss(id, ...profile(fullName: full_name)),
+        project(id, title))`,
+    )
+    .eq("employee_id", userId!);
+
+  if (error) {
+    console.error("Error fetching task assignments:", error);
     return {
       errorCode: ERROR_CODES.UNKNOWN,
       tasks: [],
