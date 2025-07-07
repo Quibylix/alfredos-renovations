@@ -5,7 +5,6 @@ import { ERROR_CODES } from "@/features/employees/get-employees/error_codes.cons
 import { z } from "zod";
 import { notFound } from "next/navigation";
 import { getProjectInfo } from "@/features/projects/get-projects/get-project-info.action";
-import { getEmployees } from "@/features/employees/get-employees/get-employees.action";
 
 const propsSchema = z.object({
   params: z.promise(

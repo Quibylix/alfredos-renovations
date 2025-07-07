@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Paper, Text, Textarea, TextInput } from "@mantine/core";
+import { Button, Paper, Text, Textarea } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useExtendProgressForm } from "./use-extend-progress-form.hook";
 import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzone.component";
