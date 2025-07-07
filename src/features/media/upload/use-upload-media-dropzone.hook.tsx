@@ -8,7 +8,7 @@ import { randomId } from "@mantine/hooks";
 export function useUploadMediaDropzone(
   addMedia: (type: "image" | "video", url: string) => void,
 ) {
-  const t = useTranslations("uploadImage");
+  const t = useTranslations("uploadMedia");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

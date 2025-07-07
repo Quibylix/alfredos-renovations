@@ -120,23 +120,6 @@
       }
     }
   },
-  "uploadImage": {
-    "api": {
-      "message": {
-        "success": "Imagen subida exitosamente",
-        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
-        "mimeTypeNotSupported": "Tipo de archivo no permitido. Por favor, sube una imagen en formato JPEG, PNG o HEIC.",
-        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
-      }
-    },
-    "success": "Imagen subida exitosamente",
-    "error": "Error al subir la imagen",
-    "dropzone": {
-      "title": "Arrastra y suelta una imagen aquí o haz clic para subir",
-      "description": "Formato permitido: JPEG, PNG, WEBP, HEIC. Tamaño máximo: 5MB.",
-      "capture": "Captura desde la cámara"
-    }
-  },
   "uploadMedia": {
     "api": {
       "message": {
@@ -172,9 +155,9 @@
         "placeholder": "Descripción de la tarea",
         "isRequired": "La descripción es obligatoria"
       },
-      "image": {
-        "label": "Imagen",
-        "previewAlt": "Imagen de la tarea del proyecto"
+      "media": {
+        "label": "Archivos",
+        "previewAlt": "Imagen de la tarea"
       },
       "dateRange": {
         "label": "Rango de fechas",
@@ -243,8 +226,8 @@
         "placeholder": "Contenido del mensaje",
         "isRequired": "El contenido es obligatorio"
       },
-      "image": {
-        "label": "Imagen",
+      "media": {
+        "label": "Archivos",
         "previewAlt": "Imagen del mensaje"
       },
       "submit": "Enviar mensaje"

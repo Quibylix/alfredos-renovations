@@ -97,7 +97,7 @@ export function SetTaskForm({ projects, employees }: SetTaskFormProps) {
         {...form.getInputProps("employees")}
       />
       <Text size="sm" mt="md" mb={5} fw={500}>
-        {t("image.label")}
+        {t("media.label")}
       </Text>
       <MediaUploadPreview media={media} removeMedia={removeMedia} />
       <UploadMediaDropzone addMedia={addMedia} />

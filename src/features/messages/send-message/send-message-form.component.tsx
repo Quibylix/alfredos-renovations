@@ -42,7 +42,7 @@ export function SendMessageForm({ taskId }: SendMessageFormProps) {
         {...form.getInputProps("content")}
       />
       <Text size="sm" mt="md" mb={5} fw={500}>
-        {t("image.label")}
+        {t("media.label")}
       </Text>
       <MediaUploadPreview media={media} removeMedia={removeMedia} />
       <UploadMediaDropzone addMedia={addMedia} />
