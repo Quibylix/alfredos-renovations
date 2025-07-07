@@ -4,7 +4,7 @@ import { createAdminClient } from "@/features/db/supabase/create-admin-client.ut
 import { USER_ROLES } from "@/features/db/user/user.constant";
 import { User } from "@/features/db/user/user.model";
 
-export async function projectProgressEmployeeValidator(taskId: number) {
+export async function taskEmployeeValidator(taskId: number) {
   const db = createAdminClient();
 
   const userId = await User.getCurrentUserId();

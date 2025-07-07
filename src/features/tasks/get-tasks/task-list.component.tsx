@@ -1,16 +1,16 @@
 import { Stack } from "@mantine/core";
 import { TaskData } from "./get-related-tasks.action";
-import { ProgressPreview } from "./task-preview.component";
+import { TaskPreview } from "./task-preview.component";
 
-type ProgressListProps = {
-  progress: TaskData[];
+type TaskListProps = {
+  tasks: TaskData[];
 };
 
-export function ProgressList({ progress }: ProgressListProps) {
+export function TaskList({ tasks }: TaskListProps) {
   return (
     <Stack>
-      {progress.map((progressItem) => (
-        <ProgressPreview key={progressItem.id} progress={progressItem} />
+      {tasks.map((task) => (
+        <TaskPreview key={task.id} task={task} />
       ))}
     </Stack>
   );

@@ -32,7 +32,7 @@ export type TaskData = {
   };
 };
 
-export async function getRelatedProgress(): Promise<{
+export async function getRelatedTasks(): Promise<{
   errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
   tasks: TaskData[];
 }> {

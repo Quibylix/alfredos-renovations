@@ -1,6 +1,6 @@
 import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
-import { getRelatedProgress } from "@/features/tasks/get-tasks/get-related-tasks.action";
-import { ProgressList } from "@/features/tasks/get-tasks/task-list.component";
+import { getRelatedTasks } from "@/features/tasks/get-tasks/get-related-tasks.action";
+import { TaskList } from "@/features/tasks/get-tasks/task-list.component";
 import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
 import { ProjectList } from "@/features/projects/get-projects/project-list.component";
 import { Container, Title } from "@mantine/core";
@@ -9,9 +9,9 @@ import { getTranslations } from "next-intl/server";
 export default async function HomePage() {
   const t = await getTranslations("home");
 
-  const progressResult = await getRelatedProgress();
+  const taskResult = await getRelatedTasks();
 
-  if (progressResult.errorCode !== ERROR_CODES.SUCCESS) {
+  if (taskResult.errorCode !== ERROR_CODES.SUCCESS) {
     return null;
   }
 
@@ -30,7 +30,7 @@ export default async function HomePage() {
         <Title order={2} mb="md" fw={700}>
           {t("progress")}
         </Title>
-        <ProgressList progress={progressResult.tasks} />
+        <TaskList tasks={taskResult.tasks} />
       </Container>
       <Container component="section" fluid mt={45}>
         <Title order={2} mb="md" fw={700}>

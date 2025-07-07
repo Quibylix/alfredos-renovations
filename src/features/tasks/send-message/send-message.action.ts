@@ -3,7 +3,7 @@
 import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
-import { projectProgressEmployeeValidator } from "./task-employee-validator.action";
+import { taskEmployeeValidator } from "./task-employee-validator.action";
 
 export async function extendProgress({
   taskId,
@@ -17,7 +17,7 @@ export async function extendProgress({
   const userId = await User.getCurrentUserId();
   const db = createAdminClient();
 
-  if (!(await projectProgressEmployeeValidator(taskId))) {
+  if (!(await taskEmployeeValidator(taskId))) {
     return ERROR_CODES.NOT_AUTHORIZED;
   }
 

@@ -1,13 +1,13 @@
 import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
-import { getRelatedProgress } from "@/features/tasks/get-tasks/get-related-tasks.action";
-import { ProgressList } from "@/features/tasks/get-tasks/task-list.component";
+import { getRelatedTasks } from "@/features/tasks/get-tasks/get-related-tasks.action";
+import { TaskList } from "@/features/tasks/get-tasks/task-list.component";
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 
-export default async function ProgressPage() {
+export default async function TasksPage() {
   const t = await getTranslations("progress");
 
-  const result = await getRelatedProgress();
+  const result = await getRelatedTasks();
 
   if (result.errorCode !== ERROR_CODES.SUCCESS) {
     return null;
@@ -18,7 +18,7 @@ export default async function ProgressPage() {
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
-      <ProgressList progress={result.tasks} />
+      <TaskList tasks={result.tasks} />
     </Container>
   );
 }

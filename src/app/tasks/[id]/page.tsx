@@ -1,9 +1,9 @@
 import { Button, Container, Stack, Title } from "@mantine/core";
 import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
-import { getProgressTree } from "@/features/tasks/get-tasks/get-task-messages.action";
+import { getTaskMessages } from "@/features/tasks/get-tasks/get-task-messages.action";
 import { notFound } from "next/navigation";
 import { z } from "zod";
-import { Progress } from "@/features/tasks/get-tasks/task.component";
+import { Task } from "@/features/tasks/get-tasks/task.component";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { AppRoutes } from "@/features/shared/app-routes.util";
@@ -16,9 +16,9 @@ const propsSchema = z.object({
   ),
 });
 
-export type ProgressPageProps = z.infer<typeof propsSchema>;
+export type TaskPageProps = z.infer<typeof propsSchema>;
 
-export default async function ProgressPage(props: ProgressPageProps) {
+export default async function TaskPage(props: TaskPageProps) {
   const result = propsSchema.safeParse(props);
 
   if (!result.success) {
@@ -27,7 +27,7 @@ export default async function ProgressPage(props: ProgressPageProps) {
 
   const { id } = await result.data.params;
 
-  const { errorCode, task, messages } = await getProgressTree(Number(id));
+  const { errorCode, task, messages } = await getTaskMessages(Number(id));
 
   if (errorCode !== ERROR_CODES.SUCCESS) {
     notFound();
@@ -45,9 +45,9 @@ export default async function ProgressPage(props: ProgressPageProps) {
         {task.title}
       </Title>
       <Stack gap="lg">
-        <Progress data={task} />
+        <Task data={task} />
         {messages.map((p) => (
-          <Progress key={p.id} data={task} />
+          <Task key={p.id} data={task} />
         ))}
         <Button
           variant="outline"

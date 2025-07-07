@@ -4,7 +4,7 @@ import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 
-export async function sendProgress({
+export async function setTask({
   projectId,
   title,
   description,
@@ -59,7 +59,7 @@ export async function sendProgress({
   const mediaResponse = await db.from("task_media").insert(mediaInsertions);
 
   if (mediaResponse.error) {
-    console.error("Error inserting progress media:", mediaResponse.error);
+    console.error("Error inserting task media:", mediaResponse.error);
     return ERROR_CODES.UNKNOWN;
   }
 

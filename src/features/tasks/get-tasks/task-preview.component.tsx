@@ -9,20 +9,20 @@ import { useTranslations } from "next-intl";
 import { useResizeObserver } from "@mantine/hooks";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 
-export function ProgressPreview({ progress }: { progress: TaskData }) {
+export function TaskPreview({ task }: { task: TaskData }) {
   const t = useTranslations("progress");
 
   const [ref, rect] = useResizeObserver();
 
-  const imageURL = progress.media.find((media) => media.type === "image")?.url;
+  const imageURL = task.media.find((media) => media.type === "image")?.url;
 
-  const startDate = new Date(progress.startDate);
-  const endDate = new Date(startDate.getTime() + progress.duration);
+  const startDate = new Date(task.startDate);
+  const endDate = new Date(startDate.getTime() + task.duration);
 
   return (
     <Card ref={ref} withBorder radius="md" p={0} className={classes.card}>
       <Link
-        href={AppRoutes.getRoute("PROGRESS", { id: progress.id.toString() })}
+        href={AppRoutes.getRoute("PROGRESS", { id: task.id.toString() })}
         className={classes.link}
       >
         <Group>
@@ -39,13 +39,13 @@ export function ProgressPreview({ progress }: { progress: TaskData }) {
           />
           <div className={classes.body}>
             <Text tt="uppercase" c="dimmed" fw={700} size="xs" lineClamp={1}>
-              {progress.project.title}
+              {task.project.title}
             </Text>
             <Text className={classes.title} mt="xs" lineClamp={1}>
-              {progress.title}
+              {task.title}
             </Text>
             <Text size="xs" c="dimmed" mt="xs" mb="md" lineClamp={2}>
-              {progress.description}
+              {task.description}
             </Text>
             <Group wrap="nowrap" gap="xs" mt="md">
               <Text size="xs" c="dimmed">

@@ -21,7 +21,7 @@ export type MessageData = {
   }[];
 };
 
-export async function getProgressTree(taskId: number): Promise<{
+export async function getTaskMessages(taskId: number): Promise<{
   errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
   task: TaskData | null;
   messages: MessageData[];
@@ -85,7 +85,7 @@ export async function getProgressTree(taskId: number): Promise<{
     .eq("task_id", taskId);
 
   if (messagesError) {
-    console.error("Error fetching progress data:", messagesError);
+    console.error("Error fetching task data:", messagesError);
     return {
       errorCode: ERROR_CODES.UNKNOWN,
       task: null,

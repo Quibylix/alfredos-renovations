@@ -3,12 +3,12 @@ import { getValidators } from "./validators.util";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
-import { APIResponse as ProgressAPIResponse } from "@/app/api/v1/tasks/route";
-import { ERROR_CODES as SEND_PROGRESS_API_ERROR_CODES } from "./error_codes.constant";
+import { APIResponse as TaskAPIResponse } from "@/app/api/v1/tasks/route";
+import { ERROR_CODES as SET_TASK_API_ERROR_CODES } from "./error_codes.constant";
 import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 
-export function useSendProgressForm() {
+export function useSetTaskForm() {
   const t = useTranslations("sendProgress");
 
   const [loading, setLoading] = useState(false);
@@ -79,7 +79,7 @@ export function useSendProgressForm() {
 
         return response.json();
       })
-      .then((res: ProgressAPIResponse) => handleApiResponse(res))
+      .then((res: TaskAPIResponse) => handleApiResponse(res))
       .catch((error) => {
         console.error("Error:", error);
         handleUnknownError();
@@ -88,12 +88,12 @@ export function useSendProgressForm() {
         setLoading(false);
       });
 
-    function handleApiResponse(res: ProgressAPIResponse) {
+    function handleApiResponse(res: TaskAPIResponse) {
       if (res.success) {
         return handleSuccessResponse();
       }
 
-      if (res.errorCode === SEND_PROGRESS_API_ERROR_CODES.INVALID_REQUEST) {
+      if (res.errorCode === SET_TASK_API_ERROR_CODES.INVALID_REQUEST) {
         return handleInvalidRequest();
       }
 

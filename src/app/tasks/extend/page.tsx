@@ -2,7 +2,7 @@ import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import { ExtendProgressForm } from "@/features/tasks/send-message/send-message-form.component";
 import { z } from "zod";
-import { projectProgressEmployeeValidator } from "@/features/tasks/send-message/task-employee-validator.action";
+import { taskEmployeeValidator } from "@/features/tasks/send-message/task-employee-validator.action";
 import { notFound } from "next/navigation";
 
 const propsSchema = z.object({
@@ -28,7 +28,7 @@ export default async function ExtendProgressPage(
 
   const params = await result.data.searchParams;
 
-  const valid = await projectProgressEmployeeValidator(Number(params.taskId));
+  const valid = await taskEmployeeValidator(Number(params.taskId));
 
   if (!valid) {
     return notFound();

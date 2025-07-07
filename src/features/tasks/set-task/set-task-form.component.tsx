@@ -11,21 +11,18 @@ import {
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useTranslations } from "next-intl";
-import { useSendProgressForm } from "./use-set-task-form.hook";
+import { useSetTaskForm } from "./use-set-task-form.hook";
 import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzone.component";
 import { MediaUploadPreview } from "@/features/media/upload/media-upload-preview.component";
 
-export type SendProgressFormProps = {
+export type SetTaskFormProps = {
   projects: { id: number; title: string }[];
   employees: { id: string; fullName: string }[];
 };
 
-export function SendProgressForm({
-  projects,
-  employees,
-}: SendProgressFormProps) {
+export function SetTaskForm({ projects, employees }: SetTaskFormProps) {
   const { form, submitHandler, media, addMedia, removeMedia, error, loading } =
-    useSendProgressForm();
+    useSetTaskForm();
 
   const t = useTranslations("sendProgress.form");
 

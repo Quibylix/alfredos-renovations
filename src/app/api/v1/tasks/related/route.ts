@@ -1,6 +1,6 @@
 import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
 import {
-  getRelatedProgress,
+  getRelatedTasks,
   TaskData,
 } from "@/features/tasks/get-tasks/get-related-tasks.action";
 import { getTranslations } from "next-intl/server";
@@ -14,7 +14,7 @@ export type APIResponse = {
 export async function GET() {
   const t = await getTranslations("getRelatedProgress.api");
 
-  const { errorCode, tasks } = await getRelatedProgress();
+  const { errorCode, tasks } = await getRelatedTasks();
 
   if (errorCode === ERROR_CODES.NOT_AUTHORIZED) {
     return Response.json({

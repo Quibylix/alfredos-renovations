@@ -4,13 +4,13 @@ import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { MediaPreview } from "@/features/media/preview/media-preview.component";
 
-export type ProgressProps = {
+export type TaskProps = {
   data: TaskData;
 };
 
-export function Progress({
+export function Task({
   data: { title, description, media, startDate, project, boss },
-}: ProgressProps) {
+}: TaskProps) {
   const t = useTranslations("progress");
 
   return (

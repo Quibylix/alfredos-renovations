@@ -1,13 +1,13 @@
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
-import { SendProgressForm } from "@/features/tasks/set-task/set-task-form.component";
+import { SetTaskForm } from "@/features/tasks/set-task/set-task-form.component";
 import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
 import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
 import { redirect } from "next/navigation";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 import { getEmployees } from "@/features/employees/get-employees/get-employees.action";
 
-export default async function SendProgressPage() {
+export default async function SetTaskPage() {
   const t = await getTranslations("sendProgress");
 
   const { projects, errorCode } = await getRelatedProjects();
@@ -39,7 +39,7 @@ export default async function SendProgressPage() {
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
-      <SendProgressForm projects={projects} employees={employees} />
+      <SetTaskForm projects={projects} employees={employees} />
     </Container>
   );
 }

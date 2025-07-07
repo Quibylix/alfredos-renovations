@@ -7,7 +7,7 @@ export const APP_ROUTES = {
   REGISTER_EMPLOYEE: "/auth/register-employee",
   PROGRESS_LIST: "/tasks",
   PROGRESS: "/tasks/:id",
-  SEND_PROGRESS: "/tasks/send",
+  SEND_PROGRESS: "/tasks/set",
   EXTEND_PROGRESS: "/tasks/extend",
   PROJECT_LIST: "/projects",
   PROJECT: "/projects/:id",
