@@ -2,7 +2,7 @@ import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
-import { APIResponse as ProgressAPIResponse } from "@/app/api/v1/progress/extend/route";
+import { APIResponse as ProgressAPIResponse } from "@/app/api/v1/tasks/extend/route";
 import { ERROR_CODES as EXTEND_PROGRESS_API_ERROR_CODES } from "./error_codes.constant";
 import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/app-routes.util";

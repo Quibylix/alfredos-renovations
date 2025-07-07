@@ -3,7 +3,7 @@ import { getValidators } from "./validators.util";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
-import { APIResponse as EditProjectAPIResponse } from "@/app/api/v1/progress/route";
+import { APIResponse as EditProjectAPIResponse } from "@/app/api/v1/tasks/route";
 import { ERROR_CODES as EDIT_PROJECT_API_ERROR_CODES } from "./error_codes.constant";
 import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/app-routes.util";

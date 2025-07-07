@@ -7,6 +7,7 @@ import Link from "next/link";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { useResizeObserver } from "@mantine/hooks";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export function ProgressPreview({ progress }: { progress: TaskData }) {
   const t = useTranslations("progress");
@@ -20,7 +21,10 @@ export function ProgressPreview({ progress }: { progress: TaskData }) {
 
   return (
     <Card ref={ref} withBorder radius="md" p={0} className={classes.card}>
-      <Link href={`/progress/${progress.id}`} className={classes.link}>
+      <Link
+        href={AppRoutes.getRoute("PROGRESS", { id: progress.id.toString() })}
+        className={classes.link}
+      >
         <Group>
           <Image
             className={
