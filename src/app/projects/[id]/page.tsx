@@ -8,6 +8,7 @@ import Link from "next/link";
 import { IconEdit } from "@tabler/icons-react";
 import { User } from "@/features/db/user/user.model";
 import { USER_ROLES } from "@/features/db/user/user.constant";
+import { TaskList } from "@/features/tasks/get-tasks/task-list.component";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -65,6 +66,7 @@ export default async function ProjectPage(props: ProgressPageProps) {
         <Title order={2} mb="lg">
           {t("tasks")}
         </Title>
+        <TaskList tasks={project.tasks} />
       </Container>
     </Container>
   );
