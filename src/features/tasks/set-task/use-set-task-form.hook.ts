@@ -71,7 +71,7 @@ export function useSetTaskForm() {
       }),
     };
 
-    fetch(AppRoutes.getRoute("API_SEND_PROGRESS"), options)
+    fetch(AppRoutes.getRoute("API_SET_TASK"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -106,7 +106,7 @@ export function useSetTaskForm() {
         message: t("api.message.success"),
       });
       form.reset();
-      router.push(AppRoutes.getRoute("PROGRESS_LIST"));
+      router.push(AppRoutes.getRoute("TASK_LIST"));
       router.refresh();
     }
 

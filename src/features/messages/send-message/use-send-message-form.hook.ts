@@ -55,7 +55,7 @@ export function useSendMessageForm(taskId: number) {
       }),
     };
 
-    fetch(AppRoutes.getRoute("API_EXTEND_PROGRESS"), options)
+    fetch(AppRoutes.getRoute("API_SEND_MESSAGE"), options)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -94,7 +94,7 @@ export function useSendMessageForm(taskId: number) {
         message: t("api.message.success"),
       });
       form.reset();
-      router.push(AppRoutes.getRoute("PROGRESS", { id: taskId.toString() }));
+      router.push(AppRoutes.getRoute("TASK", { id: taskId.toString() }));
       router.refresh();
     }
 

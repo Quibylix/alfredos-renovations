@@ -22,7 +22,7 @@ export function TaskPreview({ task }: { task: TaskData }) {
   return (
     <Card ref={ref} withBorder radius="md" p={0} className={classes.card}>
       <Link
-        href={AppRoutes.getRoute("PROGRESS", { id: task.id.toString() })}
+        href={AppRoutes.getRoute("TASK", { id: task.id.toString() })}
         className={classes.link}
       >
         <Group>

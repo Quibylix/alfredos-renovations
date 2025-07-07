@@ -52,7 +52,7 @@ export default async function TaskPage(props: TaskPageProps) {
         <Button
           variant="outline"
           component={Link}
-          href={AppRoutes.getRoute("EXTEND_PROGRESS") + `?taskId=${task.id}`}
+          href={AppRoutes.getRoute("SEND_MESSAGE") + `?taskId=${task.id}`}
         >
           {t("message")}
         </Button>
