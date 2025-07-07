@@ -229,7 +229,11 @@
     "title": "Tarea",
     "message": "Enviar mensaje",
     "alt": "Imagen de la tarea",
-    "avatar": "Avatar del empleado"
+    "avatar": "Avatar del empleado",
+    "completed": "Tarea completada",
+    "pending": "Tarea pendiente",
+    "createdAt": "Creada",
+    "assignedEmployees": "Empleados asignados"
   },
   "sendMessage": {
     "title": "Enviar mensaje",
