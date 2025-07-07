@@ -2,12 +2,12 @@ import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
-import { APIResponse as ProgressAPIResponse } from "@/app/api/v1/tasks/extend/route";
-import { ERROR_CODES as EXTEND_PROGRESS_API_ERROR_CODES } from "./error_codes.constant";
+import { APIResponse as MessageAPIResponse } from "@/app/api/v1/messages/send/route";
+import { ERROR_CODES as SEND_MESSAGE_API_ERROR_CODES } from "./error_codes.constant";
 import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 
-export function useExtendProgressForm(taskId: number) {
+export function useSendMessageForm(taskId: number) {
   const t = useTranslations("extendProgress");
 
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ export function useExtendProgressForm(taskId: number) {
 
         return response.json();
       })
-      .then((res: ProgressAPIResponse) => handleApiResponse(res))
+      .then((res: MessageAPIResponse) => handleApiResponse(res))
       .catch((error) => {
         console.error("Error:", error);
         handleUnknownError();
@@ -72,16 +72,16 @@ export function useExtendProgressForm(taskId: number) {
         setLoading(false);
       });
 
-    function handleApiResponse(res: ProgressAPIResponse) {
+    function handleApiResponse(res: MessageAPIResponse) {
       if (res.success) {
         return handleSuccessResponse();
       }
 
-      if (res.errorCode === EXTEND_PROGRESS_API_ERROR_CODES.INVALID_REQUEST) {
+      if (res.errorCode === SEND_MESSAGE_API_ERROR_CODES.INVALID_REQUEST) {
         return handleInvalidRequest();
       }
 
-      if (res.errorCode === EXTEND_PROGRESS_API_ERROR_CODES.NOT_AUTHORIZED) {
+      if (res.errorCode === SEND_MESSAGE_API_ERROR_CODES.NOT_AUTHORIZED) {
         return handleNotAuthorized();
       }
 

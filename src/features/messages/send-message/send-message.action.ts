@@ -5,7 +5,7 @@ import { User } from "@/features/db/user/user.model";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 import { taskEmployeeValidator } from "./task-employee-validator.action";
 
-export async function extendProgress({
+export async function sendMessage({
   taskId,
   content,
   media,

@@ -1,8 +1,8 @@
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
-import { ExtendProgressForm } from "@/features/tasks/send-message/send-message-form.component";
+import { SendMessageForm } from "@/features/messages/send-message/send-message-form.component";
 import { z } from "zod";
-import { taskEmployeeValidator } from "@/features/tasks/send-message/task-employee-validator.action";
+import { taskEmployeeValidator } from "@/features/messages/send-message/task-employee-validator.action";
 import { notFound } from "next/navigation";
 
 const propsSchema = z.object({
@@ -13,11 +13,9 @@ const propsSchema = z.object({
   ),
 });
 
-export type ExtendProgressPageProps = z.infer<typeof propsSchema>;
+export type SendMessagePageProps = z.infer<typeof propsSchema>;
 
-export default async function ExtendProgressPage(
-  props: ExtendProgressPageProps,
-) {
+export default async function SendMessagePage(props: SendMessagePageProps) {
   const result = propsSchema.safeParse(props);
 
   if (!result.success) {
@@ -39,7 +37,7 @@ export default async function ExtendProgressPage(
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
-      <ExtendProgressForm taskId={Number(params.taskId)} />
+      <SendMessageForm taskId={Number(params.taskId)} />
     </Container>
   );
 }

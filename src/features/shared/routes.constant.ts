@@ -8,7 +8,7 @@ export const APP_ROUTES = {
   PROGRESS_LIST: "/tasks",
   PROGRESS: "/tasks/:id",
   SEND_PROGRESS: "/tasks/set",
-  EXTEND_PROGRESS: "/tasks/extend",
+  EXTEND_PROGRESS: "/messages/send",
   PROJECT_LIST: "/projects",
   PROJECT: "/projects/:id",
   CREATE_PROJECT: "/projects/create",
@@ -20,7 +20,7 @@ export const APP_ROUTES = {
   API_SEND_PROGRESS: `${API_URL_BASE}/tasks`,
   API_GET_RELATED_PROGRESS: `${API_URL_BASE}/tasks/related`,
   API_GET_RELATED_PROJECTS: `${API_URL_BASE}/projects/related`,
-  API_EXTEND_PROGRESS: `${API_URL_BASE}/tasks/extend`,
+  API_EXTEND_PROGRESS: `${API_URL_BASE}/messages/send`,
   API_CREATE_PROJECT: `${API_URL_BASE}/projects`,
   API_EDIT_PROJECT: `${API_URL_BASE}/projects/edit`,
 } as const;

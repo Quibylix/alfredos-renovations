@@ -1,5 +1,5 @@
-import { ERROR_CODES } from "@/features/tasks/send-message/error_codes.constant";
-import { extendProgress } from "@/features/tasks/send-message/send-message.action";
+import { ERROR_CODES } from "@/features/messages/send-message/error_codes.constant";
+import { sendMessage } from "@/features/messages/send-message/send-message.action";
 import { getTranslations } from "next-intl/server";
 import { NextRequest } from "next/server";
 import { z } from "zod";
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const errorCode = await extendProgress(parsedBody.data);
+  const errorCode = await sendMessage(parsedBody.data);
 
   if (errorCode === ERROR_CODES.SUCCESS) {
     return Response.json({

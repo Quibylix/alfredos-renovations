@@ -2,17 +2,17 @@
 
 import { Button, Paper, Text, Textarea } from "@mantine/core";
 import { useTranslations } from "next-intl";
-import { useExtendProgressForm } from "./use-send-message-form.hook";
+import { useSendMessageForm } from "./use-send-message-form.hook";
 import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzone.component";
 import { MediaUploadPreview } from "@/features/media/upload/media-upload-preview.component";
 
-export type ExtendProgressFormProps = {
+export type SendMessageFormProps = {
   taskId: number;
 };
 
-export function ExtendProgressForm({ taskId }: ExtendProgressFormProps) {
+export function SendMessageForm({ taskId }: SendMessageFormProps) {
   const { form, submitHandler, media, addMedia, removeMedia, error, loading } =
-    useExtendProgressForm(taskId);
+    useSendMessageForm(taskId);
 
   const t = useTranslations("extendProgress.form");
 
