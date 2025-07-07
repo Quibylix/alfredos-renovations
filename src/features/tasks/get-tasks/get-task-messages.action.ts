@@ -56,8 +56,6 @@ export async function getTaskMessages(taskId: number): Promise<{
       ? await builtQuery.eq("employees.id", userId!).single()
       : await builtQuery.single();
 
-  console.log(taskData);
-
   if (!taskData) {
     return {
       errorCode: ERROR_CODES.NOT_AUTHORIZED,
