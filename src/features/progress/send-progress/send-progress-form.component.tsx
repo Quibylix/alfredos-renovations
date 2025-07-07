@@ -2,12 +2,14 @@
 
 import {
   Button,
+  MultiSelect,
   Paper,
   Select,
   Text,
   Textarea,
   TextInput,
 } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import { useTranslations } from "next-intl";
 import { useSendProgressForm } from "./use-send-progress-form.hook";
 import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzone.component";
@@ -15,9 +17,13 @@ import { MediaUploadPreview } from "@/features/media/upload/media-upload-preview
 
 export type SendProgressFormProps = {
   projects: { id: number; title: string }[];
+  employees: { id: string; fullName: string }[];
 };
 
-export function SendProgressForm({ projects }: SendProgressFormProps) {
+export function SendProgressForm({
+  projects,
+  employees,
+}: SendProgressFormProps) {
   const { form, submitHandler, media, addMedia, removeMedia, error, loading } =
     useSendProgressForm();
 
@@ -68,6 +74,30 @@ export function SendProgressForm({ projects }: SendProgressFormProps) {
         mt="md"
         key={form.key("description")}
         {...form.getInputProps("description")}
+      />
+      <DatePickerInput
+        type="range"
+        label={t("dateRange.label")}
+        placeholder={t("dateRange.placeholder")}
+        mt="md"
+        required
+        key={form.key("dateRange")}
+        {...form.getInputProps("dateRange")}
+      />
+      <MultiSelect
+        mt="md"
+        label={t("employees.label")}
+        placeholder={t("employees.placeholder")}
+        data={employees.map((employee) => ({
+          value: employee.id,
+          label: employee.fullName,
+        }))}
+        limit={10}
+        hidePickedOptions
+        searchable
+        required
+        key={form.key("employees")}
+        {...form.getInputProps("employees")}
       />
       <Text size="sm" mt="md" mb={5} fw={500}>
         {t("image.label")}

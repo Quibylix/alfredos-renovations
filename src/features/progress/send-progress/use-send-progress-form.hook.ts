@@ -27,12 +27,16 @@ export function useSendProgressForm() {
     projectId: string;
     title: string;
     description: string;
+    dateRange: [string | null, string | null];
+    employees: string[];
   }>({
     mode: "uncontrolled",
     initialValues: {
       projectId: "",
       title: "",
       description: "",
+      dateRange: [null, null],
+      employees: [],
     },
     validate: getValidators(t),
   });
@@ -41,9 +45,16 @@ export function useSendProgressForm() {
     projectId: string;
     title: string;
     description: string;
+    dateRange: [string | null, string | null];
+    employees: string[];
   }) {
     setError(null);
     setLoading(true);
+
+    const startDate = new Date(values.dateRange[0] || "").toISOString();
+    const durationInMs =
+      new Date(values.dateRange[1] || "").getTime() -
+      new Date(values.dateRange[0] || "").getTime();
 
     const options = {
       method: "POST",
@@ -53,6 +64,9 @@ export function useSendProgressForm() {
       body: JSON.stringify({
         ...values,
         media,
+        startDate,
+        duration: durationInMs,
+        employees: values.employees,
         projectId: Number(values.projectId),
       }),
     };

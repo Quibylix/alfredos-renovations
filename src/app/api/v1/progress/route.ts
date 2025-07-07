@@ -1,6 +1,5 @@
 import { ERROR_CODES } from "@/features/progress/send-progress/error_codes.constant";
 import { sendProgress } from "@/features/progress/send-progress/send-progress.action";
-import { checkEmployeeIsInProject } from "@/features/projects/check-employee-is-in-project.action";
 import { getTranslations } from "next-intl/server";
 import { NextRequest } from "next/server";
 import { z } from "zod";
@@ -15,6 +14,9 @@ const bodySchema = z.object({
   projectId: z.number().int().positive(),
   title: z.string().trim().nonempty(),
   description: z.string().trim().nonempty(),
+  startDate: z.string().datetime(),
+  duration: z.number().int().positive(),
+  employees: z.array(z.string().trim().nonempty()).nonempty(),
   media: z.array(
     z.object({
       type: z.enum(["image", "video"]),
@@ -31,17 +33,6 @@ export async function POST(request: NextRequest) {
   const parsedBody = bodySchema.safeParse(body);
 
   if (!parsedBody.success) {
-    return Response.json({
-      success: false,
-      errorCode: ERROR_CODES.INVALID_REQUEST,
-      message: t("message.invalidRequest"),
-    });
-  }
-
-  const employeeIsInProject = await checkEmployeeIsInProject(
-    parsedBody.data.projectId,
-  );
-  if (!employeeIsInProject) {
     return Response.json({
       success: false,
       errorCode: ERROR_CODES.INVALID_REQUEST,

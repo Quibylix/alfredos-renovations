@@ -177,6 +177,20 @@
         "label": "Imagen",
         "previewAlt": "Imagen del progreso del proyecto"
       },
+      "dateRange": {
+        "label": "Rango de fechas",
+        "placeholder": "Selecciona un rango de fechas",
+        "startDate": "Fecha de inicio",
+        "endDate": "Fecha de finalización",
+        "isRequired": "El rango de fechas es obligatorio",
+        "invalid": "La fecha de inicio debe ser anterior a la fecha de finalización.",
+        "pastDate": "La fecha de inicio no puede ser una fecha pasada."
+      },
+      "employees": {
+        "label": "Empleados",
+        "placeholder": "Selecciona empleados",
+        "isRequired": "Al menos un empleado es obligatorio"
+      },
       "submit": "Enviar progreso"
     },
     "success": "Progreso enviado exitosamente",
