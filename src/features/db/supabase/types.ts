@@ -209,6 +209,7 @@ export type Database = {
       }
       task: {
         Row: {
+          boss_id: string
           completed: boolean
           created_at: string
           description: string
@@ -219,6 +220,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          boss_id: string
           completed?: boolean
           created_at?: string
           description: string
@@ -229,6 +231,7 @@ export type Database = {
           title: string
         }
         Update: {
+          boss_id?: string
           completed?: boolean
           created_at?: string
           description?: string
@@ -239,6 +242,13 @@ export type Database = {
           title?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "task_boss_id_fkey"
+            columns: ["boss_id"]
+            isOneToOne: false
+            referencedRelation: "boss"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "task_project_id_fkey"
             columns: ["project_id"]
