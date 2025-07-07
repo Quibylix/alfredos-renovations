@@ -22,6 +22,10 @@ export type TaskData = {
     id: string;
     fullName: string;
   }[];
+  boss: {
+    id: string;
+    fullName: string;
+  };
 };
 
 export async function getRelatedProgress(): Promise<{
@@ -44,7 +48,8 @@ export async function getRelatedProgress(): Promise<{
     `id, title, description, startDate: start_date, duration,
         completed, createdAt: created_at,
         employees: employee (id, ...profile(fullName: full_name)),
-        media: task_media (id, type, url)`,
+        media: task_media (id, type, url),
+        boss(id, ...profile(fullName: full_name))`,
   );
 
   const { data, error } =
