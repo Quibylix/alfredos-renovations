@@ -40,6 +40,10 @@ export const bossLinks: NavbarLinks = {
       icon: IconProgress,
       links: [
         { link: AppRoutes.getRoute("PROGRESS_LIST"), label: "progressList" },
+        {
+          link: AppRoutes.getRoute("SEND_PROGRESS"),
+          label: "sendProgress",
+        },
       ],
     },
     {
@@ -79,10 +83,6 @@ export const employeeLinks: NavbarLinks = {
       icon: IconProgress,
       links: [
         { link: AppRoutes.getRoute("PROGRESS_LIST"), label: "progressList" },
-        {
-          link: AppRoutes.getRoute("SEND_PROGRESS"),
-          label: "sendProgress",
-        },
       ],
     },
     {
