@@ -4,24 +4,12 @@ import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 import { USER_ROLES } from "@/features/db/user/user.constant";
+import { TaskData } from "@/features/tasks/get-tasks/get-related-tasks.action";
 
 export type ProjectData = {
   id: number;
   title: string;
-  tasks: {
-    id: number;
-    title: string;
-    description: string;
-    startDate: string;
-    duration: number;
-    completed: boolean;
-    createdAt: string;
-    media: {
-      id: number;
-      type: "image" | "video";
-      url: string;
-    }[];
-  }[];
+  tasks: TaskData[];
 };
 
 export async function getProjectInfo(projectId: number): Promise<{
@@ -40,23 +28,75 @@ export async function getProjectInfo(projectId: number): Promise<{
     };
   }
 
-  const builtQuery = db
+  if (role === USER_ROLES.EMPLOYEE) {
+    const { data: validationData, error: validationError } = await db
+      .from("task_assignment")
+      .select("...task(id, project(id, title))")
+      .eq("employee_id", userId!)
+      .eq("task.project_id", projectId);
+
+    if (!validationData || validationData.length === 0) {
+      return {
+        errorCode: ERROR_CODES.NOT_AUTHORIZED,
+        project: null,
+      };
+    }
+
+    if (validationError) {
+      console.error("Error fetching task assignment:", validationError);
+      return {
+        errorCode: ERROR_CODES.UNKNOWN,
+        project: null,
+      };
+    }
+
+    const tasksIds = validationData.map((item) => item.id);
+
+    const { data: tasksData, error: tasksError } = await db
+      .from("task")
+      .select(
+        `id, title, description, startDate: start_date, duration, completed, createdAt: created_at,
+          employees: employee(id, ...profile(fullName: full_name)),
+          media:task_media(id, type, url),
+          boss(id, ...profile(fullName: full_name)),
+          project(id, title)`,
+      )
+      .eq("project_id", projectId)
+      .in("id", tasksIds);
+
+    if (tasksError) {
+      console.error("Error fetching tasks:", tasksError);
+      return {
+        errorCode: ERROR_CODES.UNKNOWN,
+        project: null,
+      };
+    }
+
+    return {
+      errorCode: ERROR_CODES.SUCCESS,
+      project: {
+        id: projectId,
+        title: validationData[0].project.title,
+        tasks: tasksData as TaskData[],
+      },
+    };
+  }
+
+  const { data, error } = await db
     .from("project")
     .select(
       `id, title,
           tasks: task(
-            id, title, description, start_date, duration,
-            completed, created_at,
-            employees: employee (id, ...profile(full_name)),
-            task_media (id, type, url)
+            id, title, description, startDate: start_date, duration,
+            completed, createdAt: created_at,
+            employees: employee(id, ...profile(fullName: full_name)),
+            media:task_media (id, type, url),
+            boss(id, ...profile(fullName: full_name)),
+            project(id, title)
           )`,
     )
-    .eq("id", projectId);
-
-  const { data, error } =
-    role === USER_ROLES.EMPLOYEE
-      ? await builtQuery.eq("tasks.employees.id", userId!).single()
-      : await builtQuery.single();
+    .eq("id", projectId)
+    .single();
 
   if (error) {
     console.error("Error fetching project:", error);
@@ -66,31 +106,8 @@ export async function getProjectInfo(projectId: number): Promise<{
     };
   }
 
-  const projectData: ProjectData = {
-    id: data.id,
-    title: data.title,
-    tasks: data.tasks.map((item) => ({
-      id: item.id,
-      title: item.title,
-      description: item.description,
-      startDate: item.start_date,
-      duration: item.duration,
-      completed: item.completed,
-      createdAt: item.created_at,
-      employees: item.employees.map((emp) => ({
-        id: emp.id,
-        fullName: emp.full_name,
-      })),
-      media: item.task_media as Array<{
-        id: number;
-        type: "image" | "video";
-        url: string;
-      }>,
-    })),
-  };
-
   return {
     errorCode: ERROR_CODES.SUCCESS,
-    project: projectData,
+    project: data as ProjectData,
   };
 }

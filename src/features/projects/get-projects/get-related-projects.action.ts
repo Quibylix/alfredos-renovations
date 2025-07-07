@@ -18,16 +18,10 @@ export async function getRelatedProjects() {
   }
 
   if (role === "employee") {
-    // TODO - Implement a stored procedure to fetch employee projects using tasks
-    // const { data, error } = await db
-    //   .from("employee")
-    //   .select(`projects: project (id, title)`)
-    //   .eq("id", userId!)
-    //   .single();
-    const { data, error } = {
-      data: { projects: [] },
-      error: null,
-    };
+    const { data, error } = await db
+      .from("project")
+      .select("id, title, task!inner(task_assignment!inner(employee_id))")
+      .eq("task.task_assignment.employee_id", userId!);
 
     if (error) {
       console.error("Error fetching projects:", error);
@@ -39,7 +33,10 @@ export async function getRelatedProjects() {
 
     return {
       errorCode: ERROR_CODES.SUCCESS,
-      projects: data?.projects ?? [],
+      projects: data.map((project) => ({
+        id: project.id,
+        title: project.title,
+      })),
     };
   }
 
