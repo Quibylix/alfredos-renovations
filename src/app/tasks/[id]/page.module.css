@@ -1,0 +1,10 @@
+.taskPage {
+  max-height: calc(
+    100vh - var(--app-shell-header-offset, 0rem) - 2 *
+      var(--app-shell-padding) - var(--app-shell-footer-offset, 0rem)
+  );
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 1fr max-content;
+}

@@ -1,4 +1,4 @@
-import { Button, Container, Stack, Title } from "@mantine/core";
+import { Button, Stack, Title } from "@mantine/core";
 import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
 import { getTaskMessages } from "@/features/tasks/get-tasks/get-task-messages.action";
 import { notFound } from "next/navigation";
@@ -8,6 +8,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 import { MessageList } from "@/features/messages/message-list/message-list.component";
+import styles from "./page.module.css";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -41,25 +42,20 @@ export default async function TaskPage(props: TaskPageProps) {
   const t = await getTranslations("task");
 
   return (
-    <Container
-      mah="calc(100vh - var(--app-shell-header-offset, 0rem)  - var(--app-shell-padding) - var(--app-shell-footer-offset, 0rem))"
-      size="md"
-      py="xl"
-    >
-      <Title order={1} mb="xl" ta="center">
-        {task.title}
-      </Title>
-      <Stack gap="lg">
+    <div className={styles.taskPage}>
+      <Stack gap="lg" style={{ overflowY: "auto", height: "100%" }}>
         <Task data={task} />
         <MessageList messages={messages} />
-        <Button
-          variant="outline"
-          component={Link}
-          href={AppRoutes.getRoute("SEND_MESSAGE") + `?taskId=${task.id}`}
-        >
-          {t("message")}
-        </Button>
       </Stack>
-    </Container>
+      <Button
+        variant="outline"
+        component={Link}
+        href={AppRoutes.getRoute("SEND_MESSAGE") + `?taskId=${task.id}`}
+        mt="xl"
+        w="100%"
+      >
+        {t("message")}
+      </Button>
+    </div>
   );
 }
