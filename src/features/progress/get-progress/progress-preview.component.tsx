@@ -1,17 +1,23 @@
 "use client";
 
 import { Card, Group, Image, Text } from "@mantine/core";
-import { ProgressData } from "./get-related-progress.action";
+import { TaskData } from "./get-related-progress.action";
 import classes from "./progress-preview.module.css";
 import Link from "next/link";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { useResizeObserver } from "@mantine/hooks";
+import { EmployeeList } from "@/features/employees/get-employees/employee-list.component";
 
-export function ProgressPreview({ progress }: { progress: ProgressData }) {
+export function ProgressPreview({ progress }: { progress: TaskData }) {
   const t = useTranslations("progress");
 
   const [ref, rect] = useResizeObserver();
+
+  const imageURL = progress.media.find((media) => media.type === "image")?.url;
+
+  const startDate = new Date(progress.startDate);
+  const endDate = new Date(startDate.getTime() + progress.duration);
 
   return (
     <Card ref={ref} withBorder radius="md" p={0} className={classes.card}>
@@ -25,7 +31,7 @@ export function ProgressPreview({ progress }: { progress: ProgressData }) {
                   ? classes.imageLarge
                   : classes.imageSmall
             }
-            src={progress.image_url ?? "/image-placeholder.jpg"}
+            src={imageURL ?? "/image-placeholder.jpg"}
             alt={t("alt")}
           />
           <div className={classes.body}>
@@ -38,15 +44,15 @@ export function ProgressPreview({ progress }: { progress: ProgressData }) {
             <Text size="xs" c="dimmed" mt="xs" mb="md" lineClamp={2}>
               {progress.description}
             </Text>
-            <Group wrap="nowrap" gap="xs">
-              <Group gap="xs" wrap="nowrap">
-                <Text size="xs">{progress.employee.full_name}</Text>
-              </Group>
+            <Group wrap="nowrap" gap="xs" mt="md">
               <Text size="xs" c="dimmed">
-                •
+                <LocalizedDate date={startDate} />
               </Text>
               <Text size="xs" c="dimmed">
-                <LocalizedDate date={new Date(progress.sent_date)} />
+                -
+              </Text>
+              <Text size="xs" c="dimmed">
+                <LocalizedDate date={endDate} />
               </Text>
             </Group>
           </div>
