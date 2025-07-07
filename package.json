@@ -20,6 +20,7 @@
   "dependencies": {
     "@bprogress/next": "^3.2.12",
     "@mantine/core": "^7.17.4",
+    "@mantine/dates": "^8.1.2",
     "@mantine/dropzone": "^7.17.4",
     "@mantine/form": "^7.17.4",
     "@mantine/hooks": "^7.17.4",
