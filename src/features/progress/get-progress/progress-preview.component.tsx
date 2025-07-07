@@ -7,7 +7,6 @@ import Link from "next/link";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { useResizeObserver } from "@mantine/hooks";
-import { EmployeeList } from "@/features/employees/get-employees/employee-list.component";
 
 export function ProgressPreview({ progress }: { progress: TaskData }) {
   const t = useTranslations("progress");
