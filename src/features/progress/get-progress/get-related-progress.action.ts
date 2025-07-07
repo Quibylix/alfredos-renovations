@@ -1,36 +1,34 @@
 "use server";
 
-import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
+import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
+import { USER_ROLES } from "@/features/db/user/user.constant";
 
-export type ProgressData = {
+export type TaskData = {
   id: number;
-  title: string | null;
-  description: string | null;
-  image_url: string | null;
-  sent_date: string;
-  parent_id: number | null;
+  title: string;
+  description: string;
+  startDate: string;
+  duration: number;
+  completed: boolean;
+  createdAt: string;
   media: {
     id: number;
     type: "image" | "video";
     url: string;
   }[];
-  project: {
-    id: number;
-    title: string;
-  };
-  employee: {
+  employees: {
     id: string;
-    full_name: string;
-  };
+    fullName: string;
+  }[];
 };
 
 export async function getRelatedProgress(): Promise<{
   errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
-  progress: ProgressData[];
+  tasks: TaskData[];
 }> {
-  const db = await createClient();
+  const db = createAdminClient();
 
   const userId = await User.getCurrentUserId();
   const role = await User.getRole(userId);
@@ -38,75 +36,32 @@ export async function getRelatedProgress(): Promise<{
   if (role === "anon") {
     return {
       errorCode: ERROR_CODES.NOT_AUTHORIZED,
-      progress: [],
+      tasks: [],
     };
   }
 
-  if (role === "employee") {
-    const { data, error } = await db.rpc("get_employee_progress", {
-      e_id: userId!,
-    });
+  const builtQuery = db.from("task").select(
+    `id, title, description, startDate: start_date, duration,
+        completed, createdAt: created_at,
+        employees: employee (id, ...profile(fullName: full_name)),
+        media: task_media (id, type, url)`,
+  );
 
-    if (error || !data) {
-      console.error("Error fetching projects:", error);
-      return {
-        errorCode: ERROR_CODES.UNKNOWN,
-        progress: [],
-      };
-    }
+  const { data, error } =
+    role === USER_ROLES.EMPLOYEE
+      ? await builtQuery.eq("employees.id", userId!)
+      : await builtQuery;
 
-    return {
-      errorCode: ERROR_CODES.SUCCESS,
-      progress: data as ProgressData[],
-    };
-  }
-
-  const { data, error } = await db
-    .from("progress")
-    .select(
-      `id, title, description, image_url, sent_date, parent_id,
-        employee (id, profile (full_name)),
-        project (id, title, boss_id),
-        progress_media (id, type, url)`,
-    )
-    .eq("project.boss_id", userId!)
-    .is("parent_id", null);
-
-  if (error) {
+  if (error || !data) {
     console.error("Error fetching projects:", error);
     return {
       errorCode: ERROR_CODES.UNKNOWN,
-      progress: [],
+      tasks: [],
     };
   }
 
-  const progress = data.map((progress) => {
-    const { project, employee, progress_media } = progress;
-    return {
-      id: progress.id,
-      title: progress.title,
-      description: progress.description,
-      image_url: progress.image_url,
-      sent_date: progress.sent_date,
-      parent_id: progress.parent_id,
-      project: {
-        id: project.id,
-        title: project.title,
-      },
-      employee: {
-        id: employee.id,
-        full_name: employee.profile.full_name,
-      },
-      media: progress_media.map((media) => ({
-        id: media.id,
-        type: media.type as "image" | "video",
-        url: media.url,
-      })),
-    };
-  });
-
   return {
     errorCode: ERROR_CODES.SUCCESS,
-    progress,
+    tasks: data as TaskData[],
   };
 }

@@ -1,9 +1,9 @@
 import { Stack } from "@mantine/core";
-import { ProgressData } from "./get-related-progress.action";
+import { TaskData } from "./get-related-progress.action";
 import { ProgressPreview } from "./progress-preview.component";
 
 type ProgressListProps = {
-  progress: ProgressData[];
+  progress: TaskData[];
 };
 
 export function ProgressList({ progress }: ProgressListProps) {

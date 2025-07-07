@@ -18,7 +18,7 @@ export default async function ProgressPage() {
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
-      <ProgressList progress={result.progress} />
+      <ProgressList progress={result.tasks} />
     </Container>
   );
 }

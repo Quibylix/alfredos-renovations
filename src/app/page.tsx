@@ -30,7 +30,7 @@ export default async function HomePage() {
         <Title order={2} mb="md" fw={700}>
           {t("progress")}
         </Title>
-        <ProgressList progress={progressResult.progress} />
+        <ProgressList progress={progressResult.tasks} />
       </Container>
       <Container component="section" fluid mt={45}>
         <Title order={2} mb="md" fw={700}>
