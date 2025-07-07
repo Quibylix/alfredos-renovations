@@ -31,7 +31,7 @@ export async function getProjectInfo(projectId: number): Promise<{
   if (role === USER_ROLES.EMPLOYEE) {
     const { data: validationData, error: validationError } = await db
       .from("task_assignment")
-      .select("...task(id, project(id, title))")
+      .select("...task!inner(id, project(id, title))")
       .eq("employee_id", userId!)
       .eq("task.project_id", projectId);
 
