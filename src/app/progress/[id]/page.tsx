@@ -52,7 +52,7 @@ export default async function ProgressPage(props: ProgressPageProps) {
         <Button
           variant="outline"
           component={Link}
-          href={AppRoutes.getRoute("EXTEND_PROGRESS") + `?parentId=${task.id}`}
+          href={AppRoutes.getRoute("EXTEND_PROGRESS") + `?taskId=${task.id}`}
         >
           {t("extend")}
         </Button>

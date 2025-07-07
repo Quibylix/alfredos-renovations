@@ -11,10 +11,8 @@ export type APIResponse = {
 };
 
 const bodySchema = z.object({
-  projectId: z.number().int().positive(),
-  parentId: z.number().int().positive(),
-  title: z.string().trim(),
-  description: z.string().trim(),
+  taskId: z.number().int().positive(),
+  content: z.string().trim(),
   media: z.array(
     z.object({
       type: z.enum(["image", "video"]),
@@ -38,11 +36,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  if (
-    !parsedBody.data.title &&
-    !parsedBody.data.description &&
-    parsedBody.data.media.length === 0
-  ) {
+  if (!parsedBody.data.content && parsedBody.data.media.length === 0) {
     return Response.json({
       success: false,
       errorCode: ERROR_CODES.NO_DATA,

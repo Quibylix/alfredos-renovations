@@ -1,33 +1,30 @@
 "use server";
 
-import { createClient } from "@/features/db/supabase/create-server-client.util";
+import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
+import { USER_ROLES } from "@/features/db/user/user.constant";
+import { User } from "@/features/db/user/user.model";
 
-export async function projectProgressEmployeeValidator(
-  projectId: number,
-  parentId: number,
-) {
-  const db = await createClient();
+export async function projectProgressEmployeeValidator(taskId: number) {
+  const db = createAdminClient();
 
-  const user = await db.auth.getUser();
-  const userId = user.data.user?.id;
+  const userId = await User.getCurrentUserId();
+  const userRole = await User.getRole(userId);
 
-  if (!userId) {
+  if (userRole === USER_ROLES.ANON) {
     return false;
   }
 
-  const { data: progressData, error: errorProgressData } = await db
-    .from("progress")
-    .select("id, employee(id), project(id)")
-    .eq("id", parentId)
-    .eq("employee.id", userId)
-    .single();
+  if (userRole === USER_ROLES.EMPLOYEE) {
+    const response = await db
+      .from("task_assignment")
+      .select("task_id")
+      .eq("task_id", taskId)
+      .eq("employee_id", userId!)
+      .single();
 
-  if (errorProgressData || !progressData) {
-    return false;
-  }
-
-  if (progressData.project.id !== projectId) {
-    return false;
+    if (response.error || !response.data) {
+      return false;
+    }
   }
 
   return true;

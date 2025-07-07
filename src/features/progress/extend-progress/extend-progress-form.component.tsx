@@ -7,16 +7,12 @@ import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzo
 import { MediaUploadPreview } from "@/features/media/upload/media-upload-preview.component";
 
 export type ExtendProgressFormProps = {
-  projectId: number;
-  parentId: number;
+  taskId: number;
 };
 
-export function ExtendProgressForm({
-  projectId,
-  parentId,
-}: ExtendProgressFormProps) {
+export function ExtendProgressForm({ taskId }: ExtendProgressFormProps) {
   const { form, submitHandler, media, addMedia, removeMedia, error, loading } =
-    useExtendProgressForm(projectId, parentId);
+    useExtendProgressForm(taskId);
 
   const t = useTranslations("extendProgress.form");
 
@@ -34,23 +30,16 @@ export function ExtendProgressForm({
           {error}
         </Text>
       )}
-      <TextInput
-        label={t("title.label")}
-        placeholder={t("title.placeholder")}
-        mt="md"
-        key={form.key("title")}
-        {...form.getInputProps("title")}
-      />
       <Textarea
         autosize
         rows={4}
         minRows={4}
         maxRows={8}
-        label={t("description.label")}
-        placeholder={t("description.placeholder")}
+        label={t("content.label")}
+        placeholder={t("content.placeholder")}
         mt="md"
         key={form.key("description")}
-        {...form.getInputProps("description")}
+        {...form.getInputProps("content")}
       />
       <Text size="sm" mt="md" mb={5} fw={500}>
         {t("image.label")}

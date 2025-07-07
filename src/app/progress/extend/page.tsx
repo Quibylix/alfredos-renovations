@@ -3,12 +3,12 @@ import { getTranslations } from "next-intl/server";
 import { ExtendProgressForm } from "@/features/progress/extend-progress/extend-progress-form.component";
 import { z } from "zod";
 import { projectProgressEmployeeValidator } from "@/features/progress/extend-progress/project-progress-employee-validator.action";
+import { notFound } from "next/navigation";
 
 const propsSchema = z.object({
   searchParams: z.promise(
     z.object({
-      projectId: z.string().regex(/^\d+$/),
-      parentId: z.string().regex(/^\d+$/),
+      taskId: z.string().regex(/^\d+$/),
     }),
   ),
 });
@@ -28,13 +28,10 @@ export default async function ExtendProgressPage(
 
   const params = await result.data.searchParams;
 
-  const valid = projectProgressEmployeeValidator(
-    Number(params.projectId),
-    Number(params.parentId),
-  );
+  const valid = await projectProgressEmployeeValidator(Number(params.taskId));
 
   if (!valid) {
-    return null;
+    return notFound();
   }
 
   return (
@@ -42,10 +39,7 @@ export default async function ExtendProgressPage(
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
-      <ExtendProgressForm
-        projectId={Number(params.projectId)}
-        parentId={Number(params.parentId)}
-      />
+      <ExtendProgressForm taskId={Number(params.taskId)} />
     </Container>
   );
 }

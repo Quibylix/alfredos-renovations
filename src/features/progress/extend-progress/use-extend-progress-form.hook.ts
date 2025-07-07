@@ -7,7 +7,7 @@ import { ERROR_CODES as EXTEND_PROGRESS_API_ERROR_CODES } from "./error_codes.co
 import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 
-export function useExtendProgressForm(projectId: number, parentId: number) {
+export function useExtendProgressForm(taskId: number) {
   const t = useTranslations("extendProgress");
 
   const [loading, setLoading] = useState(false);
@@ -20,25 +20,19 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
   const router = useRouter();
 
   const form = useForm<{
-    title: string;
-    description: string;
+    content: string;
   }>({
     mode: "uncontrolled",
     initialValues: {
-      title: "",
-      description: "",
+      content: "",
     },
   });
 
-  async function handleSubmit(values: { title: string; description: string }) {
+  async function handleSubmit(values: { content: string }) {
     setError(null);
     setLoading(true);
 
-    if (
-      !values.title.trim() &&
-      !values.description.trim() &&
-      media.length === 0
-    ) {
+    if (!values.content.trim() && media.length === 0) {
       setError(t("api.message.noData"));
       notifications.show({
         title: t("error"),
@@ -57,8 +51,7 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
       body: JSON.stringify({
         ...values,
         media,
-        projectId,
-        parentId,
+        taskId,
       }),
     };
 
@@ -101,7 +94,7 @@ export function useExtendProgressForm(projectId: number, parentId: number) {
         message: t("api.message.success"),
       });
       form.reset();
-      router.push(AppRoutes.getRoute("PROGRESS", { id: parentId.toString() }));
+      router.push(AppRoutes.getRoute("PROGRESS", { id: taskId.toString() }));
       router.refresh();
     }
 

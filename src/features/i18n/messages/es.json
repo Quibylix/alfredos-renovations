@@ -235,19 +235,14 @@
   "extendProgress": {
     "title": "Extender progreso",
     "form": {
-      "title": {
-        "label": "Título",
-        "placeholder": "Título de la tarea",
-        "isRequired": "El título es obligatorio"
-      },
-      "description": {
-        "label": "Descripción",
-        "placeholder": "Descripción de la tarea",
-        "isRequired": "La descripción es obligatoria"
+      "content": {
+        "label": "Contenido",
+        "placeholder": "Contenido del mensaje",
+        "isRequired": "El contenido es obligatorio"
       },
       "image": {
         "label": "Imagen",
-        "previewAlt": "Imagen del progreso del proyecto"
+        "previewAlt": "Imagen del contenido del mensaje"
       },
       "submit": "Extender progreso"
     },
