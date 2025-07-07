@@ -51,7 +51,7 @@ export async function getRelatedProgress(): Promise<{
   const builtQuery = db.from("task").select(
     `id, title, description, startDate: start_date, duration,
         completed, createdAt: created_at,
-        employees: employee (id, ...profile(fullName: full_name)),
+        employees: employee!inner(id, ...profile(fullName: full_name)),
         media: task_media (id, type, url),
         boss(id, ...profile(fullName: full_name)),
         project(id, title)`,
