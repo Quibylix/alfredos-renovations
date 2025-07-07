@@ -7,6 +7,7 @@ import { Task } from "@/features/tasks/get-tasks/task.component";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { AppRoutes } from "@/features/shared/app-routes.util";
+import { MessageList } from "@/features/messages/message-list/message-list.component";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -40,15 +41,17 @@ export default async function TaskPage(props: TaskPageProps) {
   const t = await getTranslations("task");
 
   return (
-    <Container size="md" my={20}>
+    <Container
+      mah="calc(100vh - var(--app-shell-header-offset, 0rem)  - var(--app-shell-padding) - var(--app-shell-footer-offset, 0rem))"
+      size="md"
+      py="xl"
+    >
       <Title order={1} mb="xl" ta="center">
         {task.title}
       </Title>
       <Stack gap="lg">
         <Task data={task} />
-        {messages.map((p) => (
-          <Task key={p.id} data={task} />
-        ))}
+        <MessageList messages={messages} />
         <Button
           variant="outline"
           component={Link}
