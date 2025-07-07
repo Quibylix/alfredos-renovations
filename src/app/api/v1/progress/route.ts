@@ -1,5 +1,5 @@
-import { ERROR_CODES } from "@/features/progress/send-progress/error_codes.constant";
-import { sendProgress } from "@/features/progress/send-progress/send-progress.action";
+import { ERROR_CODES } from "@/features/tasks/set-task/error_codes.constant";
+import { sendProgress } from "@/features/tasks/set-task/set-task.action";
 import { getTranslations } from "next-intl/server";
 import { NextRequest } from "next/server";
 import { z } from "zod";

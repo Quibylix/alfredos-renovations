@@ -1,7 +1,7 @@
 "use server";
 
 import { ERROR_CODES } from "./error_codes.constant";
-import { TaskData } from "./get-related-progress.action";
+import { TaskData } from "./get-related-tasks.action";
 import { User } from "@/features/db/user/user.model";
 import { USER_ROLES } from "@/features/db/user/user.constant";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";

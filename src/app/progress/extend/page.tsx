@@ -1,8 +1,8 @@
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
-import { ExtendProgressForm } from "@/features/progress/extend-progress/extend-progress-form.component";
+import { ExtendProgressForm } from "@/features/tasks/send-message/send-message-form.component";
 import { z } from "zod";
-import { projectProgressEmployeeValidator } from "@/features/progress/extend-progress/project-progress-employee-validator.action";
+import { projectProgressEmployeeValidator } from "@/features/tasks/send-message/task-employee-validator.action";
 import { notFound } from "next/navigation";
 
 const propsSchema = z.object({

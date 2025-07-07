@@ -1,9 +1,9 @@
 import { Button, Container, Stack, Title } from "@mantine/core";
-import { ERROR_CODES } from "@/features/progress/get-progress/error_codes.constant";
-import { getProgressTree } from "@/features/progress/get-progress/get-progress-tree.action";
+import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
+import { getProgressTree } from "@/features/tasks/get-tasks/get-task-messages.action";
 import { notFound } from "next/navigation";
 import { z } from "zod";
-import { Progress } from "@/features/progress/get-progress/progress.component";
+import { Progress } from "@/features/tasks/get-tasks/task.component";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { AppRoutes } from "@/features/shared/app-routes.util";

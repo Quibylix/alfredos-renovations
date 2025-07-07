@@ -1,6 +1,6 @@
 import { Stack } from "@mantine/core";
-import { TaskData } from "./get-related-progress.action";
-import { ProgressPreview } from "./progress-preview.component";
+import { TaskData } from "./get-related-tasks.action";
+import { ProgressPreview } from "./task-preview.component";
 
 type ProgressListProps = {
   progress: TaskData[];

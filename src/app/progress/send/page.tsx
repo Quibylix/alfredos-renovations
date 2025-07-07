@@ -1,6 +1,6 @@
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
-import { SendProgressForm } from "@/features/progress/send-progress/send-progress-form.component";
+import { SendProgressForm } from "@/features/tasks/set-task/set-task-form.component";
 import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
 import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
 import { redirect } from "next/navigation";

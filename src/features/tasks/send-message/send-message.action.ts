@@ -3,7 +3,7 @@
 import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
-import { projectProgressEmployeeValidator } from "./project-progress-employee-validator.action";
+import { projectProgressEmployeeValidator } from "./task-employee-validator.action";
 
 export async function extendProgress({
   taskId,

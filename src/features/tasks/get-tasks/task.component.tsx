@@ -1,5 +1,5 @@
 import { Container, Title, Avatar, Group, Text } from "@mantine/core";
-import { TaskData } from "./get-related-progress.action";
+import { TaskData } from "./get-related-tasks.action";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { MediaPreview } from "@/features/media/preview/media-preview.component";

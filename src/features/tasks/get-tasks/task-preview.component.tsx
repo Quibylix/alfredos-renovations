@@ -1,8 +1,8 @@
 "use client";
 
 import { Card, Group, Image, Text } from "@mantine/core";
-import { TaskData } from "./get-related-progress.action";
-import classes from "./progress-preview.module.css";
+import { TaskData } from "./get-related-tasks.action";
+import classes from "./task-preview.module.css";
 import Link from "next/link";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";

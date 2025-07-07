@@ -1,8 +1,8 @@
-import { ERROR_CODES } from "@/features/progress/get-progress/error_codes.constant";
+import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
 import {
   getRelatedProgress,
   TaskData,
-} from "@/features/progress/get-progress/get-related-progress.action";
+} from "@/features/tasks/get-tasks/get-related-tasks.action";
 import { getTranslations } from "next-intl/server";
 
 export type APIResponse = {

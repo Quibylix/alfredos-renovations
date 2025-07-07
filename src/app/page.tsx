@@ -1,6 +1,6 @@
-import { ERROR_CODES } from "@/features/progress/get-progress/error_codes.constant";
-import { getRelatedProgress } from "@/features/progress/get-progress/get-related-progress.action";
-import { ProgressList } from "@/features/progress/get-progress/progress-list.component";
+import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
+import { getRelatedProgress } from "@/features/tasks/get-tasks/get-related-tasks.action";
+import { ProgressList } from "@/features/tasks/get-tasks/task-list.component";
 import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
 import { ProjectList } from "@/features/projects/get-projects/project-list.component";
 import { Container, Title } from "@mantine/core";
