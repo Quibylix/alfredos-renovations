@@ -33,7 +33,7 @@ export function Task({
 }: TaskProps) {
   const t = useTranslations("task");
 
-  const endDate = new Date(new Date(startDate).getTime() + duration * 60000); // assuming duration is in minutes
+  const endDate = new Date(new Date(startDate).getTime() + duration);
 
   return (
     <Paper withBorder p="md" radius="md" shadow="sm">
