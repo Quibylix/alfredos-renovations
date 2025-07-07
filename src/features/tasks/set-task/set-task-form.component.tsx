@@ -24,7 +24,7 @@ export function SetTaskForm({ projects, employees }: SetTaskFormProps) {
   const { form, submitHandler, media, addMedia, removeMedia, error, loading } =
     useSetTaskForm();
 
-  const t = useTranslations("sendProgress.form");
+  const t = useTranslations("setTask.form");
 
   return (
     <Paper

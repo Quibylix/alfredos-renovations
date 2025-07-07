@@ -8,7 +8,7 @@ import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export function useSendMessageForm(taskId: number) {
-  const t = useTranslations("extendProgress");
+  const t = useTranslations("sendMessage");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

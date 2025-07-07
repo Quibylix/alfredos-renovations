@@ -8,7 +8,7 @@ import { AppRoutes } from "@/features/shared/app-routes.util";
 import { getEmployees } from "@/features/employees/get-employees/get-employees.action";
 
 export default async function SetTaskPage() {
-  const t = await getTranslations("sendProgress");
+  const t = await getTranslations("setTask");
 
   const { projects, errorCode } = await getRelatedProjects();
 

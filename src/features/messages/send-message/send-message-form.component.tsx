@@ -14,7 +14,7 @@ export function SendMessageForm({ taskId }: SendMessageFormProps) {
   const { form, submitHandler, media, addMedia, removeMedia, error, loading } =
     useSendMessageForm(taskId);
 
-  const t = useTranslations("extendProgress.form");
+  const t = useTranslations("sendMessage.form");
 
   return (
     <Paper

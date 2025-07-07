@@ -5,7 +5,7 @@ import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 
 export default async function TasksPage() {
-  const t = await getTranslations("progress");
+  const t = await getTranslations("task");
 
   const result = await getRelatedTasks();
 

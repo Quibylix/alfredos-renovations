@@ -63,7 +63,7 @@ export default async function ProjectPage(props: ProgressPageProps) {
       )}
       <Container component="section" fluid mt={40}>
         <Title order={2} mb="lg">
-          {t("progress")}
+          {t("tasks")}
         </Title>
       </Container>
     </Container>

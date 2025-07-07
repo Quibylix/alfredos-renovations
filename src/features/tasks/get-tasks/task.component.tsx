@@ -11,7 +11,7 @@ export type TaskProps = {
 export function Task({
   data: { title, description, media, startDate, project, boss },
 }: TaskProps) {
-  const t = useTranslations("progress");
+  const t = useTranslations("task");
 
   return (
     <Container w="100%">

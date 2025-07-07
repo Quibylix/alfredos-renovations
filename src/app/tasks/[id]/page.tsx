@@ -37,7 +37,7 @@ export default async function TaskPage(props: TaskPageProps) {
     notFound();
   }
 
-  const t = await getTranslations("progress");
+  const t = await getTranslations("task");
 
   return (
     <Container size="md" my={20}>
@@ -54,7 +54,7 @@ export default async function TaskPage(props: TaskPageProps) {
           component={Link}
           href={AppRoutes.getRoute("EXTEND_PROGRESS") + `?taskId=${task.id}`}
         >
-          {t("extend")}
+          {t("message")}
         </Button>
       </Stack>
     </Container>

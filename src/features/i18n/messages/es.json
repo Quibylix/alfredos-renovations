@@ -6,15 +6,15 @@
   "navbar": {
     "home": "Inicio",
     "dashboard": "Tablero de control",
-    "sendProgress": "Enviar progreso",
+    "setTask": "Establecer tarea",
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "registerEmployee": "Registrar empleado",
     "projects": "Proyectos",
     "projectsList": "Lista de proyectos",
     "createProject": "Crear proyecto",
-    "progress": "Progreso",
-    "progressList": "Lista de progresos",
+    "tasks": "Tareas",
+    "taskList": "Lista de tareas",
     "changePassword": "Modificar contraseña"
   },
   "login": {
@@ -154,9 +154,8 @@
       "capture": "Captura desde la cámara"
     }
   },
-
-  "sendProgress": {
-    "title": "Enviar progreso del proyecto",
+  "setTask": {
+    "title": "Establecer tarea",
     "form": {
       "project": {
         "label": "Proyecto",
@@ -175,7 +174,7 @@
       },
       "image": {
         "label": "Imagen",
-        "previewAlt": "Imagen del progreso del proyecto"
+        "previewAlt": "Imagen de la tarea del proyecto"
       },
       "dateRange": {
         "label": "Rango de fechas",
@@ -191,13 +190,13 @@
         "placeholder": "Selecciona empleados",
         "isRequired": "Al menos un empleado es obligatorio"
       },
-      "submit": "Enviar progreso"
+      "submit": "Establecer tarea"
     },
-    "success": "Progreso enviado exitosamente",
-    "error": "Error al enviar progreso",
+    "success": "Tarea establecida exitosamente",
+    "error": "Error al establecer tarea",
     "api": {
       "message": {
-        "success": "Progreso enviado exitosamente",
+        "success": "Tarea establecida exitosamente",
         "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
@@ -212,10 +211,10 @@
       }
     }
   },
-  "getRelatedProgress": {
+  "getRelatedTasks": {
     "api": {
       "message": {
-        "success": "Progreso relacionado obtenido exitosamente",
+        "success": "Tareas obtenido exitosamente",
         "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
@@ -224,16 +223,16 @@
   "home": {
     "title": "Tablero de control",
     "projects": "Proyectos",
-    "progress": "Progresos"
+    "tasks": "Tareas"
   },
-  "progress": {
-    "title": "Progresos",
-    "extend": "Extender progreso",
-    "alt": "Imagen del progreso",
+  "task": {
+    "title": "Tarea",
+    "message": "Enviar mensaje",
+    "alt": "Imagen de la tarea",
     "avatar": "Avatar del empleado"
   },
-  "extendProgress": {
-    "title": "Extender progreso",
+  "sendMessage": {
+    "title": "Enviar mensaje",
     "form": {
       "content": {
         "label": "Contenido",
@@ -242,17 +241,17 @@
       },
       "image": {
         "label": "Imagen",
-        "previewAlt": "Imagen del contenido del mensaje"
+        "previewAlt": "Imagen del mensaje"
       },
-      "submit": "Extender progreso"
+      "submit": "Enviar mensaje"
     },
-    "success": "Progreso enviado exitosamente",
-    "error": "Error al enviar progreso",
+    "success": "Mensaje enviado exitosamente",
+    "error": "Error al enviar mensaje",
     "api": {
       "message": {
-        "success": "Progreso enviado exitosamente",
+        "success": "Mensaje enviado exitosamente",
         "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
-        "noData": "El progreso no incluye ninguna información nueva. (Por favor, proporciona al menos una nueva descripción o archivo.)",
+        "noData": "El mensaje no incluye ninguna información. (Por favor, proporciona al menos una nueva descripción o archivo.)",
         "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
@@ -289,7 +288,7 @@
   "project": {
     "view": "Ver proyecto",
     "employees": "Empleados",
-    "progress": "Progreso",
+    "tasks": "Tareas",
     "edit": "Editar proyecto"
   },
   "editProject": {

@@ -12,7 +12,7 @@ export type APIResponse = {
 };
 
 export async function GET() {
-  const t = await getTranslations("getRelatedProgress.api");
+  const t = await getTranslations("getRelatedTasks.api");
 
   const { errorCode, tasks } = await getRelatedTasks();
 

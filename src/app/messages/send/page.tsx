@@ -22,7 +22,7 @@ export default async function SendMessagePage(props: SendMessagePageProps) {
     return null;
   }
 
-  const t = await getTranslations("extendProgress");
+  const t = await getTranslations("sendMessage");
 
   const params = await result.data.searchParams;
 

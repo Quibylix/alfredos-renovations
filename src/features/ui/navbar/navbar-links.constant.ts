@@ -36,13 +36,13 @@ export const bossLinks: NavbarLinks = {
   main: [
     { link: AppRoutes.getRoute("HOME"), label: "dashboard", icon: IconHome },
     {
-      label: "progress",
+      label: "tasks",
       icon: IconProgress,
       links: [
-        { link: AppRoutes.getRoute("PROGRESS_LIST"), label: "progressList" },
+        { link: AppRoutes.getRoute("PROGRESS_LIST"), label: "taskList" },
         {
           link: AppRoutes.getRoute("SEND_PROGRESS"),
-          label: "sendProgress",
+          label: "setTask",
         },
       ],
     },
@@ -79,11 +79,9 @@ export const employeeLinks: NavbarLinks = {
   main: [
     { link: AppRoutes.getRoute("HOME"), label: "dashboard", icon: IconHome },
     {
-      label: "progress",
+      label: "tasks",
       icon: IconProgress,
-      links: [
-        { link: AppRoutes.getRoute("PROGRESS_LIST"), label: "progressList" },
-      ],
+      links: [{ link: AppRoutes.getRoute("PROGRESS_LIST"), label: "taskList" }],
     },
     {
       label: "projects",

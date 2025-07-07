@@ -28,7 +28,7 @@ export default async function HomePage() {
       </Title>
       <Container component="section" fluid mt="lg">
         <Title order={2} mb="md" fw={700}>
-          {t("progress")}
+          {t("tasks")}
         </Title>
         <TaskList tasks={taskResult.tasks} />
       </Container>

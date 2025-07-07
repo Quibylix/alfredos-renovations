@@ -26,7 +26,7 @@ const bodySchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
-  const t = await getTranslations("sendProgress.api");
+  const t = await getTranslations("setTask.api");
 
   const body = await request.json();
 

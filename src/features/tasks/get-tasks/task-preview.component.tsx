@@ -10,7 +10,7 @@ import { useResizeObserver } from "@mantine/hooks";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export function TaskPreview({ task }: { task: TaskData }) {
-  const t = useTranslations("progress");
+  const t = useTranslations("task");
 
   const [ref, rect] = useResizeObserver();
 

@@ -9,7 +9,7 @@ import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export function useSetTaskForm() {
-  const t = useTranslations("sendProgress");
+  const t = useTranslations("setTask");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
