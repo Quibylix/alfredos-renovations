@@ -1,15 +1,15 @@
 import { Container, Title, Avatar, Group, Text } from "@mantine/core";
-import { ProgressData } from "./get-related-progress.action";
+import { TaskData } from "./get-related-progress.action";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { MediaPreview } from "@/features/media/preview/media-preview.component";
 
 export type ProgressProps = {
-  data: ProgressData;
+  data: TaskData;
 };
 
 export function Progress({
-  data: { title, description, media, sent_date: sentDate, project, employee },
+  data: { title, description, media, startDate, project, boss },
 }: ProgressProps) {
   const t = useTranslations("progress");
 
@@ -22,9 +22,9 @@ export function Progress({
           radius="xl"
         />
         <div>
-          <Text size="sm">{employee.full_name}</Text>
+          <Text size="sm">{boss.fullName}</Text>
           <Text size="xs" c="dimmed">
-            <LocalizedDate date={new Date(sentDate)} />
+            <LocalizedDate date={new Date(startDate)} />
           </Text>
           <Text size="xs" mt="3xs">
             {project.title}

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Progress } from "@/features/progress/get-progress/progress.component";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { User } from "@/features/db/user/user.model";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -27,45 +27,35 @@ export default async function ProgressPage(props: ProgressPageProps) {
 
   const { id } = await result.data.params;
 
-  const { errorCode, progress, progressChildren } = await getProgressTree(
-    Number(id),
-  );
+  const { errorCode, task, messages } = await getProgressTree(Number(id));
 
   if (errorCode !== ERROR_CODES.SUCCESS) {
     notFound();
   }
 
-  if (progress === null) {
+  if (task === null) {
     notFound();
   }
-
-  if (progress.parent_id !== null) {
-    notFound();
-  }
-
-  const userRole = await User.getRole();
 
   const t = await getTranslations("progress");
 
   return (
     <Container size="md" my={20}>
       <Title order={1} mb="xl" ta="center">
-        {progress.title}
+        {task.title}
       </Title>
       <Stack gap="lg">
-        <Progress data={progress} />
-        {progressChildren.map((p) => (
-          <Progress key={p.id} data={p} />
+        <Progress data={task} />
+        {messages.map((p) => (
+          <Progress key={p.id} data={task} />
         ))}
-        {userRole === "employee" && (
-          <Button
-            variant="outline"
-            component={Link}
-            href={`/progress/extend?projectId=${progress.project.id}&parentId=${progress.id}`}
-          >
-            {t("extend")}
-          </Button>
-        )}
+        <Button
+          variant="outline"
+          component={Link}
+          href={AppRoutes.getRoute("EXTEND_PROGRESS") + `?parentId=${task.id}`}
+        >
+          {t("extend")}
+        </Button>
       </Stack>
     </Container>
   );

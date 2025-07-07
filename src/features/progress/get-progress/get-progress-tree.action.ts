@@ -1,100 +1,101 @@
 "use server";
 
-import { createClient } from "@/features/db/supabase/create-server-client.util";
 import { ERROR_CODES } from "./error_codes.constant";
-import { ProgressData } from "./get-related-progress.action";
+import { TaskData } from "./get-related-progress.action";
 import { User } from "@/features/db/user/user.model";
+import { USER_ROLES } from "@/features/db/user/user.constant";
+import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 
-export async function getProgressTree(progressId: number): Promise<{
+export type MessageData = {
+  id: number;
+  content: string;
+  sentDate: string;
+  profile: {
+    id: string;
+    fullName: string;
+  };
+  media: {
+    id: number;
+    type: "image" | "video";
+    url: string;
+  }[];
+};
+
+export async function getProgressTree(taskId: number): Promise<{
   errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
-  progress: ProgressData | null;
-  progressChildren: ProgressData[];
+  task: TaskData | null;
+  messages: MessageData[];
 }> {
-  const db = await createClient();
+  const db = createAdminClient();
 
   const userId = await User.getCurrentUserId();
   const role = await User.getRole(userId);
 
-  if (role === "anon") {
+  if (role === USER_ROLES.ANON) {
     return {
       errorCode: ERROR_CODES.NOT_AUTHORIZED,
-      progress: null,
-      progressChildren: [],
+      task: null,
+      messages: [],
     };
   }
 
-  const { data: dbProgressData, error: errorProgressData } = await db
-    .from("progress")
+  const builtQuery = db
+    .from("task")
     .select(
-      `id, title, description, sent_date, image_url, parent_id,
-      employee(id, profile(full_name)),
-      project(id, title),
-      progress_media(id, type, url)`,
+      `id, title, description, startDate: start_date, duration,
+        completed, createdAt: created_at,
+        employees: employee!inner(id, ...profile(fullName: full_name)),
+        media: task_media (id, type, url),
+        boss(id, ...profile(fullName: full_name)),
+        project(id, title)`,
     )
-    .eq("id", progressId)
-    .single();
+    .eq("id", taskId);
 
-  if (errorProgressData) {
-    console.error("Error fetching progress data:", errorProgressData);
+  const { data: taskData, error: taskError } =
+    role === USER_ROLES.EMPLOYEE
+      ? await builtQuery.eq("employees.id", userId!).single()
+      : await builtQuery.single();
+
+  console.log(taskData);
+
+  if (!taskData) {
+    return {
+      errorCode: ERROR_CODES.NOT_AUTHORIZED,
+      task: null,
+      messages: [],
+    };
+  }
+
+  if (taskError) {
+    console.error("Error fetching projects:", taskError);
     return {
       errorCode: ERROR_CODES.UNKNOWN,
-      progress: null,
-      progressChildren: [],
+      task: null,
+      messages: [],
     };
   }
 
-  const { data: progressChildrenData, error: errorChildren } = await db
-    .from("progress")
+  const { data: messagesData, error: messagesError } = await db
+    .from("message")
     .select(
-      `id, title, description, sent_date, image_url, parent_id,
-      employee(id, profile(full_name)),
-      project(id, title),
-      progress_media(id, type, url)`,
+      `id, content, sentDate: sent_date,
+      profile(id, fullName: full_name),
+      media: message_media(id, type, url)`,
     )
-    .eq("parent_id", progressId);
+    .eq("task_id", taskId);
 
-  if (errorChildren) {
-    console.error("Error fetching projects:", errorChildren);
+  if (messagesError) {
+    console.error("Error fetching progress data:", messagesError);
     return {
       errorCode: ERROR_CODES.UNKNOWN,
-      progress: null,
-      progressChildren: [],
-    };
-  }
-
-  function mapProgressData(item: typeof dbProgressData): ProgressData | null {
-    if (!item) {
-      return null;
-    }
-
-    return {
-      id: item.id,
-      title: item.title,
-      description: item.description,
-      sent_date: item.sent_date,
-      image_url: item.image_url,
-      parent_id: item.parent_id,
-      project: {
-        id: item.project.id,
-        title: item.project.title,
-      },
-      employee: {
-        id: item.employee.id,
-        full_name: item.employee.profile.full_name,
-      },
-      media: item.progress_media as {
-        id: number;
-        type: "image" | "video";
-        url: string;
-      }[],
+      task: null,
+      messages: [],
     };
   }
 
   return {
     errorCode: ERROR_CODES.SUCCESS,
-    progress: mapProgressData(dbProgressData),
-    progressChildren: progressChildrenData.map(
-      mapProgressData,
-    ) as ProgressData[],
+    task: taskData as TaskData,
+    messages: messagesData as MessageData[],
   };
 }
