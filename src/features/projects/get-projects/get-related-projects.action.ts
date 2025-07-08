@@ -2,11 +2,9 @@
 
 import { User } from "@/features/db/user/user.model";
 import { ERROR_CODES } from "./error_codes.constant";
-import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
+import { prisma } from "@/features/db/prisma/db";
 
 export async function getRelatedProjects() {
-  const db = createAdminClient();
-
   const userId = await User.getCurrentUserId();
   const role = await User.getRole(userId);
 
@@ -17,35 +15,35 @@ export async function getRelatedProjects() {
     };
   }
 
-  if (role === "employee") {
-    const { data, error } = await db
-      .from("project")
-      .select("id, title, task!inner(task_assignment!inner(employee_id))")
-      .eq("task.task_assignment.employee_id", userId!);
+  const whereCondition =
+    role === "employee"
+      ? {
+          task: {
+            some: {
+              task_assignment: {
+                some: {
+                  employee_id: userId!,
+                },
+              },
+            },
+          },
+        }
+      : undefined;
 
-    if (error) {
+  const projects = await prisma.project
+    .findMany({
+      select: {
+        id: true,
+        title: true,
+      },
+      where: whereCondition,
+    })
+    .catch((error) => {
       console.error("Error fetching projects:", error);
-      return {
-        errorCode: ERROR_CODES.UNKNOWN,
-        projects: [],
-      };
-    }
+      return null;
+    });
 
-    return {
-      errorCode: ERROR_CODES.SUCCESS,
-      projects: data.map((project) => ({
-        id: project.id,
-        title: project.title,
-      })),
-    };
-  }
-
-  const { data: projects, error } = await db
-    .from("project")
-    .select("id, title");
-
-  if (error) {
-    console.error("Error fetching projects:", error);
+  if (projects === null) {
     return {
       errorCode: ERROR_CODES.UNKNOWN,
       projects: [],
@@ -54,6 +52,6 @@ export async function getRelatedProjects() {
 
   return {
     errorCode: ERROR_CODES.SUCCESS,
-    projects: projects ?? [],
+    projects,
   };
 }
