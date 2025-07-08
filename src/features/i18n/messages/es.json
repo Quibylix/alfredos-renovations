@@ -182,7 +182,7 @@
         "endDate": "Fecha de finalización",
         "isRequired": "El rango de fechas es obligatorio",
         "invalid": "La fecha de inicio debe ser anterior a la fecha de finalización.",
-        "pastDate": "La fecha de inicio no puede ser una fecha pasada."
+        "pastDate": "La fecha de fin no puede ser una fecha pasada."
       },
       "employees": {
         "label": "Empleados",
