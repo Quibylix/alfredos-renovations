@@ -213,7 +213,7 @@ export type Database = {
           completed: boolean
           created_at: string
           description: string
-          duration: number
+          end_date: string
           id: number
           project_id: number
           start_date: string
@@ -224,7 +224,7 @@ export type Database = {
           completed?: boolean
           created_at?: string
           description: string
-          duration: number
+          end_date: string
           id?: number
           project_id: number
           start_date: string
@@ -235,7 +235,7 @@ export type Database = {
           completed?: boolean
           created_at?: string
           description?: string
-          duration?: number
+          end_date?: string
           id?: number
           project_id?: number
           start_date?: string
