@@ -15,7 +15,10 @@
     "supabase:diff": "pnpm supabase:start:dev && supabase db diff --file $(date +\"%Y%m%d_%H%M%S\")_migration --schema private,public",
     "supabase:gen:types": "pnpm supabase:start:dev && supabase gen types typescript --db-url \"postgresql://postgres:postgres@localhost:54322/postgres\" > ./src/features/db/supabase/types.ts",
     "supabase:push:dev": "pnpm supabase:start:dev && supabase db push --db-url \"postgresql://postgres:postgres@localhost:54322/postgres\"",
-    "supabase:reset:test": "pnpm supabase:start:test && ./supabase/scripts/copy-migrations-to-test.sh && supabase db reset --workdir ./tests"
+    "supabase:reset:test": "pnpm supabase:start:test && ./supabase/scripts/copy-migrations-to-test.sh && supabase db reset --workdir ./tests",
+    "prisma:pull": "dotenv -e .env.development.local prisma db pull",
+    "prisma:generate": "dotenv -e .env.development.local prisma generate",
+    "prisma:migrate": "dotenv -e .env.development.local prisma migrate dev"
   },
   "dependencies": {
     "@bprogress/next": "^3.2.12",
@@ -25,6 +28,7 @@
     "@mantine/form": "^7.17.4",
     "@mantine/hooks": "^7.17.4",
     "@mantine/notifications": "^7.17.4",
+    "@prisma/client": "^6.11.1",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.49.4",
     "@tabler/icons-react": "^3.31.0",
@@ -44,12 +48,14 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^16.5.0",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "postcss": "^8.5.3",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
+    "prisma": "^6.11.1",
     "supabase": "^2.22.12",
     "typescript": "^5"
   }
