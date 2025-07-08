@@ -40,6 +40,17 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  const endDate = new Date(
+    new Date(parsedBody.data.startDate).getTime() + parsedBody.data.duration,
+  );
+  if (endDate < new Date()) {
+    return Response.json({
+      success: false,
+      errorCode: ERROR_CODES.INVALID_REQUEST,
+      message: t("message.invalidRequest"),
+    });
+  }
+
   const errorCode = await setTask(parsedBody.data);
 
   if (errorCode === ERROR_CODES.SUCCESS) {

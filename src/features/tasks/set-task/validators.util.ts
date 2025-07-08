@@ -17,10 +17,14 @@ export function getValidators(
     },
     dateRange: (value: [string | null, string | null]) => {
       if (!value[0] || !value[1]) return t("form.dateRange.isRequired");
+
       if (new Date(value[0]) > new Date(value[1])) {
         return t("form.dateRange.invalid");
       }
-      if (new Date(value[0]) < new Date()) {
+
+      const today = new Date();
+      const endDate = new Date(value[1] + "T23:59:59.999");
+      if (endDate < today) {
         return t("form.dateRange.pastDate");
       }
     },
