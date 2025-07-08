@@ -46,6 +46,18 @@ export class User {
     return this.handleLoginErrors(error);
   }
 
+  static async logout() {
+    const db = await createClient();
+
+    const { error } = await db.auth.signOut({ scope: "local" });
+
+    if (error) {
+      return USER_STATUS_MESSAGES.UNKNOWN_ERROR;
+    }
+
+    return USER_STATUS_MESSAGES.OK;
+  }
+
   private static async isBoss({ id }: { id: string }) {
     const client = createAdminClient();
 
