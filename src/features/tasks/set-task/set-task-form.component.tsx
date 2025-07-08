@@ -105,6 +105,7 @@ export function SetTaskForm({ projects, employees }: SetTaskFormProps) {
           )}
           <DatePickerInput
             type="range"
+            allowSingleDateInRange
             label={t("dateRange.label")}
             placeholder={t("dateRange.placeholder")}
             mt="md"
