@@ -1,23 +1,24 @@
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import { SetTaskForm } from "@/features/tasks/set-task/set-task-form.component";
-import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
-import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
 import { redirect } from "next/navigation";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 import { getEmployees } from "@/features/employees/get-employees/get-employees.action";
+import { Project } from "@/features/db/project/project.model";
+import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
+import { ERROR_CODES } from "@/features/employees/get-employees/error_codes.constant";
 
 export default async function SetTaskPage() {
   const t = await getTranslations("setTask");
 
-  const { projects, errorCode } = await getRelatedProjects();
+  const { projects, status } = await Project.getRelatedProjects();
 
-  if (errorCode === ERROR_CODES.NOT_AUTHORIZED) {
+  if (status === PROJECT_STATUS_MESSAGES.NOT_AUTHORIZED) {
     console.error("User is not authorized to access this page");
     redirect(AppRoutes.getRoute("LOGIN"));
   }
 
-  if (errorCode === ERROR_CODES.UNKNOWN) {
+  if (status === PROJECT_STATUS_MESSAGES.UNKNOWN) {
     console.error("Unknown error occurred while fetching projects");
     redirect(AppRoutes.getRoute("HOME"));
   }

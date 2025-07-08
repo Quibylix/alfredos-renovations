@@ -1,5 +1,5 @@
-import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
-import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
+import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
+import { Project } from "@/features/db/project/project.model";
 import { ProjectList } from "@/features/projects/get-projects/project-list.component";
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
@@ -7,9 +7,9 @@ import { getTranslations } from "next-intl/server";
 export default async function ProjectsPage() {
   const t = await getTranslations("projects");
 
-  const result = await getRelatedProjects();
+  const result = await Project.getRelatedProjects();
 
-  if (result.errorCode !== ERROR_CODES.SUCCESS) {
+  if (result.status !== PROJECT_STATUS_MESSAGES.OK) {
     return null;
   }
 

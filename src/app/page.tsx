@@ -1,10 +1,11 @@
 import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
 import { getRelatedTasks } from "@/features/tasks/get-tasks/get-related-tasks.action";
 import { TaskList } from "@/features/tasks/get-tasks/task-list.component";
-import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
 import { ProjectList } from "@/features/projects/get-projects/project-list.component";
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
+import { Project } from "@/features/db/project/project.model";
+import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
 
 export default async function HomePage() {
   const t = await getTranslations("home");
@@ -15,9 +16,9 @@ export default async function HomePage() {
     return null;
   }
 
-  const projectsResult = await getRelatedProjects();
+  const projectsResult = await Project.getRelatedProjects();
 
-  if (projectsResult.errorCode !== ERROR_CODES.SUCCESS) {
+  if (projectsResult.status !== PROJECT_STATUS_MESSAGES.OK) {
     return null;
   }
 

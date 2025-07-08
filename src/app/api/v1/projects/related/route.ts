@@ -1,9 +1,9 @@
-import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
-import { getRelatedProjects } from "@/features/projects/get-projects/get-related-projects.action";
+import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
+import { Project } from "@/features/db/project/project.model";
 import { getTranslations } from "next-intl/server";
 
 export type APIResponse = {
-  errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
+  errorCode: (typeof PROJECT_STATUS_MESSAGES)[keyof typeof PROJECT_STATUS_MESSAGES];
   message: string;
   projects: { id: number; title: string }[];
 };
@@ -11,26 +11,26 @@ export type APIResponse = {
 export async function GET() {
   const t = await getTranslations("getRelatedProjects.api");
 
-  const { errorCode, projects } = await getRelatedProjects();
+  const { status, projects } = await Project.getRelatedProjects();
 
-  if (errorCode === ERROR_CODES.NOT_AUTHORIZED) {
+  if (status === PROJECT_STATUS_MESSAGES.NOT_AUTHORIZED) {
     return Response.json({
-      errorCode,
+      status,
       message: t("message.notAuthorized"),
       projects: [],
     });
   }
 
-  if (errorCode === ERROR_CODES.UNKNOWN) {
+  if (status === PROJECT_STATUS_MESSAGES.UNKNOWN) {
     return Response.json({
-      errorCode,
+      status,
       message: t("message.unknown"),
       projects: [],
     });
   }
 
   return Response.json({
-    errorCode,
+    status,
     message: t("message.success"),
     projects,
   });
