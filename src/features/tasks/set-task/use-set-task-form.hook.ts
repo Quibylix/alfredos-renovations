@@ -11,6 +11,8 @@ import { AppRoutes } from "@/features/shared/app-routes.util";
 export function useSetTaskForm() {
   const t = useTranslations("setTask");
 
+  const [step, setStep] = useState<0 | 1 | 2>(0);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,8 +40,19 @@ export function useSetTaskForm() {
       dateRange: [null, null],
       employees: [],
     },
-    validate: getValidators(t),
+    validate: getValidators(t, step),
   });
+
+  const nextStep = () =>
+    setStep((current) => {
+      if (form.validate().hasErrors) {
+        return current;
+      }
+      return (current < 2 ? current + 1 : current) as 0 | 1 | 2;
+    });
+
+  const prevStep = () =>
+    setStep((current) => (current > 0 ? current - 1 : current) as 0 | 1 | 2);
 
   async function handleSubmit(values: {
     projectId: string;
@@ -141,6 +154,11 @@ export function useSetTaskForm() {
     form,
     submitHandler: form.onSubmit(handleSubmit),
     media,
+    step: {
+      value: step,
+      nextStep,
+      prevStep,
+    },
     addMedia,
     removeMedia,
     error,

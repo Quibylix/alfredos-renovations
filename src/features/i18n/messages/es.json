@@ -140,6 +140,22 @@
   "setTask": {
     "title": "Establecer tarea",
     "form": {
+      "steps": {
+        "step1": {
+          "label": "Primer paso",
+          "description": "Información general"
+        },
+        "step2": {
+          "label": "Segundo paso",
+          "description": "Rango de fechas"
+        },
+        "step3": {
+          "label": "Tercer paso",
+          "description": "Empleados"
+        },
+        "next": "Siguiente",
+        "previous": "Anterior"
+      },
       "project": {
         "label": "Proyecto",
         "placeholder": "Selecciona un proyecto",
