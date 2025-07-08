@@ -1,14 +1,14 @@
 import { Button, Container, Group, Title } from "@mantine/core";
-import { ERROR_CODES } from "@/features/projects/get-projects/error_codes.constant";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 import { getTranslations } from "next-intl/server";
-import { getProjectInfo } from "@/features/projects/get-projects/get-project-info.action";
 import Link from "next/link";
 import { IconEdit } from "@tabler/icons-react";
 import { User } from "@/features/db/user/user.model";
 import { USER_ROLES } from "@/features/db/user/user.constant";
 import { TaskList } from "@/features/tasks/get-tasks/task-list.component";
+import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
+import { Project } from "@/features/db/project/project.model";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -29,9 +29,9 @@ export default async function ProjectPage(props: ProgressPageProps) {
 
   const { id } = await result.data.params;
 
-  const { errorCode, project } = await getProjectInfo(Number(id));
+  const { status, project } = await Project.getProjectInfo(Number(id));
 
-  if (errorCode !== ERROR_CODES.SUCCESS) {
+  if (status !== PROJECT_STATUS_MESSAGES.OK) {
     notFound();
   }
 

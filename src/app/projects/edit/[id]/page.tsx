@@ -1,10 +1,10 @@
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import { EditProjectForm } from "@/features/projects/edit-projects/edit-project-form.component";
-import { ERROR_CODES } from "@/features/employees/get-employees/error_codes.constant";
 import { z } from "zod";
 import { notFound } from "next/navigation";
-import { getProjectInfo } from "@/features/projects/get-projects/get-project-info.action";
+import { Project } from "@/features/db/project/project.model";
+import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -25,9 +25,9 @@ export default async function EditProjectPage(props: EditProjectPageProps) {
 
   const { id } = await result.data.params;
 
-  const { errorCode, project } = await getProjectInfo(Number(id));
+  const { status, project } = await Project.getProjectInfo(Number(id));
 
-  if (errorCode !== ERROR_CODES.SUCCESS) {
+  if (status !== PROJECT_STATUS_MESSAGES.OK) {
     notFound();
   }
 
