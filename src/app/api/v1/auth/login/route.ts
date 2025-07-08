@@ -1,15 +1,15 @@
-import { login } from "@/features/auth/login/login.action";
 import {
   USER_STATUS_MESSAGES,
   UserStatusMessage,
 } from "@/features/db/user/user.constant";
+import { User } from "@/features/db/user/user.model";
 import { getTranslations } from "next-intl/server";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 
 export type APIResponse = {
   success: boolean;
-  errorCode: UserStatusMessage;
+  status: UserStatusMessage;
   message: string;
 };
 
@@ -28,30 +28,33 @@ export async function POST(request: NextRequest) {
   if (!parsedBody.success) {
     return Response.json({
       success: false,
-      errorCode: USER_STATUS_MESSAGES.INVALID_CREDENTIALS,
+      status: USER_STATUS_MESSAGES.INVALID_CREDENTIALS,
       message: t("message.invalidCredentials"),
     });
   }
 
-  const result = await login(parsedBody.data);
+  const result = await User.login(
+    parsedBody.data.username,
+    parsedBody.data.password,
+  );
 
   if (result === USER_STATUS_MESSAGES.OK)
     return Response.json({
       success: true,
-      errorCode: USER_STATUS_MESSAGES.OK,
+      status: USER_STATUS_MESSAGES.OK,
       message: t("message.success"),
     });
 
   if (result === USER_STATUS_MESSAGES.INVALID_CREDENTIALS)
     return Response.json({
       success: false,
-      errorCode: USER_STATUS_MESSAGES.INVALID_CREDENTIALS,
+      status: USER_STATUS_MESSAGES.INVALID_CREDENTIALS,
       message: t("message.invalidCredentials"),
     });
 
   return Response.json({
     success: false,
-    errorCode: USER_STATUS_MESSAGES.UNKNOWN_ERROR,
+    status: USER_STATUS_MESSAGES.UNKNOWN_ERROR,
     message: t("message.unknown"),
   });
 }

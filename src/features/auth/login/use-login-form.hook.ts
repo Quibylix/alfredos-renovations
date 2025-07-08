@@ -59,7 +59,7 @@ export function useLoginForm() {
         return handleSuccessResponse();
       }
 
-      if (res.errorCode === USER_STATUS_MESSAGES.INVALID_CREDENTIALS) {
+      if (res.status === USER_STATUS_MESSAGES.INVALID_CREDENTIALS) {
         return handleInvalidCredentials();
       }
 
