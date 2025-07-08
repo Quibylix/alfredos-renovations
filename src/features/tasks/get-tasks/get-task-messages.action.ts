@@ -51,7 +51,7 @@ export async function getTaskMessages(taskId: number): Promise<{
   const { data: taskData, error: taskError } = await db
     .from("task")
     .select(
-      `id, title, description, startDate: start_date, duration,
+      `id, title, description, startDate: start_date, endDate: end_date,
         completed, createdAt: created_at,
         employees: employee(id, ...profile(fullName: full_name)),
         media: task_media (id, type, url),

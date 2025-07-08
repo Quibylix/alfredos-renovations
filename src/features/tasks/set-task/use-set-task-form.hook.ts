@@ -64,10 +64,12 @@ export function useSetTaskForm() {
     setError(null);
     setLoading(true);
 
-    const startDate = new Date(values.dateRange[0] || "").toISOString();
-    const durationInMs =
-      new Date(values.dateRange[1] || "").getTime() -
-      new Date(values.dateRange[0] || "").getTime();
+    const startDate = new Date(
+      values.dateRange[0] + "T00:00:00.000",
+    ).toISOString();
+    const endDate = new Date(
+      values.dateRange[1] + "T23:59:59.999",
+    ).toISOString();
 
     const options = {
       method: "POST",
@@ -78,7 +80,7 @@ export function useSetTaskForm() {
         ...values,
         media,
         startDate,
-        duration: durationInMs,
+        endDate,
         employees: values.employees,
         projectId: Number(values.projectId),
       }),

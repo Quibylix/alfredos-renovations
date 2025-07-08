@@ -15,7 +15,7 @@ const bodySchema = z.object({
   title: z.string().trim().nonempty(),
   description: z.string().trim().nonempty(),
   startDate: z.string().datetime(),
-  duration: z.number().int().positive(),
+  endDate: z.string().datetime(),
   employees: z.array(z.string().trim().nonempty()).nonempty(),
   media: z.array(
     z.object({
@@ -40,10 +40,9 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const endDate = new Date(
-    new Date(parsedBody.data.startDate).getTime() + parsedBody.data.duration,
-  );
-  if (endDate < new Date()) {
+  const startDate = new Date(parsedBody.data.startDate);
+  const endDate = new Date(parsedBody.data.endDate);
+  if (startDate > endDate || endDate < new Date()) {
     return Response.json({
       success: false,
       errorCode: ERROR_CODES.INVALID_REQUEST,

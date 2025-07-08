@@ -82,7 +82,7 @@ export class GetProjectInfo {
         title: task.title,
         description: task.description,
         startDate: task.start_date.toISOString(),
-        duration: Number(task.duration),
+        endDate: task.end_date.toISOString(),
         completed: task.completed,
         createdAt: task.created_at.toISOString(),
         employees: task.task_assignment.map((assignment) => ({
@@ -147,7 +147,7 @@ export class GetProjectInfo {
       title: true,
       description: true,
       start_date: true,
-      duration: true,
+      end_date: true,
       completed: true,
       created_at: true,
       task_assignment: {
@@ -194,7 +194,7 @@ const querySchema = z.object({
       title: z.string(),
       description: z.string(),
       start_date: z.date(),
-      duration: z.bigint(),
+      end_date: z.date(),
       completed: z.boolean(),
       created_at: z.date(),
       task_assignment: z.array(

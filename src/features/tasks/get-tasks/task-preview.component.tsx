@@ -17,7 +17,7 @@ export function TaskPreview({ task }: { task: TaskData }) {
   const imageURL = task.media.find((media) => media.type === "image")?.url;
 
   const startDate = new Date(task.startDate);
-  const endDate = new Date(startDate.getTime() + task.duration);
+  const endDate = new Date(task.endDate);
 
   return (
     <Card ref={ref} withBorder radius="md" p={0} className={classes.card}>

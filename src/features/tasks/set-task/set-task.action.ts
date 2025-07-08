@@ -9,7 +9,7 @@ export async function setTask({
   title,
   description,
   startDate,
-  duration,
+  endDate,
   employees,
   media,
 }: {
@@ -17,7 +17,7 @@ export async function setTask({
   title: string;
   description: string;
   startDate: string;
-  duration: number;
+  endDate: string;
   employees: string[];
   media: { type: "image" | "video"; url: string }[];
 }) {
@@ -36,7 +36,7 @@ export async function setTask({
       title,
       description,
       start_date: startDate,
-      duration,
+      end_date: endDate,
       project_id: projectId,
       boss_id: userId!,
     })

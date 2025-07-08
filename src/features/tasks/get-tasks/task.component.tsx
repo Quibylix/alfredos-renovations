@@ -25,15 +25,13 @@ export function Task({
     startDate,
     project,
     boss,
-    duration,
+    endDate,
     completed,
     employees,
     createdAt,
   },
 }: TaskProps) {
   const t = useTranslations("task");
-
-  const endDate = new Date(new Date(startDate).getTime() + duration);
 
   return (
     <Paper withBorder p="md" radius="md" shadow="sm">
@@ -43,7 +41,7 @@ export function Task({
         </Badge>
         <Text size="xs" c="dimmed">
           <LocalizedDate date={new Date(startDate)} /> →{" "}
-          <LocalizedDate date={endDate} />
+          <LocalizedDate date={new Date(endDate)} />
         </Text>
       </Group>
 

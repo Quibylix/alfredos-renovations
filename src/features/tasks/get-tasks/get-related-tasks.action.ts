@@ -10,7 +10,7 @@ export type TaskData = {
   title: string;
   description: string;
   startDate: string;
-  duration: number;
+  endDate: string;
   completed: boolean;
   createdAt: string;
   media: {
@@ -50,7 +50,7 @@ export async function getRelatedTasks(): Promise<{
 
   if (role === USER_ROLES.BOSS) {
     const { data, error } = await db.from("task").select(
-      `id, title, description, startDate: start_date, duration,
+      `id, title, description, startDate: start_date, endDate: end_date,
         completed, createdAt: created_at,
         employees: employee(id, ...profile(fullName: full_name)),
         media: task_media (id, type, url),
@@ -76,7 +76,7 @@ export async function getRelatedTasks(): Promise<{
     .from("task_assignment")
     .select(
       `...task(id, title, description, startDate: start_date,
-        duration, completed, createdAt: created_at,
+        endDate: end_date, completed, createdAt: created_at,
         employees: employee(id, ...profile(fullName: full_name)),
         media: task_media (id, type, url),
         boss(id, ...profile(fullName: full_name)),
