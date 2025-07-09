@@ -20,14 +20,27 @@ export type GetRelatedTasksFilters = {
   projectId?: number;
 };
 
+export type GetRelatedTasksLimits = {
+  limit: number;
+  offset: number;
+};
+
 export class GetRelatedTasks {
   private userId: string | null = null;
   private userRole: string | null = null;
 
   private filters: GetRelatedTasksFilters;
+  private limits: GetRelatedTasksLimits;
 
-  constructor(filters: GetRelatedTasksFilters = {}) {
+  constructor(
+    filters: GetRelatedTasksFilters = {},
+    limits: GetRelatedTasksLimits = {
+      limit: 20,
+      offset: 0,
+    },
+  ) {
     this.filters = filters;
+    this.limits = limits;
   }
 
   async execute(): Promise<{
@@ -60,6 +73,8 @@ export class GetRelatedTasks {
     return prisma.task.findMany({
       where: whereCondition,
       select: selectedColumns,
+      skip: this.limits.offset,
+      take: this.limits.limit,
     });
   }
 
