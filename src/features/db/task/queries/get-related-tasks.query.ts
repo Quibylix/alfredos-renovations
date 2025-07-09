@@ -31,6 +31,7 @@ export class GetRelatedTasks {
 
   private filters: GetRelatedTasksFilters = {};
   private limits: GetRelatedTasksLimits = {};
+  private order: "asc" | "desc" = "asc";
 
   async execute(): Promise<{
     status: TaskStatusMessage;
@@ -60,6 +61,11 @@ export class GetRelatedTasks {
     return this;
   }
 
+  withOrder(order: "asc" | "desc") {
+    this.order = order;
+    return this;
+  }
+
   private async getUserInfo() {
     this.userId = await User.getCurrentUserId();
     this.userRole = await User.getRole(this.userId);
@@ -70,6 +76,7 @@ export class GetRelatedTasks {
     const selectedColumns = this.getSelectedColumns();
 
     return prisma.task.findMany({
+      orderBy: { end_date: this.order },
       where: whereCondition,
       select: selectedColumns,
       skip: this.limits.offset,
