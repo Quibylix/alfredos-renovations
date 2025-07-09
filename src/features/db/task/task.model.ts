@@ -1,7 +1,10 @@
-import { GetRelatedTasks } from "./queries/get-related-tasks.query";
+import {
+  GetRelatedTasks,
+  GetRelatedTasksFilters,
+} from "./queries/get-related-tasks.query";
 
 export class Task {
-  static getRelatedTasks() {
-    return new GetRelatedTasks().execute();
+  static getRelatedTasks(filters?: GetRelatedTasksFilters) {
+    return new GetRelatedTasks(filters).execute();
   }
 }

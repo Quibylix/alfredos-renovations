@@ -5,9 +5,30 @@ import { USER_ROLES } from "../../user/user.constant";
 import { TASK_STATUS_MESSAGES, TaskStatusMessage } from "../task.constant";
 import { TaskData } from "../../task/task.types";
 
+export type GetRelatedTasksFilters = {
+  title?: string;
+  startDate?: {
+    gte?: Date;
+    lte?: Date;
+  };
+  endDate?: {
+    gte?: Date;
+    lte?: Date;
+  };
+  completed?: boolean;
+  employeeIds?: string[];
+  projectId?: number;
+};
+
 export class GetRelatedTasks {
   private userId: string | null = null;
   private userRole: string | null = null;
+
+  private filters: GetRelatedTasksFilters;
+
+  constructor(filters: GetRelatedTasksFilters = {}) {
+    this.filters = filters;
+  }
 
   async execute(): Promise<{
     status: TaskStatusMessage;
@@ -43,14 +64,55 @@ export class GetRelatedTasks {
   }
 
   private getWhereCondition() {
+    const filters = this.applyFiltersToWhereCondition();
+
     if (this.userRole === USER_ROLES.BOSS) {
-      return {};
+      return { AND: [filters] };
     }
 
     return {
-      task_assignment: {
-        some: { employee_id: this.userId! },
+      AND: [
+        filters,
+        {
+          task_assignment: {
+            some: { employee_id: this.userId! },
+          },
+        },
+      ],
+    };
+  }
+
+  private applyFiltersToWhereCondition() {
+    return {
+      ...(this.filters.title
+        ? {
+            title: {
+              contains: this.filters.title,
+              mode: "insensitive" as const,
+            },
+          }
+        : {}),
+      completed: this.filters.completed,
+      start_date: {
+        gte: this.filters.startDate?.gte,
+        lte: this.filters.startDate?.lte,
       },
+      end_date: {
+        gte: this.filters.endDate?.gte,
+        lte: this.filters.endDate?.lte,
+      },
+      project_id: this.filters.projectId,
+      ...(this.filters.employeeIds && this.filters.employeeIds.length > 0
+        ? {
+            task_assignment: {
+              some: {
+                employee_id: {
+                  in: this.filters.employeeIds,
+                },
+              },
+            },
+          }
+        : {}),
     };
   }
 
