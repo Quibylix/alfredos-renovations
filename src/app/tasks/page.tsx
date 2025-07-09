@@ -13,7 +13,6 @@ export type SendMessagePageProps = {
 
 export default async function TasksPage(props: SendMessagePageProps) {
   const rawSearchParams = await props.searchParams;
-  console.log("rawSearchParams", rawSearchParams);
   const parsedResult = searchParamsSchema.safeParse(rawSearchParams);
 
   if (!parsedResult.success) {
