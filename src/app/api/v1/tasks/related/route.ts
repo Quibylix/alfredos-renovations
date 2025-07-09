@@ -15,7 +15,7 @@ export type APIResponse = {
 export async function GET() {
   const t = await getTranslations("getRelatedTasks.api");
 
-  const { status, tasks } = await Task.getRelatedTasks();
+  const { status, tasks } = await Task.getRelatedTasks().execute();
 
   if (status === TASK_STATUS_MESSAGES.NOT_AUTHORIZED) {
     return Response.json({

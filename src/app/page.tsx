@@ -10,9 +10,14 @@ import { TASK_STATUS_MESSAGES } from "@/features/db/task/task.constant";
 export default async function HomePage() {
   const t = await getTranslations("home");
 
-  const taskResult = await Task.getRelatedTasks({
-    completed: false,
-  });
+  const taskResult = await Task.getRelatedTasks()
+    .withFilters({
+      completed: false,
+    })
+    .withLimits({
+      limit: 3,
+    })
+    .execute();
 
   if (taskResult.status !== TASK_STATUS_MESSAGES.OK) {
     return null;

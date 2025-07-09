@@ -21,27 +21,16 @@ export type GetRelatedTasksFilters = {
 };
 
 export type GetRelatedTasksLimits = {
-  limit: number;
-  offset: number;
+  limit?: number;
+  offset?: number;
 };
 
 export class GetRelatedTasks {
   private userId: string | null = null;
   private userRole: string | null = null;
 
-  private filters: GetRelatedTasksFilters;
-  private limits: GetRelatedTasksLimits;
-
-  constructor(
-    filters: GetRelatedTasksFilters = {},
-    limits: GetRelatedTasksLimits = {
-      limit: 20,
-      offset: 0,
-    },
-  ) {
-    this.filters = filters;
-    this.limits = limits;
-  }
+  private filters: GetRelatedTasksFilters = {};
+  private limits: GetRelatedTasksLimits = {};
 
   async execute(): Promise<{
     status: TaskStatusMessage;
@@ -59,6 +48,16 @@ export class GetRelatedTasks {
     });
 
     return this.handleQueryResult(queryResult);
+  }
+
+  withFilters(filters: GetRelatedTasksFilters) {
+    this.filters = { ...this.filters, ...filters };
+    return this;
+  }
+
+  withLimits(limits: GetRelatedTasksLimits) {
+    this.limits = { ...this.limits, ...limits };
+    return this;
   }
 
   private async getUserInfo() {

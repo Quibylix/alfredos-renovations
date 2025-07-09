@@ -7,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 export default async function TasksPage() {
   const t = await getTranslations("task");
 
-  const result = await Task.getRelatedTasks();
+  const result = await Task.getRelatedTasks().execute();
 
   if (result.status !== TASK_STATUS_MESSAGES.OK) {
     return null;
