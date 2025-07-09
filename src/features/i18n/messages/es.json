@@ -234,6 +234,38 @@
     "createdAt": "Creada",
     "assignedEmployees": "Empleados asignados"
   },
+  "taskList": {
+    "title": "Tareas",
+    "filter": {
+      "label": "Filtrar",
+      "title": {
+        "label": "Título",
+        "placeholder": "Buscar por título"
+      },
+      "startDate": {
+        "label": "Fecha de inicio",
+        "placeholder": "Selecciona un rango para la fecha de inicio"
+      },
+      "endDate": {
+        "label": "Fecha de finalización",
+        "placeholder": "Selecciona un rango para la fecha de finalización"
+      },
+      "status": {
+        "label": "Estado",
+        "completed": "Completadas",
+        "pending": "Pendientes",
+        "all": "Todas"
+      },
+      "employees": {
+        "label": "Empleados",
+        "placeholder": "Selecciona empleados"
+      },
+      "project": {
+        "label": "Proyecto",
+        "placeholder": "Selecciona un proyecto"
+      }
+    }
+  },
   "sendMessage": {
     "title": "Enviar mensaje",
     "form": {

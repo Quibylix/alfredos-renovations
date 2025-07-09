@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { prepareSearchParams } from "./prepare-search-params.util";
 import { searchParamsSchema } from "./page.schema";
 import { z } from "zod";
+import { TaskFilter } from "@/features/tasks/filter-tasks/task-filter.component";
 
 export type SendMessagePageProps = {
   searchParams: Promise<z.infer<typeof searchParamsSchema>>;
@@ -40,6 +41,7 @@ export default async function TasksPage(props: SendMessagePageProps) {
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
+      <TaskFilter />
       <TaskList tasks={result.tasks} />
     </Container>
   );
