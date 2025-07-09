@@ -68,14 +68,30 @@ export class GetProjectInfo {
       };
     }
 
+    const mappedData = this.mapQueryResultToProjectData(queryData);
+
+    if (mappedData === null) {
+      return {
+        status: PROJECT_STATUS_MESSAGES.UNKNOWN,
+        project: null,
+      };
+    }
+
     return {
       status: PROJECT_STATUS_MESSAGES.OK,
-      project: this.mapQueryResultToProjectData(queryData),
+      project: mappedData,
     };
   }
 
   private mapQueryResultToProjectData(queryData: unknown) {
-    const parsedData = querySchema.parse(queryData);
+    const result = querySchema.safeParse(queryData);
+
+    if (!result.success) {
+      console.error("Invalid project data format:", result.error);
+      return null;
+    }
+
+    const parsedData = result.data;
 
     return {
       id: Number(parsedData.id),

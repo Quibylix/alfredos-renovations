@@ -59,16 +59,30 @@ export class GetRelatedProjects {
       };
     }
 
+    const mappedData = this.mapQueryResultToProjectData(queryData);
+
+    if (mappedData === null) {
+      return {
+        status: PROJECT_STATUS_MESSAGES.UNKNOWN,
+        projects: [],
+      };
+    }
+
     return {
       status: PROJECT_STATUS_MESSAGES.OK,
-      projects: this.mapQueryResultToProjectData(queryData),
+      projects: mappedData,
     };
   }
 
   private mapQueryResultToProjectData(queryData: unknown) {
-    const parsedData = querySchema.parse(queryData);
+    const result = querySchema.safeParse(queryData);
 
-    return parsedData.map((project) => ({
+    if (!result.success) {
+      console.error("Error parsing project data:", result.error);
+      return null;
+    }
+
+    return result.data.map((project) => ({
       id: Number(project.id),
       title: project.title,
     }));
