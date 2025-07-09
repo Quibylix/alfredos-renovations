@@ -1,5 +1,8 @@
 import { User } from "../../user/user.model";
-import { PROJECT_STATUS_MESSAGES } from "../project.constant";
+import {
+  PROJECT_STATUS_MESSAGES,
+  ProjectStatusMessage,
+} from "../project.constant";
 import { USER_ROLES, UserRole } from "../../user/user.constant";
 import { prisma } from "../../prisma/db";
 import { z } from "zod";
@@ -15,7 +18,7 @@ export class GetProjectInfo {
   }
 
   async execute(): Promise<{
-    status: (typeof PROJECT_STATUS_MESSAGES)[keyof typeof PROJECT_STATUS_MESSAGES];
+    status: ProjectStatusMessage;
     project: ProjectData | null;
   }> {
     await this.getUserInfo();
