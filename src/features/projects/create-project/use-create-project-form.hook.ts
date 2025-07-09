@@ -3,10 +3,10 @@ import { getValidators } from "./validators.util";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
-import { APIResponse as ProgressAPIResponse } from "@/app/api/v1/tasks/route";
-import { ERROR_CODES as SEND_PROGRESS_API_ERROR_CODES } from "./error_codes.constant";
+import { APIResponse as ProgressAPIResponse } from "@/app/api/v1/projects/route";
 import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/app-routes.util";
+import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
 
 export function useCreateProjectForm() {
   const t = useTranslations("createProject");
@@ -58,7 +58,7 @@ export function useCreateProjectForm() {
         return handleSuccessResponse();
       }
 
-      if (res.errorCode === SEND_PROGRESS_API_ERROR_CODES.INVALID_REQUEST) {
+      if (res.status === PROJECT_STATUS_MESSAGES.INVALID_REQUEST) {
         return handleInvalidRequest();
       }
 

@@ -1,12 +1,15 @@
-import { ERROR_CODES } from "@/features/projects/create-project/error_codes.constant";
-import { createProject } from "@/features/projects/create-project/create-project.action";
 import { getTranslations } from "next-intl/server";
 import { NextRequest } from "next/server";
 import { z } from "zod";
+import {
+  PROJECT_STATUS_MESSAGES,
+  ProjectStatusMessage,
+} from "@/features/db/project/project.constant";
+import { Project } from "@/features/db/project/project.model";
 
 export type APIResponse = {
   success: boolean;
-  errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
+  status: ProjectStatusMessage;
   message: string;
 };
 
@@ -24,32 +27,32 @@ export async function POST(request: NextRequest) {
   if (!parsedBody.success) {
     return Response.json({
       success: false,
-      errorCode: ERROR_CODES.INVALID_REQUEST,
+      status: PROJECT_STATUS_MESSAGES.INVALID_REQUEST,
       message: t("message.invalidRequest"),
     });
   }
 
-  const errorCode = await createProject(parsedBody.data);
+  const status = await Project.createProject(parsedBody.data);
 
-  if (errorCode === ERROR_CODES.SUCCESS) {
+  if (status === PROJECT_STATUS_MESSAGES.OK) {
     return Response.json({
       success: true,
-      errorCode: ERROR_CODES.SUCCESS,
+      status: PROJECT_STATUS_MESSAGES.OK,
       message: t("message.success"),
     });
   }
 
-  if (errorCode === ERROR_CODES.NOT_AUTHORIZED) {
+  if (status === PROJECT_STATUS_MESSAGES.NOT_AUTHORIZED) {
     return Response.json({
       success: false,
-      errorCode: ERROR_CODES.NOT_AUTHORIZED,
+      status: PROJECT_STATUS_MESSAGES.NOT_AUTHORIZED,
       message: t("message.notAuthorized"),
     });
   }
 
   return Response.json({
     success: false,
-    errorCode: ERROR_CODES.UNKNOWN,
+    status: PROJECT_STATUS_MESSAGES.UNKNOWN,
     message: t("message.unknown"),
   });
 }
