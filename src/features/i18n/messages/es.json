@@ -221,11 +221,11 @@
   },
   "home": {
     "title": "Tablero de control",
-    "projects": "Proyectos",
-    "tasks": "Tareas"
+    "projects": "Proyectos activos",
+    "tasks": "Tareas pendientes"
   },
   "task": {
-    "title": "Tarea",
+    "title": "Tareas",
     "message": "Enviar mensaje",
     "alt": "Imagen de la tarea",
     "avatar": "Avatar del empleado",
