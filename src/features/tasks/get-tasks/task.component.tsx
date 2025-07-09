@@ -8,7 +8,7 @@ import {
   Stack,
   Divider,
 } from "@mantine/core";
-import { TaskData } from "./get-related-tasks.action";
+import { TaskData } from "@/features/db/task/task.types";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { MediaPreview } from "@/features/media/preview/media-preview.component";

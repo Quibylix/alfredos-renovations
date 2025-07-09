@@ -1,12 +1,13 @@
-import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
 import {
-  getRelatedTasks,
-  TaskData,
-} from "@/features/tasks/get-tasks/get-related-tasks.action";
+  TASK_STATUS_MESSAGES,
+  TaskStatusMessage,
+} from "@/features/db/task/task.constant";
+import { Task } from "@/features/db/task/task.model";
+import { TaskData } from "@/features/db/task/task.types";
 import { getTranslations } from "next-intl/server";
 
 export type APIResponse = {
-  errorCode: (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
+  status: TaskStatusMessage;
   message: string;
   tasks: TaskData[];
 };
@@ -14,26 +15,26 @@ export type APIResponse = {
 export async function GET() {
   const t = await getTranslations("getRelatedTasks.api");
 
-  const { errorCode, tasks } = await getRelatedTasks();
+  const { status, tasks } = await Task.getRelatedTasks();
 
-  if (errorCode === ERROR_CODES.NOT_AUTHORIZED) {
+  if (status === TASK_STATUS_MESSAGES.NOT_AUTHORIZED) {
     return Response.json({
-      errorCode,
+      errorCode: status,
       message: t("message.notAuthorized"),
       tasks: [],
     });
   }
 
-  if (errorCode === ERROR_CODES.UNKNOWN) {
+  if (status === TASK_STATUS_MESSAGES.UNKNOWN) {
     return Response.json({
-      errorCode,
+      errorCode: status,
       message: t("message.unknown"),
       tasks: [],
     });
   }
 
   return Response.json({
-    errorCode,
+    errorCode: status,
     message: t("message.success"),
     tasks,
   });

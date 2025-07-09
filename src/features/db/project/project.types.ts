@@ -1,4 +1,4 @@
-import { TaskData } from "@/features/tasks/get-tasks/get-related-tasks.action";
+import { TaskData } from "@/features/db/task/task.types";
 
 export type ProjectData = {
   id: number;

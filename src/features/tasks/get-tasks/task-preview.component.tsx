@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, Group, Image, Text } from "@mantine/core";
-import { TaskData } from "./get-related-tasks.action";
+import { TaskData } from "@/features/db/task/task.types";
 import classes from "./task-preview.module.css";
 import Link from "next/link";
 import { LocalizedDate } from "./localized-date.component";

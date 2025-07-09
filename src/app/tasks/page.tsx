@@ -1,5 +1,5 @@
-import { ERROR_CODES } from "@/features/tasks/get-tasks/error_codes.constant";
-import { getRelatedTasks } from "@/features/tasks/get-tasks/get-related-tasks.action";
+import { TASK_STATUS_MESSAGES } from "@/features/db/task/task.constant";
+import { Task } from "@/features/db/task/task.model";
 import { TaskList } from "@/features/tasks/get-tasks/task-list.component";
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
@@ -7,9 +7,9 @@ import { getTranslations } from "next-intl/server";
 export default async function TasksPage() {
   const t = await getTranslations("task");
 
-  const result = await getRelatedTasks();
+  const result = await Task.getRelatedTasks();
 
-  if (result.errorCode !== ERROR_CODES.SUCCESS) {
+  if (result.status !== TASK_STATUS_MESSAGES.OK) {
     return null;
   }
 
