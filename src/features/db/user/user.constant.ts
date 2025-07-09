@@ -2,6 +2,7 @@ export const USER_STATUS_MESSAGES = {
   OK: "ok",
   USERNAME_TAKEN: "username already taken",
   INVALID_CREDENTIALS: "invalid credentials",
+  NOT_AUTHORIZED: "not authorized",
   UNKNOWN_ERROR: "unknown error",
 } as const;
 

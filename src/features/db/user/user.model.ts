@@ -7,6 +7,7 @@ import {
   UserStatusMessage,
 } from "./user.constant";
 import { createAdminClient } from "../supabase/create-admin-client.util";
+import { GetRelatedEmployees } from "./queries/get-related-employees.query";
 
 export class User {
   private static EMAIL_HOST = "@alfredosrenovations.com";
@@ -56,6 +57,10 @@ export class User {
     }
 
     return USER_STATUS_MESSAGES.OK;
+  }
+
+  static getRelatedEmployees() {
+    return new GetRelatedEmployees();
   }
 
   private static async isBoss({ id }: { id: string }) {
