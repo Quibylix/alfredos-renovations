@@ -19,7 +19,7 @@ export function LocalizedDate({ date }: { date: Date }) {
 
     const formatter = new Intl.DateTimeFormat(locale, options);
     setDateString(formatter.format(date));
-  }, [date]);
+  }, [date, locale]);
 
   return (
     <span>
