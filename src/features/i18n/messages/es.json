@@ -266,6 +266,21 @@
       }
     }
   },
+  "updateTaskStatus": {
+    "label": "Actualizar estado",
+    "completed": "Completada",
+    "pending": "Pendiente",
+    "success": "Estado de la tarea actualizado exitosamente",
+    "error": "Error al actualizar el estado de la tarea",
+    "api": {
+      "message": {
+        "success": "Estado de la tarea actualizado exitosamente",
+        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "notAuthorized": "No autorizado. Por favor, verifica tus credenciales.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
+      }
+    }
+  },
   "sendMessage": {
     "title": "Enviar mensaje",
     "form": {
