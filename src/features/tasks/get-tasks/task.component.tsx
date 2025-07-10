@@ -12,13 +12,16 @@ import { TaskData } from "@/features/db/task/task.types";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { MediaPreview } from "@/features/media/preview/media-preview.component";
+import { UpdateTaskStatus } from "../update-task-status/update-task-status.component";
 
 export type TaskProps = {
   data: TaskData;
+  isBoss?: boolean;
 };
 
 export function Task({
   data: {
+    id,
     title,
     description,
     media,
@@ -30,6 +33,7 @@ export function Task({
     employees,
     createdAt,
   },
+  isBoss,
 }: TaskProps) {
   const t = useTranslations("task");
 
@@ -44,20 +48,22 @@ export function Task({
           <LocalizedDate date={new Date(endDate)} />
         </Text>
       </Group>
-
-      <Stack gap={4} mb="xs">
-        <Text size="xs" c="dimmed">
-          📌 {project.title}
-        </Text>
-        <Group gap="xs">
-          <Avatar
-            size="sm"
-            src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
-            radius="xl"
-          />
-          <Text size="sm">{boss.fullName}</Text>
-        </Group>
-      </Stack>
+      <Group justify="space-between" mb="xs">
+        <Stack gap={4} mb="xs">
+          <Text size="xs" c="dimmed">
+            📌 {project.title}
+          </Text>
+          <Group gap="xs">
+            <Avatar
+              size="sm"
+              src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"
+              radius="xl"
+            />
+            <Text size="sm">{boss.fullName}</Text>
+          </Group>
+        </Stack>
+        {isBoss && <UpdateTaskStatus taskId={id} completed={completed} />}
+      </Group>
 
       <Divider my="sm" />
 

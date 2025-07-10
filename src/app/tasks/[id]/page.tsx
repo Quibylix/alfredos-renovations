@@ -9,6 +9,8 @@ import { getTranslations } from "next-intl/server";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 import { MessageList } from "@/features/messages/message-list/message-list.component";
 import styles from "./page.module.css";
+import { User } from "@/features/db/user/user.model";
+import { USER_ROLES } from "@/features/db/user/user.constant";
 
 const propsSchema = z.object({
   params: z.promise(
@@ -24,6 +26,12 @@ export default async function TaskPage(props: TaskPageProps) {
   const result = propsSchema.safeParse(props);
 
   if (!result.success) {
+    notFound();
+  }
+
+  const userRole = await User.getRole();
+
+  if (userRole === USER_ROLES.ANON) {
     notFound();
   }
 
@@ -44,7 +52,7 @@ export default async function TaskPage(props: TaskPageProps) {
   return (
     <div className={styles.taskPage}>
       <Stack gap="lg" style={{ overflowY: "auto", height: "100%" }}>
-        <Task data={task} />
+        <Task data={task} isBoss={userRole === USER_ROLES.BOSS} />
         <MessageList messages={messages} />
       </Stack>
       <Button
