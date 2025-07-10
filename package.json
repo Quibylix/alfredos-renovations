@@ -17,8 +17,9 @@
     "supabase:push:dev": "pnpm supabase:start:dev && supabase db push --db-url \"postgresql://postgres:postgres@localhost:54322/postgres\"",
     "supabase:reset:test": "pnpm supabase:start:test && ./supabase/scripts/copy-migrations-to-test.sh && supabase db reset --workdir ./tests",
     "prisma:pull": "dotenv -e .env.development.local prisma db pull",
-    "prisma:generate": "dotenv -e .env.development.local prisma generate",
-    "prisma:migrate": "dotenv -e .env.development.local prisma migrate dev"
+    "prisma:generate:dev": "dotenv -e .env.development.local prisma generate",
+    "prisma:migrate": "dotenv -e .env.development.local prisma migrate dev",
+    "prisma:generate": "prisma generate"
   },
   "dependencies": {
     "@bprogress/next": "^3.2.12",
