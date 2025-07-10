@@ -31,7 +31,7 @@ export async function TaskFilter() {
     projectsData.projects.length > 0;
 
   return (
-    <Accordion variant="filled" mb="lg">
+    <Accordion variant="filled" mb="md">
       <AccordionItem value="task-filter">
         <AccordionControl component="h3">{t("label")}</AccordionControl>
         <AccordionPanel p="md">

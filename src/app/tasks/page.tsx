@@ -46,7 +46,6 @@ export default async function TasksPage(props: SendMessagePageProps) {
       <Title mb={30} ta="center" fw={900}>
         {t("title")}
       </Title>
-      <TaskFilter />
       {taskCountResult.status === TASK_STATUS_MESSAGES.OK && (
         <Group w="100%" justify="center" mb="xl">
           <TaskPagination
@@ -55,6 +54,7 @@ export default async function TasksPage(props: SendMessagePageProps) {
           />
         </Group>
       )}
+      <TaskFilter />
       <TaskList tasks={result.tasks} />
       {taskCountResult.status === TASK_STATUS_MESSAGES.OK && (
         <Group w="100%" justify="center" mt="xl">
