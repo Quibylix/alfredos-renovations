@@ -1,0 +1,13 @@
+.loaderWrapper {
+  margin-inline: 0;
+  padding: 0.5rem;
+  border-radius: var(--mantine-radius-md);
+}
+
+[data-mantine-color-scheme="dark"] .loaderWrapper {
+  background-color: var(--mantine-color-dark-8);
+}
+
+[data-mantine-color-scheme="light"] .loaderWrapper {
+  background-color: var(--mantine-color-gray-1);
+}
