@@ -73,6 +73,13 @@ export function TaskFilterDate({ type }: { type: "start" | "end" }) {
       value={dateRange}
       placeholder={t("placeholder")}
       onChange={handleDateChange}
+      styles={{
+        input: {
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+          textOverflow: "ellipsis",
+        },
+      }}
     />
   );
 }
