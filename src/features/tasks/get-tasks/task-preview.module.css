@@ -1,40 +1,14 @@
 .card {
-  background-color: var(--mantine-color-body);
-}
-
-.title {
-  font-weight: bold;
-  font-family:
-    Greycliff CF,
-    var(--mantine-font-family);
-  line-height: 1.2;
-}
-
-.body {
-  padding: var(--mantine-spacing-md);
+  background-color: inherit;
 }
 
 .link {
   color: var(--mantine-color-text);
   text-decoration: none;
+  border-radius: var(--mantine-radius-md);
 }
 
 .link:hover {
   background-color: var(--mantine-color-default-hover);
-}
-
-.noImage {
-  display: none;
-}
-
-.imageSmall {
-  min-width: 100%;
-  height: auto;
-  aspect-ratio: 16/9;
-}
-
-.imageLarge {
-  width: 10rem;
-  min-width: 10rem;
-  height: 10rem;
+  text-decoration: none;
 }
