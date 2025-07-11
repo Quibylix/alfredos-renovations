@@ -152,7 +152,7 @@ export function useEditTaskForm(taskData: TaskData) {
         message: t("api.message.success"),
       });
       form.reset();
-      router.push(AppRoutes.getRoute("TASK_LIST"));
+      router.push(AppRoutes.getRoute("TASK", { id: taskData.id.toString() }));
       router.refresh();
     }
 
