@@ -8,6 +8,7 @@ export const APP_ROUTES = {
   TASK_LIST: "/tasks",
   TASK: "/tasks/:id",
   SET_TASK: "/tasks/set",
+  EDIT_TASK: "/tasks/edit/:id",
   SEND_MESSAGE: "/messages/send",
   PROJECT_LIST: "/projects",
   PROJECT: "/projects/:id",

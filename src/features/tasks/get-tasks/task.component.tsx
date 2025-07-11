@@ -16,6 +16,7 @@ import { MediaPreview } from "@/features/media/preview/media-preview.component";
 import { UpdateTaskStatus } from "../update-task-status/update-task-status.component";
 import { IconEdit } from "@tabler/icons-react";
 import Link from "next/link";
+import { AppRoutes } from "@/features/shared/app-routes.util";
 
 export type TaskProps = {
   data: TaskData;
@@ -71,7 +72,7 @@ export function Task({
             <Button
               variant="outline"
               component={Link}
-              href={`/tasks/edit/${id}`}
+              href={AppRoutes.getRoute("EDIT_TASK", { id: id.toString() })}
               color="dimmed"
             >
               {t("edit")}
