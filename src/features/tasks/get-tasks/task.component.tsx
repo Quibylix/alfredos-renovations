@@ -7,12 +7,15 @@ import {
   Paper,
   Stack,
   Divider,
+  Button,
 } from "@mantine/core";
 import { TaskData } from "@/features/db/task/task.types";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
 import { MediaPreview } from "@/features/media/preview/media-preview.component";
 import { UpdateTaskStatus } from "../update-task-status/update-task-status.component";
+import { IconEdit } from "@tabler/icons-react";
+import Link from "next/link";
 
 export type TaskProps = {
   data: TaskData;
@@ -62,7 +65,21 @@ export function Task({
             <Text size="sm">{boss.fullName}</Text>
           </Group>
         </Stack>
-        {isBoss && <UpdateTaskStatus taskId={id} completed={completed} />}
+
+        {isBoss && (
+          <>
+            <Button
+              variant="outline"
+              component={Link}
+              href={`/tasks/edit/${id}`}
+              color="dimmed"
+            >
+              {t("edit")}
+              <IconEdit size={20} />
+            </Button>
+            <UpdateTaskStatus taskId={id} completed={completed} />
+          </>
+        )}
       </Group>
 
       <Divider my="sm" />

@@ -297,7 +297,8 @@
     "completed": "Tarea completada",
     "pending": "Tarea pendiente",
     "createdAt": "Creada",
-    "assignedEmployees": "Empleados asignados"
+    "assignedEmployees": "Empleados asignados",
+    "edit": "Editar tarea"
   },
   "taskList": {
     "title": "Tareas",
