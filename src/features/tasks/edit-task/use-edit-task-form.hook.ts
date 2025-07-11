@@ -113,8 +113,6 @@ export function useEditTaskForm(taskData: TaskData) {
       }),
     };
 
-    console.log(options.body);
-
     fetch(AppRoutes.getRoute("API_EDIT_TASK"), options)
       .then((response) => {
         if (!response.ok) {
