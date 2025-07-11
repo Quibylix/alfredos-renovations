@@ -28,11 +28,21 @@ async function resetDatabase() {
     return;
   }
 
-  return Promise.all(
+  await Promise.all(
     users.map(async (user) => {
       return await client.auth.admin.deleteUser(user.id);
     }),
   );
+
+  const { error: deleteError } = await client
+    .from("project")
+    .delete()
+    .neq("id", -1);
+  if (deleteError) {
+    console.error("Error deleting projects:", deleteError);
+  }
+
+  return;
 }
 
 async function configureDatabase() {
