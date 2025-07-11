@@ -5,6 +5,10 @@ import { users } from "./users.constant";
 import es from "@/features/i18n/messages/es.json";
 import path from "path";
 import { AppRoutes } from "@/features/shared/app-routes.util";
+import { projects } from "./projects.constant";
+import { PrismaClient } from "@/generated/prisma/client";
+
+const prisma = new PrismaClient();
 
 async function resetDatabase() {
   const client = createClient<Database>(
@@ -34,13 +38,7 @@ async function resetDatabase() {
     }),
   );
 
-  const { error: deleteError } = await client
-    .from("project")
-    .delete()
-    .neq("id", -1);
-  if (deleteError) {
-    console.error("Error deleting projects:", deleteError);
-  }
+  await prisma.project.deleteMany();
 
   return;
 }
@@ -57,7 +55,7 @@ async function configureDatabase() {
     },
   );
 
-  return Promise.all(
+  await Promise.all(
     Object.values(users).map(async (user) => {
       const { error } = await client.auth.admin.createUser({
         email: user.username + "@alfredosrenovations.com",
@@ -74,6 +72,10 @@ async function configureDatabase() {
       }
     }),
   );
+
+  return await prisma.project.createMany({
+    data: Object.values(projects),
+  });
 }
 
 setup("create new database", async ({}) => {
