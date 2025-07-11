@@ -20,3 +20,9 @@ export const getButtonByName = (page: Page, name: string) =>
 
 export const getTextByContent = (page: Page, content: string) =>
   page.getByText(content, { exact: true }).first();
+
+export const getHeadingByContent = (page: Page, content: string) =>
+  page.getByRole("heading", {
+    name: content,
+    exact: true,
+  });
