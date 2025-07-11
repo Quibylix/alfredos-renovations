@@ -31,11 +31,11 @@ export async function TaskFilter() {
     projectsData.projects.length > 0;
 
   return (
-    <Accordion variant="filled" mb="md">
+    <Accordion variant="contained" mb="md">
       <AccordionItem value="task-filter">
         <AccordionControl component="h3">{t("label")}</AccordionControl>
-        <AccordionPanel p="md">
-          <Stack>
+        <AccordionPanel>
+          <Stack p="md">
             <TaskFilterTitle />
             <Group>
               <TaskFilterDate type="start" />
