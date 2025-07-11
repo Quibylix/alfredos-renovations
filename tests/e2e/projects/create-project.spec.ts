@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 import {
   getTextboxByName,
-  getListboxByName,
   getButtonByName,
   getTextByContent,
+  getHeadingByContent,
 } from "../shared/get-elements.util";
 import es from "@/features/i18n/messages/es.json";
 import { getAuthStatePath } from "../auth/get-auth-state-path.util";
@@ -13,10 +13,8 @@ import { AppRoutes } from "@/features/shared/app-routes.util";
 const {
   form: {
     title: { label: TITLE_LABEL, isRequired: TITLE_REQUIRED_MSG },
-    employees: { label: EMPLOYEES_LABEL },
     submit: SUBMIT_LABEL,
   },
-  success: SUCCESS_MSG,
 } = es.createProject;
 
 test.describe("Create project", () => {
@@ -51,14 +49,8 @@ test.describe("Create project", () => {
 
     test("should display the form", async ({ page }) => {
       const titleInput = getTextboxByName(page, TITLE_LABEL);
-      const employeesInput = getTextboxByName(page, EMPLOYEES_LABEL);
-      const employeesList = getListboxByName(page, EMPLOYEES_LABEL);
 
       await expect(titleInput).toBeVisible();
-      await expect(employeesInput).toBeVisible();
-
-      await employeesInput.click();
-      await expect(employeesList).toBeVisible();
     });
 
     test("should display an error if the title is empty", async ({ page }) => {
@@ -85,20 +77,15 @@ test.describe("Create project", () => {
 
     test("should create a new project", async ({ page }, { workerIndex }) => {
       const titleInput = getTextboxByName(page, TITLE_LABEL);
-      const employeesInput = getTextboxByName(page, EMPLOYEES_LABEL);
-      const employeesList = getListboxByName(page, EMPLOYEES_LABEL);
 
       await titleInput.fill("Project " + workerIndex);
-      await employeesInput.click();
-      await employeesList
-        .getByRole("option")
-        .filter({ hasText: users.employee1.fullName })
-        .click();
-      await employeesInput.blur();
 
       await getButtonByName(page, SUBMIT_LABEL).click();
 
-      await expect(getTextByContent(page, SUCCESS_MSG)).toBeVisible();
+      await expect(page).toHaveURL(AppRoutes.getRoute("PROJECT_LIST"));
+      await expect(
+        getHeadingByContent(page, "Project " + workerIndex),
+      ).toBeVisible();
     });
   });
 });
