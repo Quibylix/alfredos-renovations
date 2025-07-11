@@ -18,6 +18,7 @@ export const APP_ROUTES = {
   API_CHANGE_PASSWORD: `${API_URL_BASE}/auth/change-password`,
   API_REGISTER_EMPLOYEE: `${API_URL_BASE}/auth/register-employee`,
   API_SET_TASK: `${API_URL_BASE}/tasks`,
+  API_EDIT_TASK: `${API_URL_BASE}/tasks/edit`,
   API_GET_RELATED_TASKS: `${API_URL_BASE}/tasks/related`,
   API_UPDATE_TASK_STATUS: `${API_URL_BASE}/tasks/status`,
   API_GET_RELATED_PROJECTS: `${API_URL_BASE}/projects/related`,

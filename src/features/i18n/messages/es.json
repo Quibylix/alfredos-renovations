@@ -201,6 +201,71 @@
       }
     }
   },
+  "editTask": {
+    "title": "Editar tarea",
+    "form": {
+      "steps": {
+        "step1": {
+          "label": "Primer paso",
+          "description": "Información general"
+        },
+        "step2": {
+          "label": "Segundo paso",
+          "description": "Rango de fechas"
+        },
+        "step3": {
+          "label": "Tercer paso",
+          "description": "Empleados"
+        },
+        "next": "Siguiente",
+        "previous": "Anterior"
+      },
+      "project": {
+        "label": "Proyecto",
+        "placeholder": "Selecciona un proyecto",
+        "isRequired": "El proyecto es obligatorio"
+      },
+      "title": {
+        "label": "Título",
+        "placeholder": "Título de la tarea",
+        "isRequired": "El título es obligatorio"
+      },
+      "description": {
+        "label": "Descripción",
+        "placeholder": "Descripción de la tarea",
+        "isRequired": "La descripción es obligatoria"
+      },
+      "media": {
+        "label": "Archivos",
+        "previewAlt": "Imagen de la tarea"
+      },
+      "dateRange": {
+        "label": "Rango de fechas",
+        "placeholder": "Selecciona un rango de fechas",
+        "startDate": "Fecha de inicio",
+        "endDate": "Fecha de finalización",
+        "isRequired": "El rango de fechas es obligatorio",
+        "invalid": "La fecha de inicio debe ser anterior a la fecha de finalización.",
+        "pastDate": "La fecha de fin no puede ser una fecha pasada."
+      },
+      "employees": {
+        "label": "Empleados",
+        "placeholder": "Selecciona empleados",
+        "isRequired": "Al menos un empleado es obligatorio"
+      },
+      "submit": "Actualizar tarea"
+    },
+    "success": "Tarea actualizada exitosamente",
+    "error": "Error al actualizar tarea",
+    "api": {
+      "message": {
+        "success": "Tarea actualizada exitosamente",
+        "invalidRequest": "Solicitud inválida. Por favor, verifica los datos enviados.",
+        "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde.",
+        "notAuthorized": "No autorizado. Por favor, verifica tus credenciales."
+      }
+    }
+  },
   "getRelatedProjects": {
     "api": {
       "message": {
