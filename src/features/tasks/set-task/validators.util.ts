@@ -5,9 +5,9 @@ export function getValidators(
   step: 0 | 1 | 2,
 ) {
   return {
-    projectId: (value: string) => {
+    projectId: (value: string | null) => {
       if (step !== 0) return;
-      if (!value.trim()) return t("form.project.isRequired");
+      if (!value?.trim()) return t("form.project.isRequired");
       if (isNaN(Number(value))) return t("form.project.isRequired");
       if (Number(value) <= 0) return t("form.project.isRequired");
     },

@@ -26,7 +26,7 @@ export function useSetTaskForm() {
   const router = useRouter();
 
   const form = useForm<{
-    projectId: string;
+    projectId: string | null;
     title: string;
     description: string;
     dateRange: [string | null, string | null];
@@ -34,7 +34,7 @@ export function useSetTaskForm() {
   }>({
     mode: "uncontrolled",
     initialValues: {
-      projectId: "",
+      projectId: null,
       title: "",
       description: "",
       dateRange: [null, null],
@@ -55,7 +55,7 @@ export function useSetTaskForm() {
     setStep((current) => (current > 0 ? current - 1 : current) as 0 | 1 | 2);
 
   async function handleSubmit(values: {
-    projectId: string;
+    projectId: string | null;
     title: string;
     description: string;
     dateRange: [string | null, string | null];
@@ -82,7 +82,7 @@ export function useSetTaskForm() {
         startDate,
         endDate,
         employees: values.employees,
-        projectId: Number(values.projectId),
+        projectId: Number(values.projectId!),
       }),
     };
 
