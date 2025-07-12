@@ -5,10 +5,8 @@ import { users } from "./seed/data/users.constant";
 import es from "@/features/i18n/messages/es.json";
 import path from "path";
 import { AppRoutes } from "@/features/shared/app-routes.util";
-import { projects } from "./projects.constant";
-import { PrismaClient } from "@/generated/prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "./seed/prisma-client";
+import { seedData } from "./seed/seed";
 
 async function resetDatabase() {
   const client = createClient<Database>(
@@ -43,44 +41,9 @@ async function resetDatabase() {
   return;
 }
 
-async function configureDatabase() {
-  const client = createClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      auth: {
-        persistSession: false,
-        autoRefreshToken: false,
-      },
-    },
-  );
-
-  await Promise.all(
-    Object.values(users).map(async (user) => {
-      const { error } = await client.auth.admin.createUser({
-        email: user.username + "@alfredosrenovations.com",
-        password: user.password,
-        user_metadata: {
-          full_name: user.fullName,
-          role: user.role,
-        },
-        email_confirm: true,
-      });
-
-      if (error) {
-        console.error("Error creating user:", error);
-      }
-    }),
-  );
-
-  return await prisma.project.createMany({
-    data: Object.values(projects),
-  });
-}
-
 setup("create new database", async ({}) => {
   await resetDatabase();
-  await configureDatabase();
+  await seedData();
 });
 
 async function getLoginState(
