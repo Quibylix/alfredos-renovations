@@ -7,7 +7,7 @@ import {
 } from "../shared/get-elements.util";
 import es from "@/features/i18n/messages/es.json";
 import { getAuthStatePath } from "../auth/get-auth-state-path.util";
-import { users } from "../users.constant";
+import { users } from "../seed/data/users.constant";
 import { AppRoutes } from "@/features/shared/app-routes.util";
 
 const {

@@ -1,7 +1,7 @@
 import { Database } from "@/features/db/supabase/types";
 import { expect, Page, test as setup } from "@playwright/test";
 import { createClient } from "@supabase/supabase-js";
-import { users } from "./users.constant";
+import { users } from "./seed/data/users.constant";
 import es from "@/features/i18n/messages/es.json";
 import path from "path";
 import { AppRoutes } from "@/features/shared/app-routes.util";

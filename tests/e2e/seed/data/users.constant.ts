@@ -29,4 +29,4 @@ export const users = {
     fullName: "Assigned Employee",
     role: "employee",
   },
-};
+} as const;
