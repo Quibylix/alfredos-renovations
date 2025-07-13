@@ -1,7 +1,22 @@
 import { users } from "./data/users.constant";
 import { createClient } from "@supabase/supabase-js";
+import { promises } from "fs";
+import path from "path";
 
-export function registerUsers(usersId: Record<keyof typeof users, string>) {
+const { writeFile } = promises;
+
+export type StoredUserData = Record<
+  keyof typeof users,
+  {
+    id: string;
+    username: string;
+    password: string;
+    fullName: string;
+    role: string;
+  }
+>;
+
+export async function registerUsers() {
   const supabaseClient = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -13,7 +28,9 @@ export function registerUsers(usersId: Record<keyof typeof users, string>) {
     },
   );
 
-  return Promise.all(
+  const storedUserData = {} as StoredUserData;
+
+  await Promise.all(
     (Object.keys(users) as (keyof typeof users)[]).map(async (user) => {
       const userData = users[user];
 
@@ -32,7 +49,18 @@ export function registerUsers(usersId: Record<keyof typeof users, string>) {
         return;
       }
 
-      usersId[user] = response.data.user.id;
+      storedUserData[user] = {
+        id: response.data.user.id,
+        username: userData.username,
+        password: userData.password,
+        fullName: userData.fullName,
+        role: userData.role,
+      };
     }),
+  );
+
+  await writeFile(
+    path.resolve(__dirname, ".data", "users.json"),
+    JSON.stringify(storedUserData, null, 2),
   );
 }

@@ -1,10 +1,22 @@
 import { prisma } from "./prisma-client";
 import { projects } from "./data/projects.constant";
+import { promises } from "fs";
+import path from "path";
 
-export function registerProjects(
-  projectsIds: Record<keyof typeof projects, bigint>,
-) {
-  return Promise.all(
+const { writeFile } = promises;
+
+export type StoredProjectData = Record<
+  keyof typeof projects,
+  {
+    id: bigint;
+    title: string;
+  }
+>;
+
+export async function registerProjects() {
+  const storedProjectData = {} as StoredProjectData;
+
+  await Promise.all(
     (Object.keys(projects) as (keyof typeof projects)[]).map(
       async (project) => {
         const projectData = projects[project];
@@ -18,8 +30,16 @@ export function registerProjects(
           },
         });
 
-        projectsIds[project] = id;
+        storedProjectData[project] = {
+          id,
+          title: projectData.title,
+        };
       },
     ),
+  );
+
+  await writeFile(
+    path.resolve(__dirname, ".data", "projects.json"),
+    JSON.stringify(storedProjectData, null, 2),
   );
 }

@@ -431,5 +431,10 @@
         "unknown": "Error desconocido. Por favor, intenta nuevamente más tarde."
       }
     }
+  },
+  "notFound": {
+    "title": "Nada por aquí",
+    "message": "Lo sentimos, la página que estás buscando no existe. Podrías haber escrito mal la URL, o la página podría haber sido eliminada. Si crees que esto es un error, por favor contacta al administrador del sitio.",
+    "backToHome": "Volver a la página de inicio"
   }
 }
