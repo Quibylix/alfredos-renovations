@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { promises } from "fs";
 import path from "path";
 
-const { writeFile } = promises;
+const { writeFile, mkdir } = promises;
 
 export type StoredUserData = Record<
   keyof typeof users,
@@ -59,6 +59,7 @@ export async function registerUsers() {
     }),
   );
 
+  await mkdir(path.resolve(__dirname, ".data"), { recursive: true });
   await writeFile(
     path.resolve(__dirname, ".data", "users.json"),
     JSON.stringify(storedUserData, null, 2),

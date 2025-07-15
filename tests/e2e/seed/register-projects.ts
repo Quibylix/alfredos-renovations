@@ -3,12 +3,12 @@ import { projects } from "./data/projects.constant";
 import { promises } from "fs";
 import path from "path";
 
-const { writeFile } = promises;
+const { writeFile, mkdir } = promises;
 
 export type StoredProjectData = Record<
   keyof typeof projects,
   {
-    id: bigint;
+    id: number;
     title: string;
   }
 >;
@@ -31,13 +31,14 @@ export async function registerProjects() {
         });
 
         storedProjectData[project] = {
-          id,
+          id: Number(id),
           title: projectData.title,
         };
       },
     ),
   );
 
+  await mkdir(path.resolve(__dirname, ".data"), { recursive: true });
   await writeFile(
     path.resolve(__dirname, ".data", "projects.json"),
     JSON.stringify(storedProjectData, null, 2),
