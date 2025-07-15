@@ -44,6 +44,7 @@ next-env.d.ts
 # tests
 /test-results
 /tests/e2e/.auth
+/tests/e2e/seed/.data
 /tests/supabase/migrations
 
 /src/generated/prisma
