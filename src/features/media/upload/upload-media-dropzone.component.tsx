@@ -7,6 +7,7 @@ import { useOs } from "@mantine/hooks";
 
 export type UploadImageDropzoneProps = {
   addMedia: (type: "video" | "image", url: string) => void;
+  labelledBy?: string;
 };
 
 const acceptedMimeTypes = [
@@ -20,7 +21,10 @@ const acceptedMimeTypes = [
   "video/webm",
 ];
 
-export function UploadMediaDropzone({ addMedia }: UploadImageDropzoneProps) {
+export function UploadMediaDropzone({
+  addMedia,
+  labelledBy,
+}: UploadImageDropzoneProps) {
   const t = useTranslations("uploadMedia.dropzone");
 
   const { handleDrop, loading, error, captureFromCamera, dropzoneOpenRef } =
@@ -31,6 +35,7 @@ export function UploadMediaDropzone({ addMedia }: UploadImageDropzoneProps) {
   return (
     <Group p={0} gap="xs" justify="center">
       <Dropzone
+        aria-labelledby={labelledBy}
         w="100%"
         onDrop={handleDrop}
         onReject={(files) => console.log(files)}

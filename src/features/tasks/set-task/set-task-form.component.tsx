@@ -17,6 +17,7 @@ import { useTranslations } from "next-intl";
 import { useSetTaskForm } from "./use-set-task-form.hook";
 import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzone.component";
 import { MediaUploadPreview } from "@/features/media/upload/media-upload-preview.component";
+import { useId } from "react";
 
 export type SetTaskFormProps = {
   projects: { id: number; title: string }[];
@@ -36,6 +37,8 @@ export function SetTaskForm({ projects, employees }: SetTaskFormProps) {
   } = useSetTaskForm();
 
   const t = useTranslations("setTask.form");
+
+  const id = useId();
 
   return (
     <Paper
@@ -88,11 +91,11 @@ export function SetTaskForm({ projects, employees }: SetTaskFormProps) {
             key={form.key("description")}
             {...form.getInputProps("description")}
           />
-          <Text size="sm" mt="md" mb={5} fw={500}>
+          <Text id={id} size="sm" mt="md" mb={5} fw={500}>
             {t("media.label")}
           </Text>
           <MediaUploadPreview media={media} removeMedia={removeMedia} />
-          <UploadMediaDropzone addMedia={addMedia} />
+          <UploadMediaDropzone labelledBy={id} addMedia={addMedia} />
         </StepperStep>
         <StepperStep
           label={t("steps.step2.label")}
