@@ -17,13 +17,19 @@ export const users = {
     fullName: "Employee 2",
     role: "employee",
   },
+  employeeAssignedToTasks: {
+    username: "employeeAssignedToTasks",
+    password: "Password1234",
+    fullName: "Assigned Employee to Tasks",
+    role: "employee",
+  },
   bossWhoCreatesProjects: {
     username: "bossWhoCreatesProjects",
     password: "Password1234",
     fullName: "Boss Who Creates Projects",
     role: "boss",
   },
-  employeeWhoGetsAssignedToProjects: {
+  employeeAssignedToProjects: {
     username: "employeeAssignedToProjects",
     password: "Password1234",
     fullName: "Assigned Employee",
@@ -33,6 +39,12 @@ export const users = {
     username: "bossWhoEditsProjects",
     password: "Password1234",
     fullName: "Boss Who Edits Projects",
+    role: "boss",
+  },
+  bossWhoSetTasks: {
+    username: "bossWhoSetTasks",
+    password: "Password1234",
+    fullName: "Boss Who Set Tasks",
     role: "boss",
   },
 } as const;

@@ -17,4 +17,7 @@ export const projects = {
   projectToEdit2: {
     title: "Test project to edit 3",
   },
+  projectToSetTask: {
+    title: "Test project to set task",
+  },
 };
