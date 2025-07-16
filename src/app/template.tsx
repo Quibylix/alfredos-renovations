@@ -15,6 +15,10 @@ export default function RootTemplate({
     const refresh = searchParams.get("refresh");
 
     if (refresh) {
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.delete("refresh");
+      router.replace(`?${newSearchParams.toString()}`);
+
       router.refresh();
     }
   }, [router, searchParams]);
