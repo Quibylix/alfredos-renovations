@@ -29,4 +29,10 @@ export const users = {
     fullName: "Assigned Employee",
     role: "employee",
   },
+  bossWhoEditsProjects: {
+    username: "bossWhoEditsProjects",
+    password: "Password1234",
+    fullName: "Boss Who Edits Projects",
+    role: "boss",
+  },
 } as const;
