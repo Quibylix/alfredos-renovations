@@ -32,3 +32,9 @@ export const getLinkByContent = (page: Page, content: string) =>
     name: content,
     exact: true,
   });
+
+export const getListBoxByName = (page: Page, name: string) =>
+  page.getByRole("listbox", {
+    name,
+    exact: true,
+  });
