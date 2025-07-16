@@ -3,6 +3,7 @@
 import { Paper, Text, TextInput, Button } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useEditProjectForm } from "./use-edit-project-form.hook";
+import { useClientSide } from "@/features/shared/use-client-side.hook";
 
 export type EditProjectFormProps = {
   id: number;
@@ -10,6 +11,7 @@ export type EditProjectFormProps = {
 };
 
 export function EditProjectForm({ id, initialTitle }: EditProjectFormProps) {
+  const formLoaded = useClientSide();
   const { form, submitHandler, error, loading } = useEditProjectForm({
     id,
     initialTitle,
@@ -37,8 +39,15 @@ export function EditProjectForm({ id, initialTitle }: EditProjectFormProps) {
         required
         key={form.key("title")}
         {...form.getInputProps("title")}
+        disabled={!formLoaded}
       />
-      <Button type="submit" fullWidth mt="xl" loading={loading}>
+      <Button
+        disabled={!formLoaded}
+        type="submit"
+        fullWidth
+        mt="xl"
+        loading={loading}
+      >
         {t("submit")}
       </Button>
     </Paper>
