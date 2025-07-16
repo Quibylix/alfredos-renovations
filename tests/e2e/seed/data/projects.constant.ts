@@ -8,4 +8,13 @@ export const projects = {
   projectToEdit: {
     title: "Test project to edit",
   },
+  projectToEdit0: {
+    title: "Test project to edit 1",
+  },
+  projectToEdit1: {
+    title: "Test project to edit 2",
+  },
+  projectToEdit2: {
+    title: "Test project to edit 3",
+  },
 };
