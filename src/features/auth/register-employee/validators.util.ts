@@ -9,7 +9,7 @@ export function getValidators(
         return t("form.username.minLength");
       }
 
-      if (value.trim().length > 20) {
+      if (value.trim().length > 50) {
         return t("form.username.maxLength");
       }
 

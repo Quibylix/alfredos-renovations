@@ -221,7 +221,7 @@ test.describe("Register employee", () => {
         exact: true,
       });
 
-      await usernameInput.fill("a".repeat(21));
+      await usernameInput.fill("a".repeat(51));
       await fullNameInput.fill("Full Name");
       await passwordInput.fill("Password");
       await confirmPasswordInput.fill("Password");
@@ -526,10 +526,8 @@ test.describe("Register employee", () => {
       ).toBeVisible();
     });
 
-    test("should register a new employee", async ({ page }, {
-      workerIndex,
-    }) => {
-      const username = "new-employee-" + workerIndex;
+    test("should register a new employee", async ({ page }, { project }) => {
+      const username = "new-employee-" + project.name;
       const fullName = "New Employee";
       const password = "Password1234";
 
