@@ -6,24 +6,24 @@ import { notFound } from "next/navigation";
 import { Project } from "@/features/db/project/project.model";
 import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
 
-const propsSchema = z.object({
-  params: z.promise(
-    z.object({
-      id: z.string().regex(/^\d+$/),
-    }),
-  ),
+const paramsSchema = z.object({
+  id: z.string().regex(/^\d+$/),
 });
 
-export type EditProjectPageProps = z.infer<typeof propsSchema>;
+export type EditProjectPageProps = {
+  params: Promise<z.infer<typeof paramsSchema>>;
+};
 
 export default async function EditProjectPage(props: EditProjectPageProps) {
-  const result = propsSchema.safeParse(props);
+  const params = await props.params;
+
+  const result = paramsSchema.safeParse(params);
 
   if (!result.success) {
     notFound();
   }
 
-  const { id } = await result.data.params;
+  const { id } = result.data;
 
   const { status, project } = await Project.getProjectInfo(Number(id));
 
