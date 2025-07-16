@@ -157,11 +157,11 @@ test.describe("Edit project", () => {
       await expect(titleInput).toHaveValue(projects.projectToEdit.title);
     });
 
-    test("should edit the project", async ({ page }, { parallelIndex }) => {
+    test("should edit the project", async ({ page }, { project }) => {
       await page.goto(
         AppRoutes.getRoute("EDIT_PROJECT", {
           id: projects[
-            `projectToEdit${parallelIndex as 0 | 1 | 2}`
+            `projectToEdit-${project.name}` as keyof typeof projects
           ].id.toString(),
         }),
       );
@@ -171,19 +171,19 @@ test.describe("Edit project", () => {
         t("editProject.form.title.label"),
       );
 
-      await titleInput.fill("Edited Project " + parallelIndex);
+      await titleInput.fill("Edited Project " + project.name);
 
       await getButtonByName(page, t("editProject.form.submit")).click();
 
       await expect(page).toHaveURL(
         AppRoutes.getRoute("PROJECT", {
           id: projects[
-            `projectToEdit${parallelIndex as 0 | 1 | 2}`
+            `projectToEdit-${project.name}` as keyof typeof projects
           ].id.toString(),
         }),
       );
       await expect(
-        getHeadingByContent(page, `Edited Project ${parallelIndex}`),
+        getHeadingByContent(page, `Edited Project ${project.name}`),
       ).toBeVisible();
     });
   });

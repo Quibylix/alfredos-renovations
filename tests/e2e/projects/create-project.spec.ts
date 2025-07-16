@@ -75,16 +75,16 @@ test.describe("Create project", () => {
       await expect(getTextByContent(page, TITLE_REQUIRED_MSG)).toBeVisible();
     });
 
-    test("should create a new project", async ({ page }, { parallelIndex }) => {
+    test("should create a new project", async ({ page }, { project }) => {
       const titleInput = getTextboxByName(page, TITLE_LABEL);
 
-      await titleInput.fill("Created Project " + parallelIndex);
+      await titleInput.fill("Created Project " + project.name);
 
       await getButtonByName(page, SUBMIT_LABEL).click();
 
       await expect(page).toHaveURL(AppRoutes.getRoute("PROJECT_LIST"));
       await expect(
-        getHeadingByContent(page, "Created Project " + parallelIndex),
+        getHeadingByContent(page, "Created Project " + project.name),
       ).toBeVisible();
     });
   });

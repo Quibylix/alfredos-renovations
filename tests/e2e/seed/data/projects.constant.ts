@@ -8,13 +8,13 @@ export const projects = {
   projectToEdit: {
     title: "Test project to edit",
   },
-  projectToEdit0: {
+  ["projectToEdit-chromium"]: {
     title: "Test project to edit 1",
   },
-  projectToEdit1: {
+  ["projectToEdit-firefox"]: {
     title: "Test project to edit 2",
   },
-  projectToEdit2: {
+  ["projectToEdit-webkit"]: {
     title: "Test project to edit 3",
   },
   projectToSetTask: {
