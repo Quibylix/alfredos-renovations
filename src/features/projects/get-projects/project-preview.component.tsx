@@ -22,6 +22,7 @@ export function ProjectPreview({
         component={Link}
         href={AppRoutes.getRoute("PROJECT", { id: project.id.toString() })}
         variant="light"
+        aria-label={t("viewProject", { title: project.title })}
       >
         {t("view")}
       </Button>

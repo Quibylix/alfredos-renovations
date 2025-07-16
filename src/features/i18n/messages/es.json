@@ -405,7 +405,8 @@
     "view": "Ver proyecto",
     "employees": "Empleados",
     "tasks": "Tareas",
-    "edit": "Editar proyecto"
+    "edit": "Editar proyecto",
+    "viewProject": "Ver proyecto {title}"
   },
   "editProject": {
     "title": "Editar proyecto",
