@@ -58,7 +58,7 @@ export function TaskPreview({ task }: { task: TaskData }) {
         <Divider my="sm" />
 
         <Title order={3} mb="xs" lineClamp={1}>
-          📝 {task.title}
+          {task.title}
         </Title>
         <Text size="sm" mb="md" lineClamp={2}>
           {task.description}
