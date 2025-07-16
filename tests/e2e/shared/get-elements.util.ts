@@ -26,3 +26,9 @@ export const getHeadingByContent = (page: Page, content: string) =>
     name: content,
     exact: true,
   });
+
+export const getLinkByContent = (page: Page, content: string) =>
+  page.getByRole("link", {
+    name: content,
+    exact: true,
+  });
