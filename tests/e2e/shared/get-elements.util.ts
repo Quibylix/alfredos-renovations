@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export const getTextboxByName = (page: Page, name: string) =>
   page.getByRole("textbox", {
@@ -36,5 +36,16 @@ export const getLinkByContent = (page: Page, content: string) =>
 export const getListBoxByName = (page: Page, name: string) =>
   page.getByRole("listbox", {
     name,
+    exact: true,
+  });
+
+export const getOptionByName = (locator: Locator, name: string) =>
+  locator.getByRole("option", {
+    name,
+    exact: true,
+  });
+
+export const getByLabel = (page: Page, label: string) =>
+  page.getByLabel(label, {
     exact: true,
   });
