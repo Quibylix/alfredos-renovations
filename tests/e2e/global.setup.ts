@@ -48,7 +48,7 @@ setup("create new database", async ({}) => {
 
 async function getLoginState(
   page: Page,
-  user: { username: string; password: string },
+  user: { key: string; username: string; password: string },
 ) {
   const authFile = path.resolve(__dirname, ".auth", `${user.username}.json`);
 
@@ -72,7 +72,7 @@ async function getLoginState(
 }
 
 setup("get employees states", async ({ page }) => {
-  for (const user of Object.values(users)) {
-    await getLoginState(page, user);
+  for (const user of Object.entries(users)) {
+    await getLoginState(page, { ...user[1], key: user[0] });
   }
 });
