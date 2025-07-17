@@ -10,7 +10,7 @@ A web application to manage projects and tasks for Alfredo Renovations company.
 
 ### Firebase configuration
 
-Create a Firebase Cloud Messaging project and add the following environment variables to your `.env.local` file:
+1. Create a Firebase Cloud Messaging project and add the following environment variables to your `.env.local` file:
   - `NEXT_PUBLIC_FIREBASE_API_KEY`
   - `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`
   - `NEXT_PUBLIC_FIREBASE_PROJECT_ID`
@@ -19,7 +19,7 @@ Create a Firebase Cloud Messaging project and add the following environment vari
   - `NEXT_PUBLIC_FIREBASE_APP_ID`
   - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
   - `FIREBASE_SERVICE_ACCOUNT_JSON`
-
+2. Modify the firebase configuration in the service worker file `public/firebase-messaging-sw.js` to include the Firebase Cloud Messaging configuration. 
 
 ## Tests
 

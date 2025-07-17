@@ -1,6 +1,6 @@
 import { AppRoutes } from "@/features/shared/app-routes.util";
 import { messaging } from "@/lib/firebase";
-import { getToken } from "firebase/messaging";
+import { getToken, onMessage, Unsubscribe } from "firebase/messaging";
 import { useEffect } from "react";
 
 export function useFcmToken(isLogged: boolean) {
@@ -8,10 +8,15 @@ export function useFcmToken(isLogged: boolean) {
     const controller = new AbortController();
 
     const handleToken = async () => {
+      const result = await Notification.requestPermission();
+
+      if (result !== "granted") {
+        return;
+      }
+
       const currentToken = await getToken(messaging, {
         vapidKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_VAPID_KEY,
-      }).catch((err) => {
-        console.error("An error occurred while retrieving token. ", err);
+      }).catch(() => {
         return null;
       });
 
@@ -31,22 +36,32 @@ export function useFcmToken(isLogged: boolean) {
       };
 
       await fetch(AppRoutes.getRoute("API_INCLUDE_FCM_TOKEN"), options).catch(
-        (error) => {
-          if (controller.signal.aborted) {
-            return;
-          }
-
-          console.error("Error sending FCM token:", error);
+        () => {
+          return;
         },
       );
     };
 
+    let unsubscribe: Unsubscribe | undefined;
+
     if (isLogged) {
       handleToken();
+      unsubscribe = onMessage(messaging, (payload) => {
+        const options = {
+          body: payload.notification?.body || "You have a new notification",
+          icon: "/icon-512.png",
+        };
+
+        new Notification(
+          payload.notification?.title || "Notification",
+          options,
+        );
+      });
     }
 
     return () => {
       controller.abort("Component unmounted or isLogged changed");
+      unsubscribe?.();
     };
   }, []);
 }
