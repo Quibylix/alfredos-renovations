@@ -18,6 +18,7 @@ Create a Firebase Cloud Messaging project and add the following environment vari
   - `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
   - `NEXT_PUBLIC_FIREBASE_APP_ID`
   - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID`
+  - `FIREBASE_SERVICE_ACCOUNT_JSON`
 
 
 ## Tests
