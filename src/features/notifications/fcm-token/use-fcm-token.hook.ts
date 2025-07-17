@@ -63,5 +63,5 @@ export function useFcmToken(isLogged: boolean) {
       controller.abort("Component unmounted or isLogged changed");
       unsubscribe?.();
     };
-  }, []);
+  }, [isLogged]);
 }
