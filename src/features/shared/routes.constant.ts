@@ -26,4 +26,5 @@ export const APP_ROUTES = {
   API_SEND_MESSAGE: `${API_URL_BASE}/messages/send`,
   API_CREATE_PROJECT: `${API_URL_BASE}/projects`,
   API_EDIT_PROJECT: `${API_URL_BASE}/projects/edit`,
+  API_INCLUDE_FCM_TOKEN: `${API_URL_BASE}/notifications/token`,
 } as const;
