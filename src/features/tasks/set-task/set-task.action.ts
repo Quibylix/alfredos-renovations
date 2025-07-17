@@ -3,6 +3,8 @@
 import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
+import { firebaseMessaging } from "@/lib/firebase-admin";
+import { getTranslations } from "next-intl/server";
 
 export async function setTask({
   projectId,
@@ -21,6 +23,8 @@ export async function setTask({
   employees: string[];
   media: { type: "image" | "video"; url: string }[];
 }) {
+  const t = await getTranslations("setTask");
+
   const userId = await User.getCurrentUserId();
   const userRole = await User.getRole(userId);
 
@@ -70,10 +74,29 @@ export async function setTask({
 
   const employeeResponse = await db
     .from("task_assignment")
-    .insert(employeeInsertions);
+    .insert(employeeInsertions)
+    .select("...employee(...profile(profile_fcm_token(token)))");
 
   if (employeeResponse.error) {
     console.error("Error assigning employees to task:", employeeResponse.error);
+    return ERROR_CODES.UNKNOWN;
+  }
+
+  const fcmTokens = employeeResponse.data.flatMap((assignment) =>
+    assignment.profile_fcm_token.map((token) => token.token),
+  );
+
+  try {
+    await firebaseMessaging.subscribeToTopic(fcmTokens, `task_${taskId}`);
+    await firebaseMessaging.send({
+      topic: `task_${taskId}`,
+      notification: {
+        title: t("notification.title"),
+        body: t("notification.body", { title }),
+      },
+    });
+  } catch (error) {
+    console.error("Error sending FCM notification:", error);
     return ERROR_CODES.UNKNOWN;
   }
 
