@@ -48,3 +48,5 @@ next-env.d.ts
 /tests/supabase/migrations
 
 /src/generated/prisma
+
+certificates
