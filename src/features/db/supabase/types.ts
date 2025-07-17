@@ -144,6 +144,7 @@ export type Database = {
       }
       notification: {
         Row: {
+          created_at: string
           description: string
           id: number
           profile_id: string
@@ -151,6 +152,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          created_at?: string
           description: string
           id?: never
           profile_id: string
@@ -158,6 +160,7 @@ export type Database = {
           title: string
         }
         Update: {
+          created_at?: string
           description?: string
           id?: never
           profile_id?: string
@@ -191,6 +194,35 @@ export type Database = {
           registration_date?: string | null
         }
         Relationships: []
+      }
+      profile_fcm_token: {
+        Row: {
+          created_at: string
+          profile_id: string
+          token: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          profile_id: string
+          token: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          profile_id?: string
+          token?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_fcm_token_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profile"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       project: {
         Row: {
