@@ -35,6 +35,24 @@ export async function sendMessage({
     return ERROR_CODES.UNKNOWN;
   }
 
+  const taskIsCompleted = await db
+    .from("task")
+    .select("completed")
+    .eq("id", taskId)
+    .single();
+
+  if (!taskIsCompleted.data || taskIsCompleted.error) {
+    console.error(
+      "Error fetching task completion status:",
+      taskIsCompleted.error,
+    );
+    return ERROR_CODES.UNKNOWN;
+  }
+
+  if (taskIsCompleted.data.completed) {
+    return ERROR_CODES.INVALID_REQUEST;
+  }
+
   const response = await db
     .from("message")
     .insert({

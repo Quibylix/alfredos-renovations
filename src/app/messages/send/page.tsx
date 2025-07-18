@@ -4,6 +4,7 @@ import { SendMessageForm } from "@/features/messages/send-message/send-message-f
 import { z } from "zod";
 import { taskEmployeeValidator } from "@/features/messages/send-message/task-employee-validator.action";
 import { notFound } from "next/navigation";
+import { Task } from "@/features/db/task/task.model";
 
 const propsSchema = z.object({
   searchParams: z.promise(
@@ -25,6 +26,12 @@ export default async function SendMessagePage(props: SendMessagePageProps) {
   const t = await getTranslations("sendMessage");
 
   const params = await result.data.searchParams;
+
+  const taskResult = await Task.getTaskInfo(Number(params.taskId));
+
+  if (!taskResult || !taskResult.task || taskResult.task.completed) {
+    return notFound();
+  }
 
   const valid = await taskEmployeeValidator(Number(params.taskId));
 
