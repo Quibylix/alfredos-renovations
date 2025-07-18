@@ -3,6 +3,8 @@ import { prisma } from "../../prisma/db";
 import { User } from "../../user/user.model";
 import { USER_ROLES } from "../../user/user.constant";
 import { TASK_STATUS_MESSAGES, TaskStatusMessage } from "../task.constant";
+import { getTranslations } from "next-intl/server";
+import { firebaseMessaging } from "@/lib/firebase-admin";
 
 export class UpdateTaskStatus {
   private userId: string | null = null;
@@ -40,13 +42,17 @@ export class UpdateTaskStatus {
     const whereCondition = this.getWhereCondition();
     const selectedColumns = this.getSelectedColumns();
 
-    return prisma.task.update({
+    const data = await prisma.task.update({
       where: whereCondition,
       data: {
         completed: this.newStatus,
       },
       select: selectedColumns,
     });
+
+    await this.sendNotifications(data.title);
+
+    return data;
   }
 
   private getWhereCondition() {
@@ -58,6 +64,7 @@ export class UpdateTaskStatus {
   private getSelectedColumns() {
     return {
       id: true,
+      title: true,
     };
   }
 
@@ -90,8 +97,79 @@ export class UpdateTaskStatus {
       id: Number(rawTask.id),
     };
   }
+
+  private async sendNotifications(taskTitle: string) {
+    const t = await getTranslations("updateTaskStatus");
+
+    const fcmTokens = await this.getFcmTokens(this.taskId, this.userId);
+
+    await firebaseMessaging.sendEachForMulticast({
+      tokens: fcmTokens,
+      data: {
+        title: t("notification.title"),
+        body: t("notification.body", {
+          taskTitle,
+          status: this.newStatus ? t("completed") : t("pending"),
+        }),
+      },
+    });
+  }
+
+  private async getFcmTokens(taskId: number, userId: string | null) {
+    const bossFCMTokens = await prisma.boss.findMany({
+      where: {
+        NOT: {
+          id: userId!,
+        },
+      },
+      select: {
+        profile: {
+          select: {
+            profile_fcm_token: {
+              select: {
+                token: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const employeeFCMTokens = await prisma.task_assignment.findMany({
+      where: {
+        task_id: taskId,
+      },
+      select: {
+        employee: {
+          select: {
+            profile: {
+              select: {
+                profile_fcm_token: {
+                  select: {
+                    token: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return [
+      ...bossFCMTokens.flatMap((boss) =>
+        boss.profile.profile_fcm_token.map((token) => token.token),
+      ),
+      ...employeeFCMTokens.flatMap((assignment) =>
+        assignment.employee.profile.profile_fcm_token.map(
+          (token) => token.token,
+        ),
+      ),
+    ];
+  }
 }
 
 const querySchema = z.object({
   id: z.bigint(),
+  title: z.string(),
 });

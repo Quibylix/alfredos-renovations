@@ -346,6 +346,10 @@
     "pending": "Pendiente",
     "success": "Estado de la tarea actualizado exitosamente",
     "error": "Error al actualizar el estado de la tarea",
+    "notification": {
+      "title": "Estado de la tarea actualizado",
+      "body": "El estado de la tarea {taskTitle} ha sido actualizado a {status}"
+    },
     "api": {
       "message": {
         "success": "Estado de la tarea actualizado exitosamente",
