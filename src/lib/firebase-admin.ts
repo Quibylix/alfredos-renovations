@@ -15,9 +15,6 @@ const generateFirebaseClient = () => {
   });
 };
 
-console.log(globalForFirebase.firebase);
-console.log(messaging);
-
 export const firebaseAdmin =
   globalForFirebase.firebase || generateFirebaseClient();
 
