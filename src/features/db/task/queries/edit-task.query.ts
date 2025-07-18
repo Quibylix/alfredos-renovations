@@ -2,6 +2,8 @@ import { z } from "zod";
 import { prisma } from "../../prisma/db";
 import { User } from "../../user/user.model";
 import { TASK_STATUS_MESSAGES, TaskStatusMessage } from "../task.constant";
+import { firebaseMessaging } from "@/lib/firebase-admin";
+import { getTranslations } from "next-intl/server";
 
 export type EditTaskNewData = {
   title?: string;
@@ -22,6 +24,7 @@ export type EditTaskNewData = {
 export class EditTask {
   private taskId: number;
   private newData: EditTaskNewData;
+  private newEmployeesFcmTokens: string[] = [];
 
   constructor(taskId: number, newData: EditTaskNewData) {
     this.taskId = taskId;
@@ -71,11 +74,26 @@ export class EditTask {
     delete newData.endDate;
     delete newData.projectId;
 
-    return prisma.task.update({
+    const data = await prisma.task.update({
       where: { id: this.taskId },
-      select: { id: true },
+      select: { id: true, title: true },
       data: newData,
     });
+
+    if (this.newEmployeesFcmTokens.length === 0) {
+      return data;
+    }
+
+    const t = await getTranslations("editTask.notification");
+    await firebaseMessaging.sendEachForMulticast({
+      tokens: this.newEmployeesFcmTokens,
+      data: {
+        title: t("title"),
+        body: t("body", { title: data.title }),
+      },
+    });
+
+    return data;
   }
 
   private async executeNewEmployeesQuery() {
@@ -83,13 +101,38 @@ export class EditTask {
       return null;
     }
 
-    return prisma.task_assignment.createMany({
+    const data = await prisma.task_assignment.createManyAndReturn({
       data: this.newData.newEmployees.map((employeeId) => ({
         task_id: this.taskId,
         employee_id: employeeId,
       })),
+      select: {
+        employee: {
+          select: {
+            profile: {
+              select: {
+                profile_fcm_token: { select: { token: true } },
+              },
+            },
+          },
+        },
+      },
       skipDuplicates: true,
     });
+
+    const fcmTokens = data.flatMap((assignment) =>
+      assignment.employee.profile.profile_fcm_token.map((token) => token.token),
+    );
+
+    if (fcmTokens.length === 0) {
+      return;
+    }
+
+    await firebaseMessaging.subscribeToTopic(fcmTokens, `task_${this.taskId}`);
+
+    this.newEmployeesFcmTokens = fcmTokens;
+
+    return;
   }
 
   private async executeRemovedEmployeesQuery() {
@@ -100,7 +143,27 @@ export class EditTask {
       return null;
     }
 
-    return prisma.task_assignment.deleteMany({
+    const data = await prisma.task_assignment.findMany({
+      where: {
+        task_id: this.taskId,
+        employee_id: {
+          in: this.newData.removedEmployees,
+        },
+      },
+      select: {
+        employee: {
+          select: {
+            profile: {
+              select: {
+                profile_fcm_token: { select: { token: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    await prisma.task_assignment.deleteMany({
       where: {
         task_id: this.taskId,
         employee_id: {
@@ -108,6 +171,19 @@ export class EditTask {
         },
       },
     });
+
+    const fcmTokens = data.flatMap((assignment) =>
+      assignment.employee.profile.profile_fcm_token.map((token) => token.token),
+    );
+
+    if (fcmTokens.length === 0) {
+      return;
+    }
+
+    await firebaseMessaging.unsubscribeFromTopic(
+      fcmTokens,
+      `task_${this.taskId}`,
+    );
   }
 
   private async executeNewMediaQuery() {
@@ -170,4 +246,5 @@ export class EditTask {
 
 const querySchema = z.object({
   id: z.bigint(),
+  title: z.string(),
 });

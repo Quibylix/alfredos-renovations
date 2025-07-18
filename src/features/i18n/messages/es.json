@@ -207,6 +207,10 @@
   },
   "editTask": {
     "title": "Editar tarea",
+    "notification": {
+      "title": "Nueva tarea",
+      "body": "Has sido asignado a una nueva tarea: {title}"
+    },
     "form": {
       "steps": {
         "step1": {
