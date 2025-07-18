@@ -82,9 +82,24 @@ export async function setTask({
     return ERROR_CODES.UNKNOWN;
   }
 
-  const fcmTokens = employeeResponse.data.flatMap((assignment) =>
-    assignment.profile_fcm_token.map((token) => token.token),
-  );
+  const bossesResponse = await db
+    .from("boss")
+    .select("...profile(profile_fcm_token(token))");
+
+  if (bossesResponse.error) {
+    console.error("Error fetching boss profile:", bossesResponse.error);
+    return ERROR_CODES.UNKNOWN;
+  }
+
+  const fcmTokens = employeeResponse.data
+    .flatMap((assignment) =>
+      assignment.profile_fcm_token.map((token) => token.token),
+    )
+    .concat(
+      bossesResponse.data.flatMap((boss) =>
+        boss.profile_fcm_token.map((token) => token.token),
+      ),
+    );
 
   try {
     await firebaseMessaging.subscribeToTopic(fcmTokens, `task_${taskId}`);
