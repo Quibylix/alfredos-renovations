@@ -45,14 +45,15 @@ export function useFcmToken(isLogged: boolean) {
     let unsubscribe: Unsubscribe | undefined;
 
     if (isLogged) {
-      handleToken();
-      unsubscribe = onMessage(messaging, (payload) => {
-        const options = {
-          body: payload.data?.body ?? "You have a new notification",
-          icon: "/icon-512.png",
-        };
+      handleToken().then(() => {
+        unsubscribe = onMessage(messaging, (payload) => {
+          const options = {
+            body: payload.data?.body ?? "You have a new notification",
+            icon: "/icon-512.png",
+          };
 
-        new Notification(payload.data?.title ?? "Notification", options);
+          new Notification(payload.data?.title ?? "Notification", options);
+        });
       });
     }
 
