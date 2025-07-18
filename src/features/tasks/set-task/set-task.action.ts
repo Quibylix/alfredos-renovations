@@ -90,7 +90,7 @@ export async function setTask({
     await firebaseMessaging.subscribeToTopic(fcmTokens, `task_${taskId}`);
     await firebaseMessaging.send({
       topic: `task_${taskId}`,
-      notification: {
+      data: {
         title: t("notification.title"),
         body: t("notification.body", { title }),
       },

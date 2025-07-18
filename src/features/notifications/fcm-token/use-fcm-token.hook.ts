@@ -48,14 +48,11 @@ export function useFcmToken(isLogged: boolean) {
       handleToken();
       unsubscribe = onMessage(messaging, (payload) => {
         const options = {
-          body: payload.notification?.body || "You have a new notification",
+          body: payload.data?.body ?? "You have a new notification",
           icon: "/icon-512.png",
         };
 
-        new Notification(
-          payload.notification?.title || "Notification",
-          options,
-        );
+        new Notification(payload.data?.title ?? "Notification", options);
       });
     }
 
