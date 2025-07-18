@@ -120,19 +120,9 @@ export class EditTask {
       skipDuplicates: true,
     });
 
-    const fcmTokens = data.flatMap((assignment) =>
+    this.newEmployeesFcmTokens = data.flatMap((assignment) =>
       assignment.employee.profile.profile_fcm_token.map((token) => token.token),
     );
-
-    if (fcmTokens.length === 0) {
-      return;
-    }
-
-    await firebaseMessaging.subscribeToTopic(fcmTokens, `task_${this.taskId}`);
-
-    this.newEmployeesFcmTokens = fcmTokens;
-
-    return;
   }
 
   private async executeRemovedEmployeesQuery() {
@@ -143,26 +133,6 @@ export class EditTask {
       return null;
     }
 
-    const data = await prisma.task_assignment.findMany({
-      where: {
-        task_id: this.taskId,
-        employee_id: {
-          in: this.newData.removedEmployees,
-        },
-      },
-      select: {
-        employee: {
-          select: {
-            profile: {
-              select: {
-                profile_fcm_token: { select: { token: true } },
-              },
-            },
-          },
-        },
-      },
-    });
-
     await prisma.task_assignment.deleteMany({
       where: {
         task_id: this.taskId,
@@ -171,19 +141,6 @@ export class EditTask {
         },
       },
     });
-
-    const fcmTokens = data.flatMap((assignment) =>
-      assignment.employee.profile.profile_fcm_token.map((token) => token.token),
-    );
-
-    if (fcmTokens.length === 0) {
-      return;
-    }
-
-    await firebaseMessaging.unsubscribeFromTopic(
-      fcmTokens,
-      `task_${this.taskId}`,
-    );
   }
 
   private async executeNewMediaQuery() {

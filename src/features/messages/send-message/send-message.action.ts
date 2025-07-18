@@ -6,6 +6,7 @@ import { createAdminClient } from "@/features/db/supabase/create-admin-client.ut
 import { taskEmployeeValidator } from "./task-employee-validator.action";
 import { firebaseMessaging } from "@/lib/firebase-admin";
 import { getTranslations } from "next-intl/server";
+import { prisma } from "@/features/db/prisma/db";
 
 export async function sendMessage({
   taskId,
@@ -66,8 +67,8 @@ export async function sendMessage({
 
   const t = await getTranslations("sendMessage.notification");
 
-  await firebaseMessaging.send({
-    topic: `task_${taskId}`,
+  await firebaseMessaging.sendEachForMulticast({
+    tokens: await getFcmTokens(taskId, userId),
     data: {
       title: t("title"),
       body: t("body", {
@@ -78,4 +79,58 @@ export async function sendMessage({
   });
 
   return ERROR_CODES.SUCCESS;
+}
+
+async function getFcmTokens(taskId: number, userId: string | null) {
+  const bossFCMTokens = await prisma.boss.findMany({
+    where: {
+      NOT: {
+        id: userId!,
+      },
+    },
+    select: {
+      profile: {
+        select: {
+          profile_fcm_token: {
+            select: {
+              token: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const employeeFCMTokens = await prisma.task_assignment.findMany({
+    where: {
+      task_id: taskId,
+      employee_id: {
+        not: userId!,
+      },
+    },
+    select: {
+      employee: {
+        select: {
+          profile: {
+            select: {
+              profile_fcm_token: {
+                select: {
+                  token: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return [
+    ...bossFCMTokens.flatMap((boss) =>
+      boss.profile.profile_fcm_token.map((token) => token.token),
+    ),
+    ...employeeFCMTokens.flatMap((assignment) =>
+      assignment.employee.profile.profile_fcm_token.map((token) => token.token),
+    ),
+  ];
 }

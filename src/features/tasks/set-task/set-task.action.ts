@@ -102,9 +102,8 @@ export async function setTask({
     );
 
   try {
-    await firebaseMessaging.subscribeToTopic(fcmTokens, `task_${taskId}`);
-    await firebaseMessaging.send({
-      topic: `task_${taskId}`,
+    await firebaseMessaging.sendEachForMulticast({
+      tokens: fcmTokens,
       data: {
         title: t("notification.title"),
         body: t("notification.body", { title }),
