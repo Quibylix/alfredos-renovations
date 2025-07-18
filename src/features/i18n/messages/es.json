@@ -357,6 +357,10 @@
   },
   "sendMessage": {
     "title": "Enviar mensaje",
+    "notification": {
+      "title": "Nuevo mensaje",
+      "body": "{sender} ha enviado un nuevo mensaje en la tarea: {taskTitle}"
+    },
     "form": {
       "content": {
         "label": "Contenido",
