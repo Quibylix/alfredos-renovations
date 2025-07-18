@@ -67,16 +67,21 @@ export async function sendMessage({
 
   const t = await getTranslations("sendMessage.notification");
 
-  await firebaseMessaging.sendEachForMulticast({
-    tokens: await getFcmTokens(taskId, userId),
-    data: {
-      title: t("title"),
-      body: t("body", {
-        sender: userName.data.full_name,
-        taskTitle: response.data.task.title,
-      }),
-    },
-  });
+  try {
+    await firebaseMessaging.sendEachForMulticast({
+      tokens: await getFcmTokens(taskId, userId),
+      data: {
+        title: t("title"),
+        body: t("body", {
+          sender: userName.data.full_name,
+          taskTitle: response.data.task.title,
+        }),
+      },
+    });
+  } catch (error) {
+    console.error("Error sending FCM message:", error);
+    return ERROR_CODES.UNKNOWN;
+  }
 
   return ERROR_CODES.SUCCESS;
 }
