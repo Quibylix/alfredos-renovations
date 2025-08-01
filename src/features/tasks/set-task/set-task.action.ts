@@ -101,6 +101,10 @@ export async function setTask({
       ),
     );
 
+  if (fcmTokens.length === 0) {
+    return ERROR_CODES.SUCCESS;
+  }
+
   try {
     await firebaseMessaging.sendEachForMulticast({
       tokens: fcmTokens,
