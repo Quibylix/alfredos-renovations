@@ -3,10 +3,12 @@ import { getValidators } from "./validators.util";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
-import { APIResponse as ProgressAPIResponse } from "@/app/api/v1/projects/route";
+import { createProjectApiResponseSchema } from "@/app/api/v1/projects/schemas";
 import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/routes/app-routes.util";
-import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";
+import { ApiResponseRetriever } from "@/features/shared/routes/api-routes.util";
+import z from "zod";
+import { STATUS_MESSAGES } from "@/features/shared/app-errors/status-messages.constant";
 
 export function useCreateProjectForm() {
   const t = useTranslations("createProject");
@@ -36,29 +38,27 @@ export function useCreateProjectForm() {
       body: JSON.stringify(values),
     };
 
-    fetch(AppRoutes.getRoute("API_CREATE_PROJECT"), options)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+    try {
+      const response = await new ApiResponseRetriever(
+        AppRoutes.getRoute("API_CREATE_PROJECT"),
+        options,
+      ).retrieve(createProjectApiResponseSchema);
+      handleApiResponse(response);
+    } catch (error) {
+      console.error("Error:", error);
+      return handleUnknownError();
+    } finally {
+      setLoading(false);
+    }
 
-        return response.json();
-      })
-      .then((res: ProgressAPIResponse) => handleApiResponse(res))
-      .catch((error) => {
-        console.error("Error:", error);
-        handleUnknownError();
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-
-    function handleApiResponse(res: ProgressAPIResponse) {
+    function handleApiResponse(
+      res: z.infer<typeof createProjectApiResponseSchema>,
+    ) {
       if (res.success) {
         return handleSuccessResponse();
       }
 
-      if (res.status === PROJECT_STATUS_MESSAGES.INVALID_REQUEST) {
+      if (res.status === STATUS_MESSAGES.INVALID_REQUEST) {
         return handleInvalidRequest();
       }
 
