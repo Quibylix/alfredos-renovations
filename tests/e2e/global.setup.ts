@@ -41,11 +41,6 @@ async function resetDatabase() {
   return;
 }
 
-setup("create new database", async ({}) => {
-  await resetDatabase();
-  await seedData();
-});
-
 async function getLoginState(
   page: Page,
   user: { key: string; username: string; password: string },
@@ -71,7 +66,9 @@ async function getLoginState(
   await page.context().clearCookies();
 }
 
-setup("get employees states", async ({ page }) => {
+setup("create new database", async ({ page }) => {
+  await resetDatabase();
+  await seedData();
   for (const user of Object.entries(users)) {
     await getLoginState(page, { ...user[1], key: user[0] });
   }
