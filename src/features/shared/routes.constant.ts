@@ -1,5 +1,21 @@
 const API_URL_BASE = "/api/v1" as const;
 
+export const API_ROUTES = {
+  API_LOGIN: `${API_URL_BASE}/auth/login`,
+  API_LOGOUT: `${API_URL_BASE}/auth/logout`,
+  API_CHANGE_PASSWORD: `${API_URL_BASE}/auth/change-password`,
+  API_REGISTER_EMPLOYEE: `${API_URL_BASE}/auth/register-employee`,
+  API_SET_TASK: `${API_URL_BASE}/tasks`,
+  API_EDIT_TASK: `${API_URL_BASE}/tasks/edit`,
+  API_GET_RELATED_TASKS: `${API_URL_BASE}/tasks/related`,
+  API_UPDATE_TASK_STATUS: `${API_URL_BASE}/tasks/status`,
+  API_GET_RELATED_PROJECTS: `${API_URL_BASE}/projects/related`,
+  API_SEND_MESSAGE: `${API_URL_BASE}/messages/send`,
+  API_CREATE_PROJECT: `${API_URL_BASE}/projects`,
+  API_EDIT_PROJECT: `${API_URL_BASE}/projects/edit`,
+  API_INCLUDE_FCM_TOKEN: `${API_URL_BASE}/notifications/token`,
+} as const;
+
 export const APP_ROUTES = {
   HOME: "/",
   LOGIN: "/auth/login",
@@ -14,17 +30,5 @@ export const APP_ROUTES = {
   PROJECT: "/projects/:id",
   CREATE_PROJECT: "/projects/create",
   EDIT_PROJECT: "/projects/edit/:id",
-  API_LOGIN: `${API_URL_BASE}/auth/login`,
-  API_LOGOUT: `${API_URL_BASE}/auth/logout`,
-  API_CHANGE_PASSWORD: `${API_URL_BASE}/auth/change-password`,
-  API_REGISTER_EMPLOYEE: `${API_URL_BASE}/auth/register-employee`,
-  API_SET_TASK: `${API_URL_BASE}/tasks`,
-  API_EDIT_TASK: `${API_URL_BASE}/tasks/edit`,
-  API_GET_RELATED_TASKS: `${API_URL_BASE}/tasks/related`,
-  API_UPDATE_TASK_STATUS: `${API_URL_BASE}/tasks/status`,
-  API_GET_RELATED_PROJECTS: `${API_URL_BASE}/projects/related`,
-  API_SEND_MESSAGE: `${API_URL_BASE}/messages/send`,
-  API_CREATE_PROJECT: `${API_URL_BASE}/projects`,
-  API_EDIT_PROJECT: `${API_URL_BASE}/projects/edit`,
-  API_INCLUDE_FCM_TOKEN: `${API_URL_BASE}/notifications/token`,
+  ...API_ROUTES,
 } as const;
