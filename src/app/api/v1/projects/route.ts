@@ -2,14 +2,15 @@ import { getTranslations } from "next-intl/server";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import {
-  PROJECT_STATUS_MESSAGES,
-  ProjectStatusMessage,
-} from "@/features/db/project/project.constant";
-import { Project } from "@/features/db/project/project.model";
+  STATUS_MESSAGES,
+  StatusMessage,
+} from "@/features/shared/app-errors/status-messages.constant";
+import { UnauthorizedError } from "@/features/shared/app-errors/unauthorized.error";
+import { CreateProject } from "@/features/db/project/queries/create-project.query";
 
 export type APIResponse = {
   success: boolean;
-  status: ProjectStatusMessage;
+  status: StatusMessage;
   message: string;
 };
 
@@ -22,37 +23,38 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json();
 
-  const parsedBody = bodySchema.safeParse(body);
-
-  if (!parsedBody.success) {
+  let parsedBody;
+  try {
+    parsedBody = bodySchema.parse(body);
+  } catch {
     return Response.json({
       success: false,
-      status: PROJECT_STATUS_MESSAGES.INVALID_REQUEST,
+      status: STATUS_MESSAGES.INVALID_REQUEST,
       message: t("message.invalidRequest"),
     });
   }
 
-  const status = await Project.createProject(parsedBody.data);
+  try {
+    await new CreateProject(parsedBody).execute();
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      return Response.json({
+        success: false,
+        status: STATUS_MESSAGES.NOT_AUTHORIZED,
+        message: t("message.notAuthorized"),
+      });
+    }
 
-  if (status === PROJECT_STATUS_MESSAGES.OK) {
-    return Response.json({
-      success: true,
-      status: PROJECT_STATUS_MESSAGES.OK,
-      message: t("message.success"),
-    });
-  }
-
-  if (status === PROJECT_STATUS_MESSAGES.NOT_AUTHORIZED) {
     return Response.json({
       success: false,
-      status: PROJECT_STATUS_MESSAGES.NOT_AUTHORIZED,
-      message: t("message.notAuthorized"),
+      status: STATUS_MESSAGES.UNKNOWN_ERROR,
+      message: t("message.unknown"),
     });
   }
 
   return Response.json({
-    success: false,
-    status: PROJECT_STATUS_MESSAGES.UNKNOWN,
-    message: t("message.unknown"),
+    success: true,
+    status: STATUS_MESSAGES.OK,
+    message: t("message.success"),
   });
 }
