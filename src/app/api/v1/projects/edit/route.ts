@@ -1,61 +1,59 @@
 import { getTranslations } from "next-intl/server";
-import { NextRequest } from "next/server";
 import { z } from "zod";
+import { STATUS_MESSAGES } from "@/features/shared/app-errors/status-messages.constant";
+import { EditProject } from "@/features/db/project/queries/edit-project.query";
+import { generateApiRouteResponse } from "@/features/shared/routes/api-routes.util";
+import { UnauthorizedError } from "@/features/shared/app-errors/unauthorized.error";
 import {
-  PROJECT_STATUS_MESSAGES,
-  ProjectStatusMessage,
-} from "@/features/db/project/project.constant";
-import { Project } from "@/features/db/project/project.model";
+  editProjectApiBodySchema,
+  editProjectApiResponseSchema,
+} from "./schemas";
 
-export type APIResponse = {
-  success: boolean;
-  status: ProjectStatusMessage;
-  message: string;
-};
-
-const bodySchema = z.object({
-  id: z.number().int().positive(),
-  title: z.string().trim().nonempty(),
-});
-
-export async function POST(request: NextRequest) {
+export const POST = generateApiRouteResponse<
+  z.infer<typeof editProjectApiResponseSchema>
+>(async (request) => {
   const t = await getTranslations("editProject.api");
 
-  const body = await request.json();
+  try {
+    const body = await request.json();
+    const parsedBody = editProjectApiBodySchema.parse(body);
+    await new EditProject(parsedBody.id, {
+      title: parsedBody.title,
+    }).execute();
+  } catch (error) {
+    return handleError(error, t);
+  }
 
-  const parsedBody = bodySchema.safeParse(body);
+  return {
+    success: true,
+    status: STATUS_MESSAGES.OK,
+    message: t("message.success"),
+  };
+});
 
-  if (!parsedBody.success) {
-    return Response.json({
+function handleError(
+  error: unknown,
+  t: Awaited<ReturnType<typeof getTranslations<"createProject.api">>>,
+) {
+  if (error instanceof z.ZodError) {
+    return {
       success: false,
-      status: PROJECT_STATUS_MESSAGES.INVALID_REQUEST,
+      status: STATUS_MESSAGES.INVALID_REQUEST,
       message: t("message.invalidRequest"),
-    });
+    };
   }
 
-  const status = await Project.editProject(parsedBody.data.id, {
-    title: parsedBody.data.title,
-  });
-
-  if (status === PROJECT_STATUS_MESSAGES.OK) {
-    return Response.json({
-      success: true,
-      status: PROJECT_STATUS_MESSAGES.OK,
-      message: t("message.success"),
-    });
-  }
-
-  if (status === PROJECT_STATUS_MESSAGES.NOT_AUTHORIZED) {
-    return Response.json({
+  if (error instanceof UnauthorizedError) {
+    return {
       success: false,
-      status: PROJECT_STATUS_MESSAGES.NOT_AUTHORIZED,
+      status: STATUS_MESSAGES.NOT_AUTHORIZED,
       message: t("message.notAuthorized"),
-    });
+    };
   }
 
-  return Response.json({
+  return {
     success: false,
-    status: PROJECT_STATUS_MESSAGES.UNKNOWN,
+    status: STATUS_MESSAGES.UNKNOWN_ERROR,
     message: t("message.unknown"),
-  });
+  };
 }
