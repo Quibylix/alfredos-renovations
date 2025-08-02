@@ -5,7 +5,7 @@ import { notifications } from "@mantine/notifications";
 import { APIResponse as MessageAPIResponse } from "@/app/api/v1/messages/send/route";
 import { ERROR_CODES as SEND_MESSAGE_API_ERROR_CODES } from "./error_codes.constant";
 import { useRouter } from "@bprogress/next/app";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 
 export function useSendMessageForm(taskId: number) {
   const t = useTranslations("sendMessage");

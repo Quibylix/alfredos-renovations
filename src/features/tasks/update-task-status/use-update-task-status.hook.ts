@@ -1,6 +1,6 @@
 import { UpdateTaskStatusAPIResponse } from "@/app/api/v1/tasks/status/route";
 import { TASK_STATUS_MESSAGES } from "@/features/db/task/task.constant";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "@bprogress/next/app";
 import { useTranslations } from "next-intl";

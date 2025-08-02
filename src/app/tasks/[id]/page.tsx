@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Task } from "@/features/tasks/get-tasks/task.component";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { MessageList } from "@/features/messages/message-list/message-list.component";
 import styles from "./page.module.css";
 import { User } from "@/features/db/user/user.model";

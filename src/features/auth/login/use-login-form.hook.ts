@@ -1,4 +1,4 @@
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { useForm } from "@mantine/form";
 import { getValidators } from "./validators.util";
 import { useState } from "react";

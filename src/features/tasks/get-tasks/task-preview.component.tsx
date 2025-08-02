@@ -16,7 +16,7 @@ import classes from "./task-preview.module.css";
 import Link from "next/link";
 import { LocalizedDate } from "./localized-date.component";
 import { useTranslations } from "next-intl";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 
 export function TaskPreview({ task }: { task: TaskData }) {
   const t = useTranslations("task");

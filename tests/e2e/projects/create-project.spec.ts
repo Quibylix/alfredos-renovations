@@ -8,7 +8,7 @@ import {
 import es from "@/features/i18n/messages/es.json";
 import { getAuthStatePath } from "../auth/get-auth-state-path.util";
 import { users } from "../seed/data/users.constant";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 
 const {
   form: {

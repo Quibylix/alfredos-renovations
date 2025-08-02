@@ -1,4 +1,4 @@
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { test, expect } from "@playwright/test";
 import { getAuthStatePath } from "../auth/get-auth-state-path.util";
 import {

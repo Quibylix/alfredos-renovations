@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { getHeadingByContent } from "../shared/get-elements.util";
 import { getAuthStatePath } from "../auth/get-auth-state-path.util";
 import { users } from "../seed/data/users.constant";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { taskAssignments } from "../seed/data/tasks.constant";
 import { StoredTaskData } from "../seed/register-tasks";
 import { readFileSync } from "fs";

@@ -16,7 +16,7 @@ import { MediaPreview } from "@/features/media/preview/media-preview.component";
 import { UpdateTaskStatus } from "../update-task-status/update-task-status.component";
 import { IconEdit } from "@tabler/icons-react";
 import Link from "next/link";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 
 export type TaskProps = {
   data: TaskData;

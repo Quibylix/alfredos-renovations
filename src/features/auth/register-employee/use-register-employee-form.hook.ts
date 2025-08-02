@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { APIResponse as RegisterEmployeeAPIResponse } from "@/app/api/v1/auth/register-employee/route";
 import { ERROR_CODES as REGISTER_EMPLOYEE_API_ERROR_CODES } from "./error_codes.constant";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 
 export function useRegisterEmployeeForm() {
   const t = useTranslations("registerEmployee");

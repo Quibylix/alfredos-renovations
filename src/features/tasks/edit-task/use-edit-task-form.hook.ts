@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
 import { EditTaskAPIResponse } from "@/app/api/v1/tasks/edit/route";
 import { useRouter } from "@bprogress/next/app";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { TaskData } from "@/features/db/task/task.types";
 import { TASK_STATUS_MESSAGES } from "@/features/db/task/task.constant";
 

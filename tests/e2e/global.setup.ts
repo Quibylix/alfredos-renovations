@@ -4,7 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import { users } from "./seed/data/users.constant";
 import es from "@/features/i18n/messages/es.json";
 import path from "path";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { prisma } from "./seed/prisma-client";
 import { seedData } from "./seed/seed";
 

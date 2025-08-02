@@ -1,7 +1,7 @@
 import { Container, Title } from "@mantine/core";
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { getEmployees } from "@/features/employees/get-employees/get-employees.action";
 import { Project } from "@/features/db/project/project.model";
 import { PROJECT_STATUS_MESSAGES } from "@/features/db/project/project.constant";

@@ -1,4 +1,4 @@
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import {
   Icon,
   IconHome,

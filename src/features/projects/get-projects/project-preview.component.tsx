@@ -2,7 +2,7 @@ import { Button, Paper, Title } from "@mantine/core";
 import classes from "./project-preview.module.css";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 
 export function ProjectPreview({
   project,

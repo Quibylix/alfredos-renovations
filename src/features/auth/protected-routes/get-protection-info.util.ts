@@ -1,7 +1,7 @@
 import { USER_ROLES, UserRole } from "@/features/db/user/user.constant";
 import { User } from "@/features/db/user/user.model";
-import { AppRoutes } from "@/features/shared/app-routes.util";
-import { APP_ROUTES } from "@/features/shared/routes.constant";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
+import { APP_ROUTES } from "@/features/shared/routes/routes.constant";
 
 const pathnamesProtections: { [key: string]: UserRole[] } = {
   [APP_ROUTES.HOME]: [USER_ROLES.EMPLOYEE, USER_ROLES.BOSS],

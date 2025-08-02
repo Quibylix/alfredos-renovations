@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import es from "@/features/i18n/messages/es.json";
-import { AppRoutes } from "@/features/shared/app-routes.util";
+import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 
 test.describe("Login", () => {
   test.beforeEach(async ({ page }) => {
