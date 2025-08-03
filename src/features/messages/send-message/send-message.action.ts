@@ -86,8 +86,14 @@ export async function sendMessage({
   const t = await getTranslations("sendMessage.notification");
 
   try {
+    const fcmTokens = await getFcmTokens(taskId, userId);
+
+    if (fcmTokens.length === 0) {
+      return ERROR_CODES.SUCCESS;
+    }
+
     await firebaseMessaging.sendEachForMulticast({
-      tokens: await getFcmTokens(taskId, userId),
+      tokens: fcmTokens,
       data: {
         title: t("title"),
         body: t("body", {

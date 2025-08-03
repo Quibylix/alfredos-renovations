@@ -103,6 +103,10 @@ export class UpdateTaskStatus {
 
     const fcmTokens = await this.getFcmTokens(this.taskId, this.userId);
 
+    if (fcmTokens.length === 0) {
+      return;
+    }
+
     await firebaseMessaging.sendEachForMulticast({
       tokens: fcmTokens,
       data: {
