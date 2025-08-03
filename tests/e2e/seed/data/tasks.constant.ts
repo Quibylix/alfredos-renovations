@@ -1,19 +1,22 @@
 import { projects } from "./projects.constant";
 import { users } from "./users.constant";
 
-export const tasks: Record<
-  string,
-  {
-    title: string;
-    description: string;
-    startDate: string;
-    endDate: string;
-    completed: boolean;
-    createdAt: string;
-    project: keyof typeof projects;
-    boss: keyof typeof users;
-  }
-> = {
+type TaskValue = {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  completed: boolean;
+  createdAt: string;
+  project: keyof typeof projects;
+  boss: keyof typeof users;
+};
+
+function defineTasks<const T extends Record<string, TaskValue>>(tasks: T): T {
+  return tasks;
+}
+
+export const tasks = defineTasks({
   task1: {
     title: "Task 1",
     description: "Description for Task 1",
@@ -44,7 +47,7 @@ export const tasks: Record<
     project: "project2",
     boss: "boss",
   },
-};
+});
 
 export const taskAssignments: {
   employee: keyof typeof users;
