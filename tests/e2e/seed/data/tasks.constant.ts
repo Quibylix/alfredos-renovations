@@ -47,6 +47,16 @@ export const tasks = defineTasks({
     project: "project2",
     boss: "boss",
   },
+  taskToInsertMessages: {
+    title: "Task to insert messages",
+    description: "Description for task to insert messages",
+    startDate: "2023-10-15",
+    endDate: "2023-10-30",
+    completed: false,
+    createdAt: "2023-10-04T13:00:00Z",
+    project: "projectToInsertMessages",
+    boss: "boss",
+  },
 });
 
 export const taskAssignments: {
@@ -56,4 +66,5 @@ export const taskAssignments: {
   { employee: "employee1", task: "task1" },
   { employee: "employee2", task: "task2" },
   { employee: "employee1", task: "task3" },
+  { employee: "employeeWhoSendsMessages", task: "taskToInsertMessages" },
 ];
