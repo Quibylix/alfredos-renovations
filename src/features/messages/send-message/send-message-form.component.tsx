@@ -6,6 +6,7 @@ import { useSendMessageForm } from "./use-send-message-form.hook";
 import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzone.component";
 import { MediaUploadPreview } from "@/features/media/upload/media-upload-preview.component";
 import { useId } from "react";
+import { useClientSide } from "@/features/shared/use-client-side.hook";
 
 export type SendMessageFormProps = {
   taskId: number;
@@ -17,6 +18,8 @@ export function SendMessageForm({ taskId }: SendMessageFormProps) {
 
   const t = useTranslations("sendMessage.form");
   const id = useId();
+
+  const formLoaded = useClientSide();
 
   return (
     <Paper
@@ -42,13 +45,24 @@ export function SendMessageForm({ taskId }: SendMessageFormProps) {
         mt="md"
         key={form.key("description")}
         {...form.getInputProps("content")}
+        disabled={!formLoaded}
       />
       <Text id={id} size="sm" mt="md" mb={5} fw={500}>
         {t("media.label")}
       </Text>
       <MediaUploadPreview media={media} removeMedia={removeMedia} />
-      <UploadMediaDropzone addMedia={addMedia} labelledBy={id} />
-      <Button type="submit" fullWidth mt="xl" loading={loading}>
+      <UploadMediaDropzone
+        disabled={!formLoaded}
+        addMedia={addMedia}
+        labelledBy={id}
+      />
+      <Button
+        type="submit"
+        fullWidth
+        mt="xl"
+        loading={loading}
+        disabled={!formLoaded}
+      >
         {t("submit")}
       </Button>
     </Paper>
