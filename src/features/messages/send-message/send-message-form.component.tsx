@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useSendMessageForm } from "./use-send-message-form.hook";
 import { UploadMediaDropzone } from "@/features/media/upload/upload-media-dropzone.component";
 import { MediaUploadPreview } from "@/features/media/upload/media-upload-preview.component";
+import { useId } from "react";
 
 export type SendMessageFormProps = {
   taskId: number;
@@ -15,6 +16,7 @@ export function SendMessageForm({ taskId }: SendMessageFormProps) {
     useSendMessageForm(taskId);
 
   const t = useTranslations("sendMessage.form");
+  const id = useId();
 
   return (
     <Paper
@@ -41,11 +43,11 @@ export function SendMessageForm({ taskId }: SendMessageFormProps) {
         key={form.key("description")}
         {...form.getInputProps("content")}
       />
-      <Text size="sm" mt="md" mb={5} fw={500}>
+      <Text id={id} size="sm" mt="md" mb={5} fw={500}>
         {t("media.label")}
       </Text>
       <MediaUploadPreview media={media} removeMedia={removeMedia} />
-      <UploadMediaDropzone addMedia={addMedia} />
+      <UploadMediaDropzone addMedia={addMedia} labelledBy={id} />
       <Button type="submit" fullWidth mt="xl" loading={loading}>
         {t("submit")}
       </Button>
