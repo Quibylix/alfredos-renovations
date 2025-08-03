@@ -48,6 +48,7 @@ export function UploadMediaDropzone({
         accept={acceptedMimeTypes}
         multiple={true}
         loading={loading}
+        useFsAccessApi={false}
       >
         {error && (
           <Text size="sm" c="red" mb={10}>
