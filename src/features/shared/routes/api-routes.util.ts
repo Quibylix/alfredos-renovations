@@ -9,11 +9,28 @@ export function generateApiRouteResponse<T>(
   };
 }
 
-export class ApiResponseRetriever {
+export class ApiResponseRetriever<T> {
+  private options: RequestInit = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
   constructor(
-    private readonly url: string,
-    private readonly options?: RequestInit,
+    private url: string,
+    private bodySchema?: z.ZodSchema<T>,
   ) {}
+
+  withMethod(method: "GET" | "POST" | "PUT" | "DELETE") {
+    this.options.method = method;
+    return this;
+  }
+
+  withBody(body: T) {
+    const parsedBody = this.bodySchema?.parse(body) ?? body;
+    this.options.body = JSON.stringify(parsedBody);
+    return this;
+  }
 
   async retrieve<T>(schema?: z.ZodSchema<T>): Promise<T> {
     const response = await fetch(this.url, this.options);

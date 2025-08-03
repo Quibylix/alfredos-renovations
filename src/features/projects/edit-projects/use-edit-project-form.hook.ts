@@ -7,7 +7,10 @@ import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { STATUS_MESSAGES } from "@/features/shared/app-errors/status-messages.constant";
 import { ApiResponseRetriever } from "@/features/shared/routes/api-routes.util";
-import { editProjectApiResponseSchema } from "@/app/api/v1/projects/edit/schemas";
+import {
+  editProjectApiBodySchema,
+  editProjectApiResponseSchema,
+} from "@/app/api/v1/projects/edit/schemas";
 import z from "zod";
 
 export function useEditProjectForm({
@@ -36,22 +39,18 @@ export function useEditProjectForm({
     setError(null);
     setLoading(true);
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id,
-        title: values.title,
-      }),
-    };
-
     try {
       const response = await new ApiResponseRetriever(
         AppRoutes.getRoute("API_EDIT_PROJECT"),
-        options,
-      ).retrieve(editProjectApiResponseSchema);
+        editProjectApiBodySchema,
+      )
+        .withMethod("POST")
+        .withBody({
+          id,
+          title: values.title,
+        })
+        .retrieve(editProjectApiResponseSchema);
+
       handleApiResponse(response);
     } catch (error) {
       console.error("Error:", error);

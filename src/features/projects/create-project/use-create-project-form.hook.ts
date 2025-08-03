@@ -3,7 +3,10 @@ import { getValidators } from "./validators.util";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { notifications } from "@mantine/notifications";
-import { createProjectApiResponseSchema } from "@/app/api/v1/projects/schemas";
+import {
+  createProjectApiBodySchema,
+  createProjectApiResponseSchema,
+} from "@/app/api/v1/projects/schemas";
 import { useRouter } from "@bprogress/next/app";
 import { AppRoutes } from "@/features/shared/routes/app-routes.util";
 import { ApiResponseRetriever } from "@/features/shared/routes/api-routes.util";
@@ -30,19 +33,14 @@ export function useCreateProjectForm() {
     setError(null);
     setLoading(true);
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(values),
-    };
-
     try {
       const response = await new ApiResponseRetriever(
         AppRoutes.getRoute("API_CREATE_PROJECT"),
-        options,
-      ).retrieve(createProjectApiResponseSchema);
+        createProjectApiBodySchema,
+      )
+        .withMethod("POST")
+        .withBody(values)
+        .retrieve(createProjectApiResponseSchema);
       handleApiResponse(response);
     } catch (error) {
       console.error("Error:", error);
