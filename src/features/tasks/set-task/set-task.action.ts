@@ -1,35 +1,42 @@
 "use server";
-
 import { ERROR_CODES } from "./error_codes.constant";
 import { User } from "@/features/db/user/user.model";
 import { createAdminClient } from "@/features/db/supabase/create-admin-client.util";
 import { firebaseMessaging } from "@/lib/firebase-admin";
 import { getTranslations } from "next-intl/server";
+import { TaskTitle } from "../models/task-title.model";
+import { TaskDescription } from "../models/task-description.model";
+import { TaskDateRangeWithFutureEnd } from "../models/task-date-range.model";
+import { ProjectId } from "@/features/projects/models/project-id.model";
+import { UserId } from "@/features/auth/models/user-id.model";
+import { MediaType } from "@/features/media/models/media-type.model";
+import { MediaUrl } from "@/features/media/models/media-url.model";
+import { TaskId } from "../models/task-id.model";
+import { UnauthorizedError } from "@/features/shared/app-errors/unauthorized.error";
+import { FcmToken } from "@/features/notifications/models/fcm-token.model";
 
 export async function setTask({
   projectId,
   title,
+  dateRange,
   description,
-  startDate,
-  endDate,
   employees,
   media,
 }: {
-  projectId: number;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  employees: string[];
-  media: { type: "image" | "video"; url: string }[];
+  projectId: ProjectId;
+  title: TaskTitle;
+  description: TaskDescription;
+  dateRange: TaskDateRangeWithFutureEnd;
+  employees: UserId[];
+  media: { type: MediaType; url: MediaUrl }[];
 }) {
   const t = await getTranslations("setTask");
 
-  const userId = await User.getCurrentUserId();
-  const userRole = await User.getRole(userId);
+  const userId = new UserId((await User.getCurrentUserId()) ?? "");
+  const userRole = await User.getRole(userId.toString());
 
   if (userRole !== "boss") {
-    return ERROR_CODES.INVALID_REQUEST;
+    throw new UnauthorizedError();
   }
 
   const db = createAdminClient();
@@ -37,12 +44,12 @@ export async function setTask({
   const response = await db
     .from("task")
     .insert({
-      title,
-      description,
-      start_date: startDate,
-      end_date: endDate,
-      project_id: projectId,
-      boss_id: userId!,
+      title: title.toString(),
+      description: description.toString(),
+      start_date: dateRange.getStartDate().toISOString(),
+      end_date: dateRange.getEndDate().toISOString(),
+      project_id: projectId.toNumber(),
+      boss_id: userId.toString(),
     })
     .select("id")
     .single();
@@ -52,12 +59,12 @@ export async function setTask({
     return ERROR_CODES.UNKNOWN;
   }
 
-  const taskId = response.data.id;
+  const taskId = new TaskId(response.data.id);
 
   const mediaInsertions = media.map((m) => ({
-    task_id: taskId,
-    type: m.type,
-    url: m.url,
+    task_id: taskId.toNumber(),
+    type: m.type.toString(),
+    url: m.url.toString(),
   }));
 
   const mediaResponse = await db.from("task_media").insert(mediaInsertions);
@@ -68,8 +75,8 @@ export async function setTask({
   }
 
   const employeeInsertions = employees.map((employeeId) => ({
-    task_id: taskId,
-    employee_id: employeeId,
+    task_id: taskId.toNumber(),
+    employee_id: employeeId.toString(),
   }));
 
   const employeeResponse = await db
@@ -93,11 +100,15 @@ export async function setTask({
 
   const fcmTokens = employeeResponse.data
     .flatMap((assignment) =>
-      assignment.profile_fcm_token.map((token) => token.token),
+      assignment.profile_fcm_token.map((token) =>
+        new FcmToken(token.token).toString(),
+      ),
     )
     .concat(
       bossesResponse.data.flatMap((boss) =>
-        boss.profile_fcm_token.map((token) => token.token),
+        boss.profile_fcm_token.map((token) =>
+          new FcmToken(token.token).toString(),
+        ),
       ),
     );
 
@@ -110,7 +121,7 @@ export async function setTask({
       tokens: fcmTokens,
       data: {
         title: t("notification.title"),
-        body: t("notification.body", { title }),
+        body: t("notification.body", { title: title.toString() }),
       },
     });
   } catch (error) {
