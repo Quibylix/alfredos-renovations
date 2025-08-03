@@ -4,10 +4,12 @@ import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useTranslations } from "next-intl";
 import { useUploadMediaDropzone } from "./use-upload-media-dropzone.hook";
 import { useOs } from "@mantine/hooks";
+import styles from "./upload-media-dropzone.module.css";
 
 export type UploadImageDropzoneProps = {
   addMedia: (type: "video" | "image", url: string) => void;
   labelledBy?: string;
+  disabled?: boolean;
 };
 
 const acceptedMimeTypes = [
@@ -24,6 +26,7 @@ const acceptedMimeTypes = [
 export function UploadMediaDropzone({
   addMedia,
   labelledBy,
+  disabled = false,
 }: UploadImageDropzoneProps) {
   const t = useTranslations("uploadMedia.dropzone");
 
@@ -35,6 +38,8 @@ export function UploadMediaDropzone({
   return (
     <Group p={0} gap="xs" justify="center">
       <Dropzone
+        disabled={disabled}
+        className={disabled ? styles.disabled : ""}
         aria-labelledby={labelledBy}
         w="100%"
         onDrop={handleDrop}
