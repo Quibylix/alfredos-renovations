@@ -8,7 +8,8 @@ export class TaskTitle {
   static readonly TITLE_TOO_LONG_MESSAGE = "The task title is too long";
 
   constructor(private readonly value: string) {
-    TaskTitle.validate(value);
+    this.value = value.trim();
+    TaskTitle.validate(this.value);
   }
 
   toString() {

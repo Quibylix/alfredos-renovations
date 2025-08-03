@@ -10,7 +10,8 @@ export class TaskDescription {
     "The task description is too long";
 
   constructor(private readonly value: string) {
-    TaskDescription.validate(value);
+    this.value = value.trim();
+    TaskDescription.validate(this.value);
   }
 
   toString() {
