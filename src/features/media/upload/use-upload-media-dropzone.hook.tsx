@@ -4,6 +4,7 @@ import { notifications } from "@mantine/notifications";
 import { createBrowserClient } from "@/features/db/supabase/create-browser-client.util";
 import convert from "heic-convert/browser";
 import { randomId } from "@mantine/hooks";
+import Compressor from "compressorjs";
 
 export function useUploadMediaDropzone(
   addMedia: (type: "image" | "video", url: string) => void,
@@ -36,22 +37,36 @@ export function useUploadMediaDropzone(
 
       const extension =
         originalExtension === "heif" ? "jpeg" : originalExtension;
-      let mediaBuffer;
+      const fileType = originalExtension === "heif" ? "image/jpeg" : file.type;
+      let mediaBuffer = await file.arrayBuffer();
       try {
-        mediaBuffer =
-          originalExtension === "heif"
-            ? await convert({
-                buffer: new Uint8Array(
-                  await file.arrayBuffer(),
-                ) as unknown as ArrayBuffer,
-                format: "JPEG",
-                quality: 0.3,
-              })
-            : await file.arrayBuffer();
+        if (originalExtension === "heif") {
+          mediaBuffer = await convert({
+            buffer: new Uint8Array(
+              await file.arrayBuffer(),
+            ) as unknown as ArrayBuffer,
+            format: "JPEG",
+            quality: 0.3,
+          });
+        }
       } catch (error) {
         console.error("Error converting HEIF image:", error);
         handleUnknownError();
         continue;
+      }
+
+      if (mediaType === "image") {
+        try {
+          const image = new Blob([mediaBuffer], { type: fileType });
+          mediaBuffer = await compressAsync(
+            image,
+            getQualityForSize(image.size),
+          ).then((res) => res.arrayBuffer());
+        } catch (error) {
+          console.error("Error compressing image:", error);
+          handleUnknownError();
+          continue;
+        }
       }
 
       const mediaName = `${randomId(`${mediaType}-`)}.${extension}`;
@@ -59,7 +74,7 @@ export function useUploadMediaDropzone(
       const uploadResult = await db.storage
         .from("media")
         .upload(mediaName, mediaBuffer, {
-          contentType: file.type,
+          contentType: fileType,
         })
         .catch((error) => {
           console.log("Error uploading media:", error);
@@ -156,4 +171,26 @@ function getExtensionFromMimeType(mimeType: string) {
     default:
       return null;
   }
+}
+
+function compressAsync(file: Blob, quality: number) {
+  return new Promise<Blob>((resolve, reject) => {
+    new Compressor(file, {
+      quality,
+      success(result) {
+        resolve(result);
+      },
+      error(err) {
+        reject(err);
+      },
+    });
+  });
+}
+
+function getQualityForSize(size: number) {
+  console.log("Original size:", size);
+  if (size > 5 * 1024 * 1024) return 0.2;
+  if (size > 2 * 1024 * 1024) return 0.4;
+  if (size > 1 * 1024 * 1024) return 0.6;
+  return 0.8;
 }
