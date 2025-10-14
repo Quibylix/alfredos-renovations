@@ -85,7 +85,8 @@ export async function getTaskMessages(taskId: number): Promise<{
       profile(id, fullName: full_name),
       media: message_media(id, type, url)`,
     )
-    .eq("task_id", taskId);
+    .eq("task_id", taskId)
+    .order("sent_date", { ascending: false });
 
   if (messagesError) {
     console.error("Error fetching task data:", messagesError);
