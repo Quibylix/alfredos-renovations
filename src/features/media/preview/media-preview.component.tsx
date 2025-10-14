@@ -3,6 +3,7 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, SimpleGrid, Image, AspectRatio, Box } from "@mantine/core";
 import { useState } from "react";
+import { LazySkeletonImage } from "@/features/ui/lazy-skeleton-image.component";
 
 type MediaItem = {
   id: number;
@@ -42,16 +43,7 @@ export function MediaPreview({ media }: MediaPreviewGridProps) {
             }}
           >
             {item.type === "image" ? (
-              <Image
-                miw="100%"
-                mih="100%"
-                maw="100%"
-                mah="100%"
-                src={item.url}
-                alt={`media-${item.id}`}
-                fit="cover"
-                loading="lazy"
-              />
+              <LazySkeletonImage src={item.url} alt={`media-${item.id}`} />
             ) : (
               <video
                 src={item.url}
